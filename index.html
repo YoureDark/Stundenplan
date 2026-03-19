@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIEM Stundenplan – SoSe 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Theme tokens ── */
+[data-theme="light"] {
+  --bg:        #f7f5f0;
+  --bg2:       #efecea;
+  --bg3:       #e5e2dc;
+  --bg4:       #d8d4cc;
+  --surface:   #ffffff;
+  --border:    #dedad2;
+  --border2:   #c8c4bb;
+  --text:      #18161200;
+  --text1:     #181612;
+  --text2:     #56534a;
+  --text3:     #95928a;
+  --text4:     #b8b5ae;
+  --accent:    #4a7fc1;
+  --accent2:   #2d5a92;
+  --danger:    #c0392b;
+  --shadow:    rgba(0,0,0,.06);
+  --shadow2:   rgba(0,0,0,.12);
+
+  --sim:       #2a5a17; --sim-bg:#e4f0dc; --sim-b:#82bc6a; --sim-mid:#4a8a30;
+  --mgmt:      #3a2878; --mgmt-bg:#ece9fb; --mgmt-b:#9b8fe0; --mgmt-mid:#5a48b8;
+  --base:      #183e70; --base-bg:#deeaf6; --base-b:#74a8d8; --base-mid:#2d62a8;
+  --async:     #6a4e10; --async-bg:#f6f0de; --async-b:#c8a840; --async-mid:#9a7220;
+  --cf:        #8a1a1a; --cf-bg:#fae6e6; --cf-b:#d85050; --cf-mid:#b83030;
+  --gray-bg:   #edeae4; --gray-b:#ccc8c0; --gray-t:#9a9790;
+}
+
+[data-theme="dark"] {
+  --bg:        #131210;
+  --bg2:       #1a1916;
+  --bg3:       #22201c;
+  --bg4:       #2a2824;
+  --surface:   #1f1e1a;
+  --border:    #2e2c28;
+  --border2:   #3a3830;
+  --text:      #f0ece4;
+  --text1:     #f0ece4;
+  --text2:     #a8a49a;
+  --text3:     #6a6860;
+  --text4:     #48463e;
+  --accent:    #6a9fd4;
+  --accent2:   #4a7fc1;
+  --danger:    #e05050;
+  --shadow:    rgba(0,0,0,.3);
+  --shadow2:   rgba(0,0,0,.5);
+
+  --sim:       #8acc70; --sim-bg:#162410; --sim-b:#3a6a28; --sim-mid:#4a8a30;
+  --mgmt:      #b0a0f0; --mgmt-bg:#18123a; --mgmt-b:#4a3890; --mgmt-mid:#6a58c8;
+  --base:      #80b4e8; --base-bg:#101c30; --base-b:#2a4a78; --base-mid:#3868a8;
+  --async:     #d4a840; --async-bg:#201808; --async-b:#604010; --async-mid:#8a6020;
+  --cf:        #e87070; --cf-bg:#2a1010; --cf-b:#6a2020; --cf-mid:#a03030;
+  --gray-bg:   #1e1c18; --gray-b:#2e2c28; --gray-t:#58564e;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text1);
+  font-size: 13px;
+  min-height: 100vh;
+  transition: background .25s, color .25s;
+  line-height: 1.5;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+/* ── Header ── */
+.header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 52px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.header-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-right: auto;
+}
+.header-logo h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--text1);
+}
+.header-logo .sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--text3);
+  font-weight: 400;
+}
+
+.header-actions { display: flex; gap: 6px; align-items: center; }
+
+.theme-toggle {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--bg3);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  transition: background .15s, border-color .15s;
+  margin-right: 4px;
+}
+.theme-toggle:hover { background: var(--bg4); border-color: var(--text3); }
+
+.bh {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  padding: 0 14px; height: 32px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--bg3);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all .15s;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.bh:hover { background: var(--bg4); color: var(--text1); border-color: var(--text3); }
+.bh.p {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.bh.p:hover { background: var(--accent2); border-color: var(--accent2); }
+
+/* ── Controls ── */
+.controls {
+  padding: 12px 24px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ctrl-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ctrl-lbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 600;
+  color: var(--text3);
+  min-width: 80px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.chips { display: flex; gap: 4px; flex-wrap: wrap; }
+.chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  padding: 4px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text2);
+  user-select: none;
+  transition: all .12s;
+}
+.chip:hover { border-color: var(--border2); color: var(--text1); }
+.chip.on-sim   { background: var(--sim-bg);  border-color: var(--sim-b);  color: var(--sim);  }
+.chip.on-mgmt  { background: var(--mgmt-bg); border-color: var(--mgmt-b); color: var(--mgmt); }
+.chip.on-base  { background: var(--base-bg); border-color: var(--base-b); color: var(--base); }
+
+.chip-all {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text3);
+  transition: all .12s;
+}
+.chip-all:hover { background: var(--bg3); color: var(--text2); }
+
+.divider-v { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+
+.nbtn { display: flex; gap: 2px; background: var(--bg3); border-radius: 8px; padding: 2px; border: 1px solid var(--border); }
+.nb {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  transition: all .12s;
+}
+.nb:hover { color: var(--text1); }
+.nb.active { background: var(--surface); color: var(--text1); box-shadow: 0 1px 3px var(--shadow2); }
+
+.ninfo { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text3); }
+
+.ctoggle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  padding: 4px 11px; height: 30px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--surface);
+  color: var(--text2);
+  transition: all .12s;
+  display: flex; align-items: center; gap: 5px;
+}
+.ctoggle:hover { border-color: var(--border2); color: var(--text1); }
+.ctoggle.active { background: var(--cf-bg); border-color: var(--cf-b); color: var(--cf); }
+
+/* ── Tabs ── */
+.tabs-wrap {
+  padding: 0 24px;
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  min-height: 38px;
+  align-items: flex-end;
+}
+.tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 500;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  background: transparent;
+  color: var(--text3);
+  transition: all .12s;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text2); background: var(--bg3); }
+.tab.active {
+  background: var(--surface);
+  border-color: var(--border);
+  border-bottom-color: var(--surface);
+  color: var(--text1);
+}
+
+/* ── Legend ── */
+.legend {
+  display: flex; gap: 16px; flex-wrap: wrap;
+  padding: 8px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--text3);
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.leg { display: flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+.dot-sim   { background: var(--sim-bg);  border: 1px solid var(--sim-b);  }
+.dot-mgmt  { background: var(--mgmt-bg); border: 1px solid var(--mgmt-b); }
+.dot-base  { background: var(--base-bg); border: 1px solid var(--base-b); }
+.dot-async { background: var(--async-bg); border: 1px dashed var(--async-b); }
+.dot-cf    { background: var(--cf-bg);   border: 1px solid var(--cf-b);   }
+.dot-gray  { background: var(--gray-bg); border: 1px solid var(--gray-b); }
+
+/* ── Conflict banner ── */
+.cbanner {
+  margin: 10px 24px 0;
+  padding: 8px 12px;
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-b);
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; color: var(--cf);
+  display: flex; align-items: center; gap: 8px;
+}
+.cbanner::before { content: "⚠"; font-size: 12px; }
+
+/* ── Grid ── */
+.grid-wrap { padding: 16px 24px 32px; overflow-x: auto; }
+.grid {
+  display: grid;
+  grid-template-columns: 82px repeat(6, 1fr);
+  gap: 4px;
+  min-width: 720px;
+}
+.gh {
+  font-family: 'Syne', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .04em;
+  padding: 7px 8px;
+  text-align: center;
+  background: var(--bg3);
+  color: var(--text2);
+  border-radius: 6px;
+  text-transform: uppercase;
+}
+.gt {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  padding: 6px 7px;
+  color: var(--text3);
+  background: var(--bg3);
+  border-radius: 6px;
+  display: flex; align-items: center;
+  line-height: 1.4;
+}
+
+/* ── Cells ── */
+.cell-group { display: flex; gap: 3px; }
+.cell {
+  border-radius: 6px;
+  padding: 7px 8px;
+  min-height: 56px;
+  cursor: pointer;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: all .15s;
+  position: relative;
+  border: 1px solid transparent;
+}
+.cell:hover { transform: translateY(-2px); box-shadow: 0 4px 12px var(--shadow2); }
+
+.cell-sim   { background: var(--sim-bg);  border-color: var(--sim-b);  }
+.cell-mgmt  { background: var(--mgmt-bg); border-color: var(--mgmt-b); }
+.cell-base  { background: var(--base-bg); border-color: var(--base-b); }
+.cell-async { background: var(--async-bg); border: 1px dashed var(--async-b); }
+.cell-cf    { background: var(--cf-bg);   border: 2px solid var(--cf-b);  }
+.cell-gray  { background: var(--gray-bg); border-color: var(--gray-b);  opacity: .4; }
+.cell-cfg   { background: var(--cf-bg);   border: 1px dashed var(--cf-b); opacity: .35; }
+
+.cbadge {
+  position: absolute; top: 4px; right: 4px;
+  background: var(--cf-mid);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px; font-weight: 700;
+  padding: 1px 5px; border-radius: 3px;
+  letter-spacing: .05em;
+}
+
+.cn {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600; font-size: 10px;
+  line-height: 1.3;
+}
+.cd {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px; margin-top: 3px;
+  line-height: 1.3; opacity: .75;
+}
+
+.cn-sim  { color: var(--sim);  } .cd-sim  { color: var(--sim-mid);  }
+.cn-mgmt { color: var(--mgmt); } .cd-mgmt { color: var(--mgmt-mid); }
+.cn-base { color: var(--base); } .cd-base { color: var(--base-mid); }
+.cn-async{ color: var(--async);} .cd-async{ color: var(--async-mid);}
+.cn-cf   { color: var(--cf);   } .cd-cf   { color: var(--cf-mid);   }
+.cn-gray { color: var(--gray-t);} .cd-gray{ color: var(--gray-t);   }
+
+.none-msg {
+  padding: 3rem;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--text3);
+  background: var(--bg2);
+  border-radius: 10px;
+  margin: 12px 0;
+  border: 1px dashed var(--border2);
+}
+
+/* ── Overlay & Modal ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(8, 7, 6, .6);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 500; padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 14px;
+  max-width: 100%; max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  box-shadow: 0 20px 60px var(--shadow2), 0 4px 16px var(--shadow);
+  animation: modalIn .18s ease;
+}
+@keyframes modalIn { from { opacity:0; transform:translateY(12px) scale(.97); } to { opacity:1; transform:none; } }
+
+.modal-detail  { width: 480px; }
+.modal-edit    { width: 560px; }
+.modal-confirm { width: 380px; }
+
+.mhead {
+  display: flex; justify-content: space-between;
+  align-items: flex-start; margin-bottom: 14px;
+}
+.mtitle {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700;
+  line-height: 1.3; padding-right: 10px;
+  color: var(--text1);
+}
+.mclose {
+  font-size: 22px; cursor: pointer;
+  color: var(--text3); background: none; border: none;
+  line-height: 1; flex-shrink: 0;
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; transition: background .12s;
+}
+.mclose:hover { background: var(--bg3); color: var(--text1); }
+
+.mbadge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.bs  { background: var(--sim-bg);  color: var(--sim);  border: 1px solid var(--sim-b);  }
+.bm  { background: var(--mgmt-bg); color: var(--mgmt); border: 1px solid var(--mgmt-b); }
+.bb  { background: var(--base-bg); color: var(--base); border: 1px solid var(--base-b); }
+
+.info-box {
+  background: var(--bg2); border-radius: 8px;
+  padding: 8px 12px; font-size: 12px;
+  color: var(--text2); margin-bottom: 10px;
+  border: 1px solid var(--border);
+}
+.warn-box {
+  background: var(--cf-bg);
+  border: 1px solid var(--cf-b);
+  border-radius: 8px;
+  padding: 8px 12px; font-size: 12px;
+  color: var(--cf); margin-bottom: 10px;
+}
+
+.mrow {
+  display: flex; gap: 12px;
+  margin-bottom: 8px; font-size: 12px;
+  align-items: flex-start;
+}
+.mlbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 600;
+  color: var(--text3);
+  min-width: 88px; flex-shrink: 0;
+  padding-top: 2px;
+  text-transform: uppercase; letter-spacing: .07em;
+}
+.mval { color: var(--text1); line-height: 1.6; }
+.mval a { color: var(--accent); text-decoration: none; }
+.mval a:hover { text-decoration: underline; }
+.mval code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg3);
+  padding: 2px 6px; border-radius: 4px;
+  font-size: 11px; color: var(--text1);
+}
+
+hr.md { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+.mactions {
+  display: flex; gap: 8px;
+  margin-top: 16px; justify-content: flex-end;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Buttons ── */
+.btn {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border2);
+  background: var(--bg2);
+  color: var(--text2);
+  transition: all .12s;
+  display: flex; align-items: center; gap: 5px;
+}
+.btn:hover { background: var(--bg3); color: var(--text1); border-color: var(--text3); }
+.btn-p  { background: var(--accent);  color: #fff; border-color: var(--accent);  font-weight: 600; }
+.btn-p:hover  { background: var(--accent2); border-color: var(--accent2); }
+.btn-d  { background: var(--cf-bg);   color: var(--cf);  border-color: var(--cf-b); }
+.btn-d:hover  { background: var(--cf-b); color: #fff; }
+
+/* ── Form ── */
+.fsec { margin-bottom: 14px; }
+.fsec-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--text1); margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.flbl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase; letter-spacing: .07em;
+  display: block; margin-bottom: 5px;
+}
+.fi, .fs, .fta {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding: 8px 12px;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text1);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.fi:focus, .fs:focus, .fta:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(74,127,193,.15);
+}
+.fta { resize: vertical; min-height: 64px; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ── Termin rows ── */
+.tlist { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.titem {
+  display: grid;
+  grid-template-columns: 68px 90px 120px 72px 1fr 28px;
+  gap: 5px; align-items: center;
+  padding: 8px 10px;
+  background: var(--bg2);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.titem select, .titem input {
+  font-family: 'Inter', sans-serif; font-size: 11px;
+  padding: 5px 6px;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text1);
+  width: 100%; outline: none;
+}
+.titem select:focus, .titem input:focus { border-color: var(--accent); }
+.tremove {
+  font-size: 16px; cursor: pointer;
+  color: var(--text3); background: none; border: none;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 5px; width: 24px; height: 24px;
+  transition: all .12s;
+}
+.tremove:hover { color: var(--danger); background: var(--cf-bg); }
+
+.tadd {
+  font-family: 'Inter', sans-serif; font-size: 12px;
+  padding: 8px 12px;
+  border: 1px dashed var(--border2);
+  border-radius: 8px;
+  background: transparent; color: var(--text3);
+  cursor: pointer; width: 100%; text-align: center;
+  transition: all .12s;
+}
+.tadd:hover { background: var(--bg2); color: var(--text2); border-color: var(--text3); }
+.fhint {
+  font-size: 10px; color: var(--text3);
+  margin-top: 5px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Coloured type indicator bar ── */
+.typ-bar {
+  height: 3px;
+  border-radius: 0 0 5px 5px;
+  margin: -7px -8px 6px;
+  border-radius: 6px 6px 0 0;
+  opacity: .6;
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-logo">
+    <h1>MIEM · STUNDENPLAN</h1>
+    <span class="sub">SoSe 2026 · TH Nürnberg</span>
+  </div>
+  <div class="header-actions">
+    <button class="theme-toggle" id="theme-btn" onclick="toggleTheme()" title="Dark / Light Mode">🌙</button>
+    <div class="divider-v"></div>
+    <button class="bh" onclick="exportJSON()">↓ JSON</button>
+    <button class="bh" onclick="importJSON()">↑ JSON</button>
+    <button class="bh p" onclick="openAdd()">＋ Modul</button>
+  </div>
+</div>
+
+<!-- Controls -->
+<div class="controls">
+  <div class="ctrl-row">
+    <span class="ctrl-lbl">Module</span>
+    <div class="chips" id="chips"></div>
+    <button class="chip-all" id="chip-all-btn" onclick="toggleAll()">Alle</button>
+  </div>
+  <div class="ctrl-row">
+    <span class="ctrl-lbl">Anzahl</span>
+    <div class="nbtn" id="nbtn"></div>
+    <span class="ninfo" id="ninfo"></span>
+    <div class="divider-v"></div>
+    <button class="ctoggle" id="ctoggle" onclick="toggleConflict()">⚠ Überschneidungen</button>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs-wrap" id="tabs"></div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="leg"><div class="dot dot-sim"></div>Simulation</div>
+  <div class="leg"><div class="dot dot-mgmt"></div>Management</div>
+  <div class="leg"><div class="dot dot-base"></div>Basismodul</div>
+  <div class="leg"><div class="dot dot-async"></div>Asynchron</div>
+  <div class="leg"><div class="dot dot-cf"></div>Überschneidung</div>
+  <div class="leg"><div class="dot dot-gray"></div>Nicht gewählt</div>
+</div>
+
+<div id="cbanner"></div>
+<div class="grid-wrap"><div id="main"></div></div>
+
+<!-- Detail Modal -->
+<div class="overlay" id="ov-detail" onclick="ovClose(event,'ov-detail')">
+  <div class="modal modal-detail">
+    <div class="mhead">
+      <div class="mtitle" id="dm-title"></div>
+      <button class="mclose" onclick="closeOv('ov-detail')">×</button>
+    </div>
+    <div id="dm-badge"></div>
+    <div id="dm-warn"></div>
+    <div id="dm-rows"></div>
+    <div class="mactions">
+      <button class="btn btn-d" id="dm-del">🗑 Löschen</button>
+      <button class="btn" id="dm-edit">✎ Bearbeiten</button>
+      <button class="btn btn-p" onclick="closeOv('ov-detail')">Schließen</button>
+    </div>
+  </div>
+</div>
+
+<!-- Edit/Add Modal -->
+<div class="overlay" id="ov-edit" onclick="ovClose(event,'ov-edit')">
+  <div class="modal modal-edit">
+    <div class="mhead">
+      <div class="mtitle" id="em-title">Modul hinzufügen</div>
+      <button class="mclose" onclick="closeOv('ov-edit')">×</button>
+    </div>
+    <div class="fsec">
+      <div class="fsec-title">Grunddaten</div>
+      <div class="frow">
+        <div><label class="flbl">Kürzel *</label><input class="fi" id="f-id" placeholder="z.B. RBSIM" maxlength="12"></div>
+        <div><label class="flbl">Modul-Nr.</label><input class="fi" id="f-nr" placeholder="z.B. S2, B4, M1"></div>
+      </div>
+    </div>
+    <div class="fsec">
+      <label class="flbl">Modulname *</label>
+      <input class="fi" id="f-name" placeholder="Vollständiger Modulname">
+    </div>
+    <div class="fsec">
+      <div class="frow">
+        <div>
+          <label class="flbl">Typ *</label>
+          <select class="fs" id="f-typ">
+            <option value="sim">Simulation (S)</option>
+            <option value="mgmt">Management (M)</option>
+            <option value="base" selected>Basismodul (B)</option>
+          </select>
+        </div>
+        <div><label class="flbl">Dozent</label><input class="fi" id="f-doz" placeholder="Prof. Nachname Vorname"></div>
+      </div>
+    </div>
+    <div class="fsec">
+      <div class="fsec-title">Veranstaltungsinfos</div>
+      <label class="flbl">1. Veranstaltung / Ersttermin</label>
+      <input class="fi" id="f-erst" placeholder="z.B. Fr 20.03.2026, Präsenz KA.213">
+    </div>
+    <div class="fsec">
+      <div class="frow">
+        <div><label class="flbl">Prüfungsleistung</label><input class="fi" id="f-prf" placeholder="z.B. Klausur 90 min"></div>
+        <div><label class="flbl">Kurscode (Moodle)</label><input class="fi" id="f-kc" placeholder="z.B. RBSIM2026"></div>
+      </div>
+    </div>
+    <div class="fsec">
+      <label class="flbl">Moodle-Link</label>
+      <input class="fi" id="f-moodle" placeholder="https://elearning.ohmportal.de/course/view.php?id=...">
+    </div>
+    <div class="fsec">
+      <label class="flbl">Hinweise</label>
+      <textarea class="fta" id="f-hint" placeholder="Sonstige Hinweise, Teams-Code, Anmerkungen…"></textarea>
+    </div>
+    <div class="fsec">
+      <div class="fsec-title">Termine (Vorlesungszeiten)</div>
+      <div class="tlist" id="tlist"></div>
+      <button class="tadd" onclick="addTRow()">＋ Termin hinzufügen</button>
+      <div class="fhint">Asynchrone Termine zählen nicht als Kollision · werden im Block/Sa-Slot angezeigt</div>
+    </div>
+    <div class="mactions">
+      <button class="btn" onclick="closeOv('ov-edit')">Abbrechen</button>
+      <button class="btn btn-p" onclick="saveModule()">✓ Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete Modal -->
+<div class="overlay" id="ov-confirm" onclick="ovClose(event,'ov-confirm')">
+  <div class="modal modal-confirm">
+    <div class="mhead">
+      <div class="mtitle" id="cf-title">Modul löschen?</div>
+      <button class="mclose" onclick="closeOv('ov-confirm')">×</button>
+    </div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:20px;line-height:1.6" id="cf-msg"></p>
+    <div class="mactions">
+      <button class="btn" onclick="closeOv('ov-confirm')">Abbrechen</button>
+      <button class="btn btn-d" id="cf-ok">🗑 Löschen</button>
+    </div>
+  </div>
+</div>
+
+<input type="file" id="json-file" accept=".json" style="display:none" onchange="handleImport(event)">
+
+<script>
+/* ── Theme ── */
+const saved = localStorage.getItem('miem-theme') || 'light';
+document.documentElement.setAttribute('data-theme', saved);
+document.getElementById('theme-btn').textContent = saved === 'dark' ? '☀️' : '🌙';
+
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  document.getElementById('theme-btn').textContent = next === 'dark' ? '☀️' : '🌙';
+  localStorage.setItem('miem-theme', next);
+}
+
+/* ── Data ── */
+const DL = ["Mo","Di","Mi","Do","Fr","Block/Sa"];
+const SL = [{l:"08:00–09:30"},{l:"09:45–11:15"},{l:"11:30–13:00"},{l:"14:00–15:30"},{l:"15:45–17:15"},{l:"17:30–19:00"},{l:"19:15–20:45"}];
+const FMTS = ["Synchron","Asynchron","Hybrid","Präsenz","Präsenz/Synchron","Präsenz/Block"];
+
+let M = {
+  LM:{id:"LM",nr:"B3",name:"Lean Management",typ:"base",doz:"Prof. Felderhoff Jan Fabian",erst:"Do 19.03.2026, Online (MS Teams)",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=7050",kc:"LM_SoSe26",hint:"Alle Infos im Moodle-Kurs.",termine:[{day:3,slot:4,fmt:"Synchron",raum:"–",lbl:"LM SU",async:false},{day:5,slot:2,fmt:"Asynchron",raum:"Async",lbl:"LM Ue (Async)",async:true}]},
+  TRFT:{id:"TRFT",nr:"B4",name:"Trends in der Fertigungstechnik",typ:"base",doz:"Prof. Frick Thomas",erst:"Do 19.03.2026, Online (MS Teams)",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=2153",kc:"TFTSS26",hint:"MS Teams Code im Moodle.",termine:[{day:3,slot:3,fmt:"Synchron",raum:"–",lbl:"TRFT Ue",async:false},{day:5,slot:3,fmt:"Asynchron",raum:"Async",lbl:"mTRFT (Async)",async:true}]},
+  DIGIP:{id:"DIGIP",nr:"B5",name:"Digitalisierung industrieller Prozesse",typ:"base",doz:"Prof. Gölzer Philipp",erst:"Fr 20.03.2026, KA.213 – abweichend!",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=2522",kc:"Analog",hint:"Gruppeneinteilung Praktikum in 1. Veranstaltung. Fr 08:00–09:30 (KA.309) + Fr 09:45–11:15 (KA.213).",termine:[{day:4,slot:0,fmt:"Hybrid",raum:"KA.309",lbl:"DIGIP SU/Ue",async:false},{day:4,slot:1,fmt:"Hybrid",raum:"KA.213",lbl:"DIGIP SU/Ue",async:false}]},
+  CONTR:{id:"CONTR",nr:"M1",name:"Controlling / Management Reporting",typ:"mgmt",doz:"Prof. Preißler Gerald",erst:"Do 19.03.2026, Präsenz BL.002",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=991",kc:"bwmoodle",hint:"60% Präsenz + 40% Online/Selbstlernen.",termine:[{day:2,slot:5,fmt:"Präsenz/Synchron",raum:"BL.002",lbl:"CONTR SU",async:false}]},
+  STMNG:{id:"STMNG",nr:"M3",name:"Strategic Management",typ:"mgmt",doz:"Prof. Wellner / Prof. Wynder",erst:"Fr 20.03.2026, Präsenz BL.213",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=1976",kc:"bwmoodle",hint:"Blocktermine ganztags: 28.03. + 25.04. Regulär Fr 17:30–20:45 (zwei Pflichtslots).",termine:[{day:4,slot:5,fmt:"Präsenz",raum:"BL.213",lbl:"STMNG SU",async:false},{day:4,slot:6,fmt:"Präsenz",raum:"BL.213",lbl:"STMNG SU",async:false},{day:5,slot:4,fmt:"Präsenz/Block",raum:"Block",lbl:"STMNG Block",async:false}]},
+  ETCH:{id:"ETCH",nr:"M4",name:"Ethical Challenges in global Business & Technology",typ:"mgmt",doz:"Prof. Vrzina Anita",erst:"Fr 20.03.2026, Präsenz (Hybrid) KA.502",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=7102",kc:"Challenges26",hint:"Vorlesung Hybrid + Blocktermine Präsenz. Kollidiert mit RBSIM (S2) auf Fr 11:30!",termine:[{day:4,slot:2,fmt:"Hybrid",raum:"KA.502",lbl:"ETCH SU",async:false},{day:5,slot:1,fmt:"Präsenz/Block",raum:"Block",lbl:"ETCH Block",async:false}]},
+  RBSIM:{id:"RBSIM",nr:"S2",name:"Robotersimulation",typ:"sim",doz:"Prof. Wagner Maximilian",erst:"Fr 20.03.2026, Präsenz (Hybrid) KA.213",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=2852",kc:"RBSIM2026",hint:"Praktikum: ohmportal.de …/2807 (Code: RBSIM2026). Teams-ID: 340 328 980 167 53, PW: e2pC9am3. Kollidiert mit ETCH (M4) auf Fr 11:30!",termine:[{day:4,slot:2,fmt:"Hybrid",raum:"KA.213",lbl:"RBSIM SU",async:false},{day:3,slot:5,fmt:"Synchron",raum:"–",lbl:"mRBSIM Ue",async:false}]},
+  FPSIM:{id:"FPSIM",nr:"S3",name:"Fertigungsprozesssimulation",typ:"sim",doz:"Prof. Schmid + Prof. von Großmann",erst:"Fr 20.03.2026, Präsenz (Hybrid) KA.213",prf:"–",moodle:"https://elearning.ohmportal.de/course/view.php?id=3231",kc:"M-IEM-FPS",hint:"2 Teile: Numerische Strömungsmechanik (Schmid) + Gießereitechnik (von Großmann). Teams Code: j18y6ct.",termine:[{day:4,slot:3,fmt:"Hybrid",raum:"KA.213",lbl:"FPSIM SU",async:false},{day:3,slot:6,fmt:"Synchron",raum:"–",lbl:"FPSIM Ue",async:false}]},
+  PROPS:{id:"PROPS",nr:"B?",name:"Projektmanagement & Produktentwicklung",typ:"base",doz:"Eichhorn Niels",erst:"–",prf:"–",moodle:"–",kc:"–",hint:"Mi 19:15–20:45 (Synchron).",termine:[{day:2,slot:6,fmt:"Synchron",raum:"–",lbl:"PROPS Ue",async:false}]},
+  ISCM:{id:"ISCM",nr:"B?",name:"Integrated Supply Chain Management",typ:"base",doz:"vhb",erst:"–",prf:"–",moodle:"–",kc:"–",hint:"Vollständig asynchron (vhb). Platzhalter Do 08:00.",termine:[{day:3,slot:0,fmt:"Asynchron",raum:"vhb",lbl:"ISCM (Async)",async:true}]},
+};
+
+let enabled = new Set(Object.keys(M));
+let selN = 6, curC = 0, showCF = false, editId = null;
+
+/* ── Logic ── */
+function keys() { return Object.keys(M); }
+
+function cfSlots(combo) {
+  const occ = {}, cs = new Set();
+  for (const k of combo) for (const t of M[k].termine) {
+    if (t.async) continue;
+    const key = t.day + "-" + t.slot;
+    if (occ[key]) cs.add(key); else occ[key] = k;
+  }
+  return cs;
+}
+function hasCF(combo) { return cfSlots(combo).size > 0; }
+function cntTyp(c, typ) { return c.filter(k => M[k].typ === typ).length; }
+function getCombos(arr, n) {
+  const res = [];
+  function bt(s, c) { if (c.length === n) { res.push([...c]); return; } for (let i = s; i < arr.length; i++) bt(i+1, [...c, arr[i]]); }
+  bt(0, []); return res;
+}
+function computeCombos(n) {
+  const pool = [...enabled]; if (pool.length < n) return [];
+  return getCombos(pool, n).filter(c => cntTyp(c,"sim")>=1 && cntTyp(c,"mgmt")<=1 && (showCF || !hasCF(c)));
+}
+function active() { return computeCombos(selN); }
+
+/* ── Render chips ── */
+function renderChips() {
+  document.getElementById("chips").innerHTML = keys().map(k => {
+    const m = M[k], on = enabled.has(k);
+    return `<span class="chip${on ? " on-" + m.typ : ""}" onclick="togMod('${k}')" title="${m.name}">${m.nr} ${m.id}</span>`;
+  }).join("");
+  document.getElementById("chip-all-btn").textContent = enabled.size === keys().length ? "Alle aus" : "Alle an";
+}
+function togMod(k) { enabled.has(k) ? enabled.delete(k) : enabled.add(k); curC = 0; render(); }
+function toggleAll() { enabled.size === keys().length ? enabled = new Set() : enabled = new Set(keys()); curC = 0; render(); }
+
+/* ── N buttons ── */
+function renderN() {
+  const pool = [...enabled], maxN = Math.min(pool.length, 7);
+  document.getElementById("nbtn").innerHTML = [3,4,5,6,7].filter(n => n <= maxN).map(n =>
+    `<button class="nb${n === selN ? " active" : ""}" onclick="setN(${n})">${n}</button>`).join("");
+  const cnt = active().length;
+  document.getElementById("ninfo").textContent = cnt === 0 ? "Keine Kombinationen" : `${cnt} Option${cnt === 1 ? "" : "en"}`;
+  const ct = document.getElementById("ctoggle");
+  ct.textContent = showCF ? "✓ Nur konfliktfreie" : "⚠ Überschneidungen";
+  ct.className = "ctoggle" + (showCF ? " active" : "");
+}
+function setN(n) { selN = n; curC = 0; render(); }
+function toggleConflict() { showCF = !showCF; curC = 0; render(); }
+
+/* ── Tabs ── */
+function renderTabs() {
+  const combos = active(), el = document.getElementById("tabs");
+  if (!combos.length) { el.innerHTML = ""; return; }
+  el.innerHTML = combos.map((c, i) => {
+    const sims = c.filter(k => M[k].typ === "sim").map(k => M[k].nr).join("+");
+    const mgmt = c.filter(k => M[k].typ === "mgmt").map(k => M[k].nr);
+    const w = hasCF(c) ? ' <span style="color:var(--cf)">⚠</span>' : "";
+    return `<div class="tab${i === curC ? " active" : ""}" onclick="setC(${i})">Opt.${i+1}: ${sims}${mgmt.length ? " · " + mgmt[0] : " · kein M"}${w}</div>`;
+  }).join("");
+}
+function setC(i) { curC = i; renderTabs(); renderGrid(); }
+
+/* ── Cell helpers ── */
+function cCls(m, t, ch, ic) {
+  if (!ch) return ic ? "cell cell-cfg" : "cell cell-gray";
+  if (ic) return "cell cell-cf";
+  if (t.async) return "cell cell-async";
+  if (m.typ === "sim") return "cell cell-sim";
+  if (m.typ === "mgmt") return "cell cell-mgmt";
+  return "cell cell-base";
+}
+function nC(m, t, ch, ic) { if (!ch) return "cn cn-gray"; if (ic) return "cn cn-cf"; if (t.async) return "cn cn-async"; if (m.typ==="sim") return "cn cn-sim"; if (m.typ==="mgmt") return "cn cn-mgmt"; return "cn cn-base"; }
+function dC(m, t, ch, ic) { if (!ch) return "cd cd-gray"; if (ic) return "cd cd-cf"; if (t.async) return "cd cd-async"; if (m.typ==="sim") return "cd cd-sim"; if (m.typ==="mgmt") return "cd cd-mgmt"; return "cd cd-base"; }
+
+/* ── Grid ── */
+function renderGrid() {
+  const combos = active(), el = document.getElementById("main"), banner = document.getElementById("cbanner");
+  if (!combos.length) {
+    banner.innerHTML = "";
+    el.innerHTML = `<div class="none-msg">Keine Kombinationen – Module aktivieren oder Überschneidungen einschalten.</div>`;
+    return;
+  }
+  const combo = combos[curC], cs = cfSlots(combo), shown = [...enabled];
+  if (cs.size > 0) {
+    const occ = {}, pairs = [];
+    for (const k of combo) for (const t of M[k].termine) {
+      if (t.async) continue;
+      const key = t.day + "-" + t.slot;
+      if (occ[key]) pairs.push(`${occ[key]} ↔ ${k} (${DL[t.day]} ${SL[t.slot].l})`);
+      else occ[key] = k;
+    }
+    banner.innerHTML = `<div class="cbanner"><strong>Überschneidung:</strong> ${pairs.join("  ·  ")}</div>`;
+  } else banner.innerHTML = "";
+
+  let h = `<div class="grid"><div class="gh"></div>`;
+  DL.forEach(d => { h += `<div class="gh">${d}</div>`; });
+  SL.forEach((slot, si) => {
+    h += `<div class="gt">${slot.l}</div>`;
+    DL.forEach((_, di) => {
+      const cells = [];
+      for (const k of shown) for (const t of M[k].termine) if (t.day === di && t.slot === si) cells.push({k, t});
+      if (!cells.length) { h += "<div></div>"; return; }
+      h += '<div class="cell-group">';
+      for (const {k, t} of cells) {
+        const m = M[k], ch = combo.includes(k), ic = !t.async && cs.has(t.day + "-" + t.slot);
+        const badge = ic && ch ? `<div class="cbadge">!</div>` : "";
+        h += `<div class="${cCls(m,t,ch,ic)}" onclick="showDetail('${k}')">
+          ${badge}
+          <div class="${nC(m,t,ch,ic)}">${t.lbl}</div>
+          <div class="${dC(m,t,ch,ic)}">${m.nr} · ${t.fmt}${t.raum && t.raum !== "–" ? " · " + t.raum : ""}</div>
+        </div>`;
+      }
+      h += "</div>";
+    });
+  });
+  h += "</div>";
+  el.innerHTML = h;
+}
+
+function render() { renderChips(); renderN(); renderTabs(); renderGrid(); }
+
+/* ── Detail modal ── */
+function showDetail(k) {
+  const m = M[k], combo = active()[curC] || [], ch = combo.includes(k);
+  const cs = cfSlots(combo), ic = ch && m.termine.some(t => !t.async && cs.has(t.day + "-" + t.slot));
+  document.getElementById("dm-title").textContent = m.nr + " – " + m.name;
+  const bc = {sim:"bs", mgmt:"bm", base:"bb"}[m.typ] || "bb";
+  const bl = {sim:"Simulation (S)", mgmt:"Management/WPF (M)", base:"Basismodul (B)"}[m.typ];
+  document.getElementById("dm-badge").innerHTML = `<div class="mbadge ${bc}">${bl}</div>`;
+  let warn = "";
+  if (!ch) warn = `<div class="info-box">Nicht in dieser Kombination – nur zur Info.</div>`;
+  else if (ic) warn = `<div class="warn-box">⚠ Zeitüberschneidung mit einem anderen gewählten Modul!</div>`;
+  document.getElementById("dm-warn").innerHTML = warn;
+  const mh = (!m.moodle || m.moodle === "–") ? "–" : `<a href="${m.moodle}" target="_blank">${m.moodle}</a>`;
+  const kch = (!m.kc || m.kc === "–") ? "–" : `<code>${m.kc}</code>`;
+  const rows = [["Kürzel",m.id],["Dozent",m.doz||"–"],["1. Termin",m.erst||"–"],["Prüfung",m.prf||"–"],["Moodle",mh],["Kurscode",kch],["Hinweise",m.hint||"–"],
+    ["Termine", m.termine.map(t=>`${DL[t.day]} ${SL[t.slot].l} (${t.fmt}${t.raum&&t.raum!=="–"?" · "+t.raum:""})`).join("<br>")]];
+  document.getElementById("dm-rows").innerHTML = "<hr class='md'>" + rows.map(([l,v]) =>
+    `<div class="mrow"><div class="mlbl">${l}</div><div class="mval">${v}</div></div>`).join("");
+  document.getElementById("dm-edit").onclick = () => { closeOv("ov-detail"); openEdit(k); };
+  document.getElementById("dm-del").onclick = () => { closeOv("ov-detail"); confirmDel(k); };
+  openOv("ov-detail");
+}
+
+/* ── Add / Edit ── */
+function openAdd() {
+  editId = null;
+  document.getElementById("em-title").textContent = "Modul hinzufügen";
+  ["f-id","f-nr","f-name","f-doz","f-erst","f-prf","f-kc","f-moodle","f-hint"].forEach(id => document.getElementById(id).value = "");
+  document.getElementById("f-typ").value = "base";
+  document.getElementById("f-id").disabled = false;
+  document.getElementById("tlist").innerHTML = "";
+  openOv("ov-edit");
+}
+function openEdit(k) {
+  editId = k; const m = M[k];
+  document.getElementById("em-title").textContent = "Bearbeiten – " + m.id;
+  document.getElementById("f-id").value = m.id; document.getElementById("f-id").disabled = true;
+  document.getElementById("f-nr").value = m.nr || "";
+  document.getElementById("f-name").value = m.name || "";
+  document.getElementById("f-typ").value = m.typ || "base";
+  document.getElementById("f-doz").value = m.doz || "";
+  document.getElementById("f-erst").value = m.erst || "";
+  document.getElementById("f-prf").value = m.prf || "";
+  document.getElementById("f-kc").value = m.kc || "";
+  document.getElementById("f-moodle").value = m.moodle || "";
+  document.getElementById("f-hint").value = m.hint || "";
+  const tl = document.getElementById("tlist"); tl.innerHTML = "";
+  (m.termine || []).forEach(t => addTRow(t));
+  openOv("ov-edit");
+}
+function addTRow(t = null) {
+  const tl = document.getElementById("tlist");
+  const div = document.createElement("div"); div.className = "titem";
+  div.innerHTML = `
+    <select class="td">${DL.map((d,i) => `<option value="${i}"${t&&t.day===i?" selected":""}>${d}</option>`).join("")}</select>
+    <select class="ts">${SL.map((s,i) => `<option value="${i}"${t&&t.slot===i?" selected":""}>${s.l}</option>`).join("")}</select>
+    <select class="tf">${FMTS.map(f => `<option${t&&t.fmt===f?" selected":""}>${f}</option>`).join("")}</select>
+    <input class="tr" placeholder="Raum" value="${t ? t.raum||"" : ""}">
+    <input class="tl" placeholder="Label z.B. LM SU" value="${t ? t.lbl||"" : ""}">
+    <button class="tremove" onclick="this.parentElement.remove()">×</button>`;
+  tl.appendChild(div);
+}
+function saveModule() {
+  const id = (document.getElementById("f-id").value || "").trim().toUpperCase();
+  if (!id) { alert("Kürzel ist Pflichtfeld."); return; }
+  if (!editId && M[id]) { alert(`Kürzel "${id}" existiert bereits.`); return; }
+  const name = (document.getElementById("f-name").value || "").trim();
+  if (!name) { alert("Modulname ist Pflichtfeld."); return; }
+  const termine = [];
+  for (const row of document.getElementById("tlist").children) {
+    const fmt = row.querySelector(".tf").value;
+    termine.push({
+      day: parseInt(row.querySelector(".td").value),
+      slot: parseInt(row.querySelector(".ts").value),
+      fmt, raum: row.querySelector(".tr").value.trim() || "–",
+      lbl: row.querySelector(".tl").value.trim() || id,
+      async: fmt === "Asynchron"
+    });
+  }
+  const key = editId || id;
+  M[key] = { id:key, nr:document.getElementById("f-nr").value.trim()||"–", name, typ:document.getElementById("f-typ").value,
+    doz:document.getElementById("f-doz").value.trim()||"–", erst:document.getElementById("f-erst").value.trim()||"–",
+    prf:document.getElementById("f-prf").value.trim()||"–", kc:document.getElementById("f-kc").value.trim()||"–",
+    moodle:document.getElementById("f-moodle").value.trim()||"–", hint:document.getElementById("f-hint").value.trim()||"–", termine };
+  if (!editId) enabled.add(key);
+  closeOv("ov-edit"); curC = 0; render();
+}
+
+/* ── Delete ── */
+function confirmDel(k) {
+  const m = M[k];
+  document.getElementById("cf-title").textContent = `"${m.id}" löschen?`;
+  document.getElementById("cf-msg").textContent = `Das Modul "${m.name}" wird dauerhaft aus dem Stundenplan entfernt. Diese Aktion kann nicht rückgängig gemacht werden.`;
+  document.getElementById("cf-ok").onclick = () => { delete M[k]; enabled.delete(k); closeOv("ov-confirm"); curC = 0; render(); };
+  openOv("ov-confirm");
+}
+
+/* ── Import / Export ── */
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(M, null, 2)], {type:"application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "miem_stundenplan_sose26.json"; a.click();
+}
+function importJSON() { document.getElementById("json-file").click(); }
+function handleImport(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const r = new FileReader();
+  r.onload = ev => { try { M = JSON.parse(ev.target.result); enabled = new Set(Object.keys(M)); curC = 0; render(); } catch { alert("Ungültige JSON-Datei."); } };
+  r.readAsText(file); e.target.value = "";
+}
+
+/* ── Overlay ── */
+function openOv(id) { document.getElementById(id).classList.add("open"); }
+function closeOv(id) { document.getElementById(id).classList.remove("open"); }
+function ovClose(e, id) { if (e.target === document.getElementById(id)) closeOv(id); }
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".overlay.open").forEach(o => o.classList.remove("open")); });
+
+render();
+</script>
+</body>
+</html>
