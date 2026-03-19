@@ -127,16 +127,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 @media(max-width:768px) and (orientation:portrait){
   .header{padding:0 12px;}
   .header-row1{height:52px;gap:6px;}
-  /* Hide semester text and KW badge — title only */
+  /* Hide semester text, KW badge and zoom on portrait */
   .editable-sem{display:none!important;}
   .header-kw{display:none!important;}
+  #zoom-ctrl{display:none!important;}
   /* Shrink title to fit */
   .editable-title{font-size:16px;flex-shrink:1;}
   /* Compact buttons */
   .bh{height:30px;padding:0 9px;font-size:11px;}
-  .zoom-btn{padding:0 7px!important;height:28px!important;font-size:14px!important;}
-  .zoom-label{font-size:11px;min-width:34px;}
-  .zoom-ctrl{padding:1px;}
   .divider-v{display:none;}
   /* Legend: two rows, smaller */
   .legend{font-size:10px;gap:5px 12px;padding:6px 12px;}
@@ -613,7 +611,7 @@ body.is-admin .day-sep-empty{cursor:default;}
     <div class="admin-badge" id="admin-badge">⚙ Admin</div>
     <div class="header-actions">
       <button class="bh admin-only" id="btn-save" onclick="saveAdminState()">💾 <span class="btn-label">Speichern</span></button>
-      <div class="zoom-ctrl">
+      <div class="zoom-ctrl" id="zoom-ctrl">
         <button class="zoom-btn bh" onclick="changeZoom(-1)" title="Verkleinern">−</button>
         <span class="zoom-label" id="zoom-label">100%</span>
         <button class="zoom-btn bh" onclick="changeZoom(1)" title="Vergrößern">＋</button>
@@ -621,7 +619,7 @@ body.is-admin .day-sep-empty{cursor:default;}
       <div class="divider-v"></div>
       <button class="bh" id="theme-btn" onclick="toggleTheme()">☀️</button>
       <button class="bh" id="login-btn" onclick="openLogin()">🔒</button>
-      <button class="bh p" onclick="openSettings()">⚙ <span class="btn-label">Einstellungen</span></button>
+      <button class="bh p" onclick="openSettings()">🗂 <span class="btn-label">Einstellungen</span></button>
     </div>
   </div>
 </div>
@@ -795,7 +793,7 @@ body.is-admin .day-sep-empty{cursor:default;}
 <div class="settings-overlay" id="sp-overlay" onclick="spOverlayClose(event)">
   <div class="settings-panel" id="sp-panel">
     <div class="sp-header">
-      <div class="sp-title">⚙ Einstellungen</div>
+      <div class="sp-title">🗂 Einstellungen</div>
       <button class="sp-close" onclick="closeSettings()">×</button>
     </div>
     <div class="sp-body">
