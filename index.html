@@ -126,16 +126,17 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 /* ── MOBILE PORTRAIT ── */
 @media(max-width:768px) and (orientation:portrait){
   .header{padding:0 12px;}
-  .header-row1{height:52px;gap:6px;}
+  .header-row1{height:52px;gap:6px;overflow:hidden;}
   /* Hide semester text, KW badge and zoom on portrait */
   .editable-sem{display:none!important;}
   .header-kw{display:none!important;}
   #zoom-ctrl{display:none!important;}
-  /* Shrink title to fit */
-  .editable-title{font-size:16px;flex-shrink:1;}
-  /* Compact buttons */
+  .divider-v{display:none!important;}
+  /* Title: hide input, show span which truncates cleanly */
+  .editable-title{display:none!important;}
+  .mobile-title{display:block;}
+  .header-logo{flex:1;min-width:0;overflow:hidden;align-items:center;}
   .bh{height:30px;padding:0 9px;font-size:11px;}
-  .divider-v{display:none;}
   /* Legend: two rows, smaller */
   .legend{font-size:10px;gap:5px 12px;padding:6px 12px;}
   .dot{width:9px;height:9px;}
@@ -549,6 +550,15 @@ body.is-admin .day-sep-empty:hover .cell-empty-add{
 body.is-admin .day-sep-empty .cell-empty-add{display:flex;}
 body.is-admin .day-sep-empty{cursor:default;}
 /* today-row handled above */
+/* Mobile title span (replaces input on portrait) */
+.mobile-title{
+  display:none;
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:800;
+  color:var(--text1);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+  min-width:0;flex:1;
+}
+
 .today-col{}
 .today-col-empty{}
 
@@ -605,6 +615,7 @@ body.is-admin .day-sep-empty{cursor:default;}
   <div class="header-row1">
     <div class="header-logo">
       <input class="editable-title" id="site-title" value="MIEM · STUNDENPLAN" readonly>
+      <span class="mobile-title" id="mobile-title">MIEM · STUNDENPLAN</span>
       <input class="editable-sem" id="site-sem" value="SoSe 2026 · TH Nürnberg" readonly>
       <span class="header-kw" id="header-kw"></span>
     </div>
@@ -1461,6 +1472,14 @@ updateDayPills();
 updateKW();
 render();
 applyZoom();
+// Sync mobile title span with input value
+function syncMobileTitle(){
+  const t=document.getElementById("site-title");
+  const s=document.getElementById("mobile-title");
+  if(t&&s)s.textContent=t.value;
+}
+syncMobileTitle();
+document.getElementById("site-title").addEventListener("input",syncMobileTitle);
 </script>
 </body>
 </html>
