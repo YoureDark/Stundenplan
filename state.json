@@ -1,0 +1,313 @@
+{
+  "title": "MIEM · STUNDENPLAN",
+  "semester": "SoSe 2026 · TH Nürnberg",
+  "modules": {
+    "LM": {
+      "id": "LM",
+      "nr": "B3",
+      "name": "Lean Management",
+      "typ": "base",
+      "doz": "Prof. Felderhoff Jan Fabian",
+      "erst": "Do 19.03.2026, Online (MS Teams)",
+      "prf": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=7050",
+      "kc": "LM_SoSe26",
+      "hint": "Alle Infos im Moodle-Kurs.",
+      "semStart": "2026-03-19",
+      "semEnd": "2026-07-19",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 3,
+          "slot": 4,
+          "fmt": "Synchron",
+          "raum": "–",
+          "lbl": "LM SU",
+          "async": false
+        },
+        {
+          "day": 5,
+          "slot": 2,
+          "fmt": "Asynchron",
+          "raum": "Async",
+          "lbl": "LM Ue (Async)",
+          "async": true
+        }
+      ]
+    },
+    "TRFT": {
+      "id": "TRFT",
+      "nr": "B4",
+      "name": "Trends in der Fertigungstechnik",
+      "typ": "base",
+      "doz": "Prof. Frick Thomas",
+      "erst": "Do 19.03.2026, Online (MS Teams)",
+      "prf": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2153",
+      "kc": "TFTSS26",
+      "hint": "MS Teams Code im Moodle.",
+      "semStart": "2026-03-19",
+      "semEnd": "2026-07-19",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 3,
+          "slot": 3,
+          "fmt": "Synchron",
+          "raum": "–",
+          "lbl": "TRFT Ue",
+          "async": false
+        },
+        {
+          "day": 5,
+          "slot": 3,
+          "fmt": "Asynchron",
+          "raum": "Async",
+          "lbl": "mTRFT (Async)",
+          "async": true
+        }
+      ]
+    },
+    "DIGIP": {
+      "id": "DIGIP",
+      "nr": "B5",
+      "name": "Digitalisierung industrieller Prozesse",
+      "typ": "base",
+      "doz": "Prof. Gölzer Philipp",
+      "erst": "Fr 20.03.2026, KA.213",
+      "prf": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2522",
+      "kc": "Analog",
+      "hint": "Fr 08:00–09:30 (KA.309) + Fr 09:45–11:15 (KA.213).",
+      "semStart": "2026-03-20",
+      "semEnd": "2026-07-17",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 0,
+          "fmt": "Hybrid",
+          "raum": "KA.309",
+          "lbl": "DIGIP SU/Ue",
+          "async": false
+        },
+        {
+          "day": 4,
+          "slot": 1,
+          "fmt": "Hybrid",
+          "raum": "KA.213",
+          "lbl": "DIGIP SU/Ue",
+          "async": false
+        }
+      ]
+    },
+    "CONTR": {
+      "id": "CONTR",
+      "nr": "M1",
+      "name": "Controlling / Management Reporting",
+      "typ": "mgmt",
+      "doz": "Prof. Preißler Gerald",
+      "erst": "Do 19.03.2026, Präsenz BL.002",
+      "prf": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=991",
+      "kc": "bwmoodle",
+      "hint": "60% Präsenz + 40% Online.",
+      "semStart": "2026-03-19",
+      "semEnd": "2026-07-19",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 2,
+          "slot": 5,
+          "fmt": "Präsenz/Synchron",
+          "raum": "BL.002",
+          "lbl": "CONTR SU",
+          "async": false
+        }
+      ]
+    },
+    "STMNG": {
+      "id": "STMNG",
+      "nr": "M3",
+      "name": "Strategic Management",
+      "typ": "mgmt",
+      "doz": "Prof. Wellner / Prof. Wynder",
+      "erst": "Fr 20.03.2026, Präsenz BL.213",
+      "prf": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=1976",
+      "kc": "bwmoodle",
+      "hint": "Blocktermine: 28.03. + 25.04.",
+      "semStart": "2026-03-20",
+      "semEnd": "2026-07-17",
+      "exceptions": [
+        {
+          "type": "extra",
+          "date": "2026-03-28",
+          "note": "Blocktag"
+        },
+        {
+          "type": "extra",
+          "date": "2026-04-25",
+          "note": "Blocktag"
+        }
+      ],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 5,
+          "fmt": "Präsenz",
+          "raum": "BL.213",
+          "lbl": "STMNG SU",
+          "async": false
+        },
+        {
+          "day": 4,
+          "slot": 6,
+          "fmt": "Präsenz",
+          "raum": "BL.213",
+          "lbl": "STMNG SU",
+          "async": false
+        }
+      ]
+    },
+    "RBSIM": {
+      "id": "RBSIM",
+      "nr": "S2",
+      "name": "Robotersimulation",
+      "typ": "sim",
+      "doz": "Prof. Wagner Maximilian",
+      "erst": "Fr 20.03.2026, KA.213",
+      "prf": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2852",
+      "kc": "RBSIM2026",
+      "hint": "Teams-ID: 340 328 980 167 53, PW: e2pC9am3.",
+      "semStart": "2026-03-20",
+      "semEnd": "2026-07-17",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 2,
+          "fmt": "Hybrid",
+          "raum": "KA.213",
+          "lbl": "RBSIM SU",
+          "async": false
+        },
+        {
+          "day": 3,
+          "slot": 5,
+          "fmt": "Synchron",
+          "raum": "–",
+          "lbl": "mRBSIM Ue",
+          "async": false
+        }
+      ]
+    },
+    "FPSIM": {
+      "id": "FPSIM",
+      "nr": "S3",
+      "name": "Fertigungsprozesssimulation",
+      "typ": "sim",
+      "doz": "Prof. Schmid + Prof. von Großmann",
+      "erst": "Fr 20.03.2026, KA.213",
+      "prf": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=3231",
+      "kc": "M-IEM-FPS",
+      "hint": "Teams Code: j18y6ct.",
+      "semStart": "2026-03-20",
+      "semEnd": "2026-07-17",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 3,
+          "fmt": "Hybrid",
+          "raum": "KA.213",
+          "lbl": "FPSIM SU",
+          "async": false
+        },
+        {
+          "day": 3,
+          "slot": 6,
+          "fmt": "Synchron",
+          "raum": "–",
+          "lbl": "FPSIM Ue",
+          "async": false
+        }
+      ]
+    },
+    "PROPS": {
+      "id": "PROPS",
+      "nr": "B?",
+      "name": "Projektmanagement & Produktentwicklung",
+      "typ": "base",
+      "doz": "Eichhorn Niels",
+      "erst": "–",
+      "prf": "–",
+      "moodle": "–",
+      "kc": "–",
+      "hint": "Mi 19:15–20:45.",
+      "semStart": "2026-03-18",
+      "semEnd": "2026-07-15",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 2,
+          "slot": 6,
+          "fmt": "Synchron",
+          "raum": "–",
+          "lbl": "PROPS Ue",
+          "async": false
+        }
+      ]
+    },
+    "ISCM": {
+      "id": "ISCM",
+      "nr": "B?",
+      "name": "Integrated Supply Chain Management",
+      "typ": "base",
+      "doz": "vhb",
+      "erst": "–",
+      "prf": "–",
+      "moodle": "–",
+      "kc": "–",
+      "hint": "Vollständig asynchron.",
+      "semStart": "2026-03-17",
+      "semEnd": "2026-07-15",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 3,
+          "slot": 0,
+          "fmt": "Asynchron",
+          "raum": "vhb",
+          "lbl": "ISCM (Async)",
+          "async": true
+        }
+      ]
+    }
+  },
+  "customColors": {
+    "light": {},
+    "dark": {}
+  },
+  "theme": "dark",
+  "activeDays": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "cellDisplay": {
+    "label": true,
+    "nr": true,
+    "format": true,
+    "raum": true,
+    "doz": false,
+    "pruefung": true,
+    "moodle": true
+  },
+  "cellHeight": 80
+}
