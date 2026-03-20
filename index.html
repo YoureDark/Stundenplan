@@ -821,10 +821,6 @@ body.is-admin .day-sep-empty{cursor:default;}
             <div><div class="sp-irow-label">Dark Mode</div><div class="sp-irow-sub">Dunkles Farbschema</div></div>
             <label class="toggle-sw"><input type="checkbox" id="sp-darkmode" onchange="spToggleDark(this.checked)"><div class="toggle-track"></div></label>
           </div>
-          <div style="margin-top:10px">
-            <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;font-family:'JetBrains Mono',monospace">Angezeigte Tage</div>
-            <div class="day-pills-wrap" id="sp-day-toggles"></div>
-          </div>
         </div>
       </div>
 
@@ -867,6 +863,19 @@ body.is-admin .day-sep-empty{cursor:default;}
 
       <!-- ADMIN BLOCK -->
       <div id="sp-admin-block" style="display:none">
+
+        <!-- ACC: Angezeigte Tage (Admin) -->
+        <div class="sp-acc" id="acc-admin-days">
+          <button class="sp-acc-header" onclick="toggleAcc('acc-admin-days')" style="border-left:3px solid var(--admin-border)">
+            <span class="sp-acc-icon">📅</span>
+            <span class="sp-acc-text"><span class="sp-acc-label" style="color:var(--admin-border)">Admin – Angezeigte Tage</span></span>
+            <span class="sp-acc-chev">›</span>
+          </button>
+          <div class="sp-acc-body">
+            <div style="font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-bottom:10px">Wähle welche Tage im Stundenplan angezeigt werden.</div>
+            <div class="day-pills-wrap" id="sp-day-toggles"></div>
+          </div>
+        </div>
 
         <!-- ACC: Cell Display -->
         <div class="sp-acc" id="acc-cell-display">
@@ -970,8 +979,7 @@ function doLogout(){
 const STORE_KEY="miem-sp-state-v7";
 function saveAdminState(){
   if(!isAdmin)return;
-  const state={title:document.getElementById("site-title").value,semester:document.getElementById("site-sem").value,modules:M,customColors,theme:document.documentElement.getAttribute("data-theme"),activeDays:[...activeDaySet],cellDisplay,cellHeight};
-  localStorage.setItem(STORE_KEY,JSON.stringify(state));
+  autoSave();
   const btn=document.getElementById("btn-save");if(btn){btn.innerHTML='✓ <span class="btn-label">Gespeichert</span>';btn.classList.add("save-pulse");setTimeout(()=>{btn.innerHTML='💾 <span class="btn-label">Speichern</span>';btn.classList.remove("save-pulse");},1800);}
   const sp=document.getElementById("sp-save-btn");if(sp){const orig=sp.textContent;sp.textContent="✓ Gespeichert!";setTimeout(()=>{sp.textContent=orig;},1800);}
 }
@@ -1067,9 +1075,25 @@ function cellCls(m,t,ic){if(ic)return"cell cell-cf";if(t.async)return"cell cell-
 function nCls(m,t,ic){if(ic)return"cn cn-cf";if(t.async)return"cn cn-async";if(m.typ==="sim")return"cn cn-sim";if(m.typ==="mgmt")return"cn cn-mgmt";if(m.typ==="wpf")return"cn cn-wpf";return"cn cn-base";}
 function dCls(m,t,ic){if(ic)return"cd cd-cf";if(t.async)return"cd cd-async";if(m.typ==="sim")return"cd cd-sim";if(m.typ==="mgmt")return"cd cd-mgmt";if(m.typ==="wpf")return"cd cd-wpf";return"cd cd-base";}
 
+/* ══ AUTO-SAVE (modules + activeDays) ══
+   Saves silently on every change — no admin click needed.
+   Theme is always saved immediately too.                    */
+function autoSave(){
+  const state={
+    title:document.getElementById("site-title").value,
+    semester:document.getElementById("site-sem").value,
+    modules:M,
+    customColors,
+    theme:document.documentElement.getAttribute("data-theme"),
+    activeDays:[...activeDaySet],
+    cellDisplay,
+    cellHeight
+  };
+  localStorage.setItem(STORE_KEY,JSON.stringify(state));
+}
+
 function toggleDayVis(day){
   if(activeDaySet.has(day)){
-    // don't allow removing last day
     if(activeDaySet.size<=1)return;
     activeDaySet.delete(day);
   }else{
@@ -1077,6 +1101,7 @@ function toggleDayVis(day){
   }
   updateDayPills();
   render();
+  autoSave();
 }
 function updateDayPills(){
   const el=document.getElementById("sp-day-toggles");
@@ -1419,16 +1444,16 @@ function saveModule(){
   const termine=[];for(const row of document.getElementById("tlist").children){const fmt=row.querySelector(".tf").value;termine.push({day:parseInt(row.querySelector(".td").value),slot:parseInt(row.querySelector(".ts").value),fmt,raum:row.querySelector(".tr").value.trim()||"–",lbl:row.querySelector(".tl").value.trim()||id,async:fmt==="Asynchron"});}
   const key=editId||id;const prev=editId?M[key]:{};
   M[key]={id:key,nr:document.getElementById("f-nr").value.trim()||"–",name,typ:document.getElementById("f-typ").value,doz:document.getElementById("f-doz").value.trim()||"–",erst:document.getElementById("f-erst").value.trim()||"–",prf:document.getElementById("f-prf").value.trim()||"–",kc:document.getElementById("f-kc").value.trim()||"–",moodle:document.getElementById("f-moodle").value.trim()||"–",hint:document.getElementById("f-hint").value.trim()||"–",semStart:prev.semStart||"",semEnd:prev.semEnd||"",exceptions:prev.exceptions||[],termine};
-  closeOv("ov-edit");render();
+  closeOv("ov-edit");render();autoSave();
 }
 
 /* ══ EXCEPTIONS ══ */
 function openExceptions(k){if(!isAdmin)return;excModId=k;const m=M[k];document.getElementById("exc-title").textContent="Termine – "+m.id;document.getElementById("exc-start").value=m.semStart||"";document.getElementById("exc-end").value=m.semEnd||"";const el=document.getElementById("exc-list");el.innerHTML="";(m.exceptions||[]).forEach(e=>addExcRow(e.type,e));openOv("ov-exc");}
 function addExcRow(type,e=null){const el=document.getElementById("exc-list");const div=document.createElement("div");div.className=`exc-item ${type}`;div.innerHTML=`<input type="date" class="exc-date" value="${e?e.date||"":""}"><input type="text" class="exc-note" placeholder="Notiz (optional)" value="${e?e.note||"":""}"><div style="display:flex;align-items:center;gap:5px"><span class="exc-badge ${type==="cancelled"?"c":"e"}">${type==="cancelled"?"Ausfall":"Extra"}</span><input type="hidden" class="exc-type" value="${type}"><button class="tremove" onclick="this.closest('.exc-item').remove()">×</button></div>`;el.appendChild(div);}
-function saveExceptions(){if(!isAdmin||!excModId)return;const exceptions=[];for(const row of document.getElementById("exc-list").children){const date=row.querySelector(".exc-date").value;const note=row.querySelector(".exc-note").value.trim();const type=row.querySelector(".exc-type").value;if(date)exceptions.push({type,date,note});}M[excModId].exceptions=exceptions;M[excModId].semStart=document.getElementById("exc-start").value;M[excModId].semEnd=document.getElementById("exc-end").value;closeOv("ov-exc");}
+function saveExceptions(){if(!isAdmin||!excModId)return;const exceptions=[];for(const row of document.getElementById("exc-list").children){const date=row.querySelector(".exc-date").value;const note=row.querySelector(".exc-note").value.trim();const type=row.querySelector(".exc-type").value;if(date)exceptions.push({type,date,note});}M[excModId].exceptions=exceptions;M[excModId].semStart=document.getElementById("exc-start").value;M[excModId].semEnd=document.getElementById("exc-end").value;closeOv("ov-exc");autoSave();}
 
 /* ══ DELETE ══ */
-function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("cf-title").textContent=`"${m.id}" löschen?`;document.getElementById("cf-msg").textContent=`Das Modul "${m.name}" wird dauerhaft entfernt.`;document.getElementById("cf-ok").onclick=()=>{delete M[k];closeOv("ov-confirm");render();};openOv("ov-confirm");}
+function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("cf-title").textContent=`"${m.id}" löschen?`;document.getElementById("cf-msg").textContent=`Das Modul "${m.name}" wird dauerhaft entfernt.`;document.getElementById("cf-ok").onclick=()=>{delete M[k];closeOv("ov-confirm");render();autoSave();};openOv("ov-confirm");}
 
 /* ══ CALENDAR EXPORT ══ */
 function getOccurrences(modId,s,e){const m=M[modId];const sD=new Date(s||m.semStart||"2026-03-17"),eD=new Date(e||m.semEnd||"2026-07-19");const evs=[];const cancelled=new Set((m.exceptions||[]).filter(x=>x.type==="cancelled").map(x=>x.date));const extras=(m.exceptions||[]).filter(x=>x.type==="extra");for(const t of m.termine){if(t.async||t.day>=5)continue;const jd=t.day+1;const sl=SL[t.slot];let d=new Date(sD);while(d.getDay()!==jd)d.setDate(d.getDate()+1);while(d<=eD){const ds=d.toISOString().slice(0,10);if(!cancelled.has(ds))evs.push({modId,date:ds,startTime:sl.sh,endTime:sl.eh,label:t.lbl,fmt:t.fmt,raum:t.raum,name:m.name,doz:m.doz});d.setDate(d.getDate()+7);}}for(const ex of extras)evs.push({modId,date:ex.date,startTime:"08:00",endTime:"18:00",label:m.id+" Extra",fmt:"Präsenz",raum:"–",name:m.name+(ex.note?" ("+ex.note+")":""),doz:m.doz});return evs;}
@@ -1441,7 +1466,7 @@ function download(name,content,type){const blob=new Blob([content],{type});const
 /* ══ JSON ══ */
 function exportJSON(){const data={title:document.getElementById("site-title").value,semester:document.getElementById("site-sem").value,modules:M,customColors,theme:document.documentElement.getAttribute("data-theme")};download("miem_stundenplan.json",JSON.stringify(data,null,2),"application/json");}
 function importJSON(){if(!isAdmin)return;document.getElementById("json-file").click();}
-function handleImport(e){if(!isAdmin)return;const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.modules){M=d.modules;if(d.title)document.getElementById("site-title").value=d.title;if(d.semester)document.getElementById("site-sem").value=d.semester;if(d.customColors){customColors=d.customColors;applyCustomColors();}if(d.theme){document.documentElement.setAttribute("data-theme",d.theme);document.getElementById("theme-btn").textContent=d.theme==="dark"?"☀️":"🌙";}}else M=d;render();}catch{alert("Ungültige JSON-Datei.");}};r.readAsText(file);e.target.value="";}
+function handleImport(e){if(!isAdmin)return;const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.modules){M=d.modules;if(d.title)document.getElementById("site-title").value=d.title;if(d.semester)document.getElementById("site-sem").value=d.semester;if(d.customColors){customColors=d.customColors;applyCustomColors();}if(d.theme){document.documentElement.setAttribute("data-theme",d.theme);document.getElementById("theme-btn").textContent=d.theme==="dark"?"☀️":"🌙";}}else M=d;render();autoSave();}catch{alert("Ungültige JSON-Datei.");}};r.readAsText(file);e.target.value="";}
 
 /* ══ COLORS ══ */
 const COLOR_DEFS=[{id:"sim",label:"Simulation",vars:["bg","b","t"]},{id:"mgmt",label:"Management",vars:["bg","b","t"]},{id:"base",label:"Basismodul",vars:["bg","b","t"]},{id:"wpf",label:"Wahlpflichtfach",vars:["bg","b","t"]},{id:"async",label:"Asynchron",vars:["bg","b","t"]}];
