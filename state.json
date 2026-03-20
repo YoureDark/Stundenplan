@@ -216,12 +216,9 @@
   },
   "theme": "dark",
   "activeDays": [
-    0,
-    1,
     2,
     3,
-    4,
-    5
+    4
   ],
   "cellDisplay": {
     "label": true,
