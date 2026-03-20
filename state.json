@@ -225,7 +225,7 @@
     "nr": true,
     "format": true,
     "raum": true,
-    "doz": false,
+    "doz": true,
     "pruefung": true,
     "moodle": true
   },
