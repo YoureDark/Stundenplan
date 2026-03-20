@@ -10,8 +10,8 @@
       "doz": "Prof. Felderhoff Jan Fabian",
       "erst": "Do 19.03.2026, Online (MS Teams)",
       "prf": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=7050",
       "kc": "LM_SoSe26",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=7050",
       "hint": "Alle Infos im Moodle-Kurs.",
       "semStart": "2026-03-19",
       "semEnd": "2026-07-19",
@@ -22,16 +22,8 @@
           "slot": 4,
           "fmt": "Synchron",
           "raum": "–",
-          "lbl": "LM SU",
+          "lbl": "LM:SU",
           "async": false
-        },
-        {
-          "day": 5,
-          "slot": 2,
-          "fmt": "Asynchron",
-          "raum": "Async",
-          "lbl": "LM Ue (Async)",
-          "async": true
         }
       ]
     },
@@ -43,8 +35,8 @@
       "doz": "Prof. Frick Thomas",
       "erst": "Do 19.03.2026, Online (MS Teams)",
       "prf": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2153",
       "kc": "TFTSS26",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2153",
       "hint": "MS Teams Code im Moodle.",
       "semStart": "2026-03-19",
       "semEnd": "2026-07-19",
@@ -55,16 +47,8 @@
           "slot": 3,
           "fmt": "Synchron",
           "raum": "–",
-          "lbl": "TRFT Ue",
+          "lbl": "TRFT:UE",
           "async": false
-        },
-        {
-          "day": 5,
-          "slot": 3,
-          "fmt": "Asynchron",
-          "raum": "Async",
-          "lbl": "mTRFT (Async)",
-          "async": true
         }
       ]
     },
@@ -101,75 +85,6 @@
         }
       ]
     },
-    "CONTR": {
-      "id": "CONTR",
-      "nr": "M1",
-      "name": "Controlling / Management Reporting",
-      "typ": "mgmt",
-      "doz": "Prof. Preißler Gerald",
-      "erst": "Do 19.03.2026, Präsenz BL.002",
-      "prf": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=991",
-      "kc": "bwmoodle",
-      "hint": "60% Präsenz + 40% Online.",
-      "semStart": "2026-03-19",
-      "semEnd": "2026-07-19",
-      "exceptions": [],
-      "termine": [
-        {
-          "day": 2,
-          "slot": 5,
-          "fmt": "Präsenz/Synchron",
-          "raum": "BL.002",
-          "lbl": "CONTR SU",
-          "async": false
-        }
-      ]
-    },
-    "STMNG": {
-      "id": "STMNG",
-      "nr": "M3",
-      "name": "Strategic Management",
-      "typ": "mgmt",
-      "doz": "Prof. Wellner / Prof. Wynder",
-      "erst": "Fr 20.03.2026, Präsenz BL.213",
-      "prf": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=1976",
-      "kc": "bwmoodle",
-      "hint": "Blocktermine: 28.03. + 25.04.",
-      "semStart": "2026-03-20",
-      "semEnd": "2026-07-17",
-      "exceptions": [
-        {
-          "type": "extra",
-          "date": "2026-03-28",
-          "note": "Blocktag"
-        },
-        {
-          "type": "extra",
-          "date": "2026-04-25",
-          "note": "Blocktag"
-        }
-      ],
-      "termine": [
-        {
-          "day": 4,
-          "slot": 5,
-          "fmt": "Präsenz",
-          "raum": "BL.213",
-          "lbl": "STMNG SU",
-          "async": false
-        },
-        {
-          "day": 4,
-          "slot": 6,
-          "fmt": "Präsenz",
-          "raum": "BL.213",
-          "lbl": "STMNG SU",
-          "async": false
-        }
-      ]
-    },
     "RBSIM": {
       "id": "RBSIM",
       "nr": "S2",
@@ -178,8 +93,8 @@
       "doz": "Prof. Wagner Maximilian",
       "erst": "Fr 20.03.2026, KA.213",
       "prf": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2852",
       "kc": "RBSIM2026",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2852",
       "hint": "Teams-ID: 340 328 980 167 53, PW: e2pC9am3.",
       "semStart": "2026-03-20",
       "semEnd": "2026-07-17",
@@ -190,15 +105,15 @@
           "slot": 2,
           "fmt": "Hybrid",
           "raum": "KA.213",
-          "lbl": "RBSIM SU",
+          "lbl": "RBSIM:SU",
           "async": false
         },
         {
           "day": 3,
           "slot": 5,
           "fmt": "Synchron",
-          "raum": "–",
-          "lbl": "mRBSIM Ue",
+          "raum": "-",
+          "lbl": "mRBSIM:UE",
           "async": false
         }
       ]
@@ -211,8 +126,8 @@
       "doz": "Prof. Schmid + Prof. von Großmann",
       "erst": "Fr 20.03.2026, KA.213",
       "prf": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=3231",
       "kc": "M-IEM-FPS",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=3231",
       "hint": "Teams Code: j18y6ct.",
       "semStart": "2026-03-20",
       "semEnd": "2026-07-17",
@@ -223,7 +138,7 @@
           "slot": 3,
           "fmt": "Hybrid",
           "raum": "KA.213",
-          "lbl": "FPSIM SU",
+          "lbl": "FPSIM:SU",
           "async": false
         },
         {
@@ -231,21 +146,21 @@
           "slot": 6,
           "fmt": "Synchron",
           "raum": "–",
-          "lbl": "FPSIM Ue",
+          "lbl": "FPSIM:UE",
           "async": false
         }
       ]
     },
     "PROPS": {
       "id": "PROPS",
-      "nr": "B?",
+      "nr": "W9",
       "name": "Projektmanagement & Produktentwicklung",
-      "typ": "base",
+      "typ": "wpf",
       "doz": "Eichhorn Niels",
       "erst": "–",
       "prf": "–",
-      "moodle": "–",
       "kc": "–",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2737",
       "hint": "Mi 19:15–20:45.",
       "semStart": "2026-03-18",
       "semEnd": "2026-07-15",
@@ -255,8 +170,16 @@
           "day": 2,
           "slot": 6,
           "fmt": "Synchron",
-          "raum": "–",
-          "lbl": "PROPS Ue",
+          "raum": "Zoom",
+          "lbl": "PROPS:UE",
+          "async": false
+        },
+        {
+          "day": 2,
+          "slot": 5,
+          "fmt": "Synchron",
+          "raum": "Zoom",
+          "lbl": "PROPS:UE",
           "async": false
         }
       ]
