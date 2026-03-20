@@ -60,8 +60,8 @@
       "doz": "Prof. Gölzer Philipp",
       "erst": "Fr 20.03.2026, KA.213",
       "prf": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2522",
       "kc": "Analog",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2522",
       "hint": "Fr 08:00–09:30 (KA.309) + Fr 09:45–11:15 (KA.213).",
       "semStart": "2026-03-20",
       "semEnd": "2026-07-17",
@@ -72,7 +72,7 @@
           "slot": 0,
           "fmt": "Hybrid",
           "raum": "KA.309",
-          "lbl": "DIGIP SU/Ue",
+          "lbl": "DIGIP:SU/UE",
           "async": false
         },
         {
@@ -80,7 +80,7 @@
           "slot": 1,
           "fmt": "Hybrid",
           "raum": "KA.213",
-          "lbl": "DIGIP SU/Ue",
+          "lbl": "DIGIP:SU/UE",
           "async": false
         }
       ]
