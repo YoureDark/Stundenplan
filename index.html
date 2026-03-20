@@ -630,6 +630,7 @@ body.is-admin .day-sep-empty{cursor:default;}
       <div class="divider-v"></div>
       <button class="bh" id="theme-btn" onclick="toggleTheme()">☀️</button>
       <button class="bh" id="login-btn" onclick="openLogin()">🔒</button>
+      <button class="bh" onclick="reloadFromStore()" title="Auf gespeicherten Stand aktualisieren" id="refresh-btn">🔄</button>
       <button class="bh p" onclick="openSettings()">🗂 <span class="btn-label">Einstellungen</span></button>
     </div>
   </div>
@@ -890,6 +891,45 @@ body.is-admin .day-sep-empty{cursor:default;}
           </div>
         </div>
 
+        <!-- ACC: GitHub Sync -->
+        <div class="sp-acc" id="acc-admin-github">
+          <button class="sp-acc-header" onclick="toggleAcc('acc-admin-github')" style="border-left:3px solid var(--admin-border)">
+            <span class="sp-acc-icon">🐙</span>
+            <span class="sp-acc-text">
+              <span class="sp-acc-label" style="color:var(--admin-border)">Admin – GitHub Sync</span>
+              <span class="sp-acc-sub" id="gh-status-sub">Nicht konfiguriert</span>
+            </span>
+            <span class="sp-acc-chev">›</span>
+          </button>
+          <div class="sp-acc-body">
+            <div class="fhint" style="margin-bottom:12px;line-height:1.6">
+              Einmalig konfigurieren — dann pusht „💾 Speichern" direkt ins Repo.<br>
+              Token wird nur lokal gespeichert (niemals ins Repo).
+            </div>
+            <div class="fsec">
+              <label class="flbl">GitHub Token (ghp_…)</label>
+              <input class="fi" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+              <div class="fhint">Benötigt: <strong>repo → contents: write</strong></div>
+            </div>
+            <div class="fsec">
+              <label class="flbl">Owner / Repo</label>
+              <div class="frow">
+                <div><label class="flbl">Owner (Username)</label><input class="fi" id="gh-owner" placeholder="dein-username"></div>
+                <div><label class="flbl">Repo-Name</label><input class="fi" id="gh-repo" placeholder="miem-stundenplan"></div>
+              </div>
+            </div>
+            <div class="fsec">
+              <label class="flbl">Branch</label>
+              <input class="fi" id="gh-branch" placeholder="main" value="main">
+            </div>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <button class="btn btn-p" onclick="saveGithubConfig()" style="flex:1">✓ Speichern</button>
+              <button class="btn" onclick="testGithubConfig()" style="flex:1">🔍 Verbindung testen</button>
+            </div>
+            <div id="gh-feedback" style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:11px;display:none"></div>
+          </div>
+        </div>
+
         <!-- ACC: Admin Daten -->
         <div class="sp-acc" id="acc-admin-data">
           <button class="sp-acc-header" onclick="toggleAcc('acc-admin-data')" style="border-left:3px solid var(--admin-border)">
@@ -932,7 +972,7 @@ body.is-admin .day-sep-empty{cursor:default;}
     </div><!-- sp-body -->
     <div class="sp-footer">
       <div id="sp-admin-footer" style="display:none;margin-bottom:10px;display:none">
-        <button class="sp-action-btn primary" id="sp-save-btn" onclick="saveAdminState()" style="margin-bottom:6px">💾 Änderungen für alle speichern</button>
+        <button class="sp-action-btn primary" id="sp-save-btn" onclick="saveAdminState()" style="margin-bottom:6px">💾 Speichern &amp; ins Repo pushen</button>
         <button class="sp-action-btn danger" onclick="closeSettings();doLogout()">Abmelden</button>
       </div>
       <div class="sp-version">MIEM Stundenplan · SoSe 2026</div>
@@ -977,28 +1017,200 @@ function doLogout(){
 
 /* ══ STATE PERSISTENCE ══ */
 const STORE_KEY="miem-sp-state-v7";
-function saveAdminState(){
-  if(!isAdmin)return;
-  autoSave();
-  const btn=document.getElementById("btn-save");if(btn){btn.innerHTML='✓ <span class="btn-label">Gespeichert</span>';btn.classList.add("save-pulse");setTimeout(()=>{btn.innerHTML='💾 <span class="btn-label">Speichern</span>';btn.classList.remove("save-pulse");},1800);}
-  const sp=document.getElementById("sp-save-btn");if(sp){const orig=sp.textContent;sp.textContent="✓ Gespeichert!";setTimeout(()=>{sp.textContent=orig;},1800);}
-}
-function loadSavedState(){
-  const raw=localStorage.getItem(STORE_KEY);if(!raw)return false;
-  try{const s=JSON.parse(raw);
-    if(s.modules)M=s.modules;
-    if(s.title)document.getElementById("site-title").value=s.title;
-    if(s.semester)document.getElementById("site-sem").value=s.semester;
-    if(s.customColors)customColors=s.customColors;
-    if(s.theme){document.documentElement.setAttribute("data-theme",s.theme);document.getElementById("theme-btn").textContent=s.theme==="dark"?"☀️":"🌙";}
-    if(s.activeDays){activeDaySet=new Set(s.activeDays);}
-    if(s.cellDisplay)cellDisplay=Object.assign(cellDisplay,s.cellDisplay);
-    if(typeof s.cellHeight==="number"&&s.cellHeight>=70)cellHeight=s.cellHeight;
-    return true;
-  }catch{return false;}
+const STATE_FILE="./state.json";
+
+/* Apply a parsed state object to the app */
+function applyState(s){
+  if(s.modules)M=s.modules;
+  if(s.title){document.getElementById("site-title").value=s.title;syncMobileTitle();}
+  if(s.semester)document.getElementById("site-sem").value=s.semester;
+  if(s.customColors){customColors=s.customColors;applyCustomColors();}
+  if(s.theme){
+    document.documentElement.setAttribute("data-theme",s.theme);
+    document.getElementById("theme-btn").textContent=s.theme==="dark"?"☀️":"🌙";
+    const dm=document.getElementById("sp-darkmode");if(dm)dm.checked=s.theme==="dark";
+  }
+  if(s.activeDays){activeDaySet=new Set(s.activeDays);updateDayPills();}
+  if(s.cellDisplay)cellDisplay=Object.assign(cellDisplay,s.cellDisplay);
+  if(typeof s.cellHeight==="number"&&s.cellHeight>=70)cellHeight=s.cellHeight;
 }
 
-/* ══ THEME ══ */
+/* Build current state object */
+function buildState(){
+  return{
+    title:document.getElementById("site-title").value,
+    semester:document.getElementById("site-sem").value,
+    modules:M,customColors,
+    theme:document.documentElement.getAttribute("data-theme"),
+    activeDays:[...activeDaySet],cellDisplay,cellHeight
+  };
+}
+
+/* Auto-save to localStorage (instant, local only) */
+function autoSave(){
+  localStorage.setItem(STORE_KEY,JSON.stringify(buildState()));
+}
+
+/* Load from localStorage (fallback) */
+function loadSavedState(){
+  const raw=localStorage.getItem(STORE_KEY);if(!raw)return false;
+  try{applyState(JSON.parse(raw));return true;}catch{return false;}
+}
+
+/* ══ GITHUB CONFIG ══ */
+const GH_KEY="miem-gh-config";
+
+function loadGithubConfig(){
+  try{return JSON.parse(localStorage.getItem(GH_KEY))||{};}catch{return{};}
+}
+function saveGithubConfig(){
+  const token=document.getElementById("gh-token").value.trim();
+  const owner=document.getElementById("gh-owner").value.trim();
+  const repo=document.getElementById("gh-repo").value.trim();
+  const branch=document.getElementById("gh-branch").value.trim()||"main";
+  if(!token||!owner||!repo){
+    showGhFeedback("⚠ Bitte alle Felder ausfüllen.","warning");return;
+  }
+  localStorage.setItem(GH_KEY,JSON.stringify({token,owner,repo,branch}));
+  showGhFeedback("✓ Gespeichert – Token liegt nur lokal.","success");
+  updateGhStatusSub();
+}
+function updateGhStatusSub(){
+  const cfg=loadGithubConfig();
+  const el=document.getElementById("gh-status-sub");
+  if(!el)return;
+  el.textContent=cfg.owner&&cfg.repo?`${cfg.owner}/${cfg.repo} @ ${cfg.branch||"main"}`:"Nicht konfiguriert";
+}
+function showGhFeedback(msg,type){
+  const el=document.getElementById("gh-feedback");
+  if(!el)return;
+  el.style.display="block";
+  el.style.color=type==="success"?"var(--col-sim-t)":type==="error"?"var(--col-cf-t)":"var(--col-async-t)";
+  el.textContent=msg;
+  if(type==="success")setTimeout(()=>{el.style.display="none";},3000);
+}
+async function testGithubConfig(){
+  const cfg=loadGithubConfig();
+  if(!cfg.token||!cfg.owner||!cfg.repo){showGhFeedback("⚠ Erst konfigurieren und speichern.","warning");return;}
+  showGhFeedback("⏳ Verbinde…","warning");
+  try{
+    const res=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{
+      headers:{"Authorization":"Bearer "+cfg.token,"Accept":"application/vnd.github+json"}
+    });
+    if(res.ok){showGhFeedback("✓ Verbindung erfolgreich!","success");}
+    else{const d=await res.json();showGhFeedback("✗ Fehler: "+d.message,"error");}
+  }catch(e){showGhFeedback("✗ Netzwerkfehler: "+e.message,"error");}
+}
+
+/* Push state.json to GitHub via API.
+   Creates the file if it doesn't exist, updates it if it does. */
+async function pushStateToGithub(json){
+  const cfg=loadGithubConfig();
+  if(!cfg.token||!cfg.owner||!cfg.repo)return false;
+  const path="state.json";
+  const apiBase=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
+  const headers={"Authorization":"Bearer "+cfg.token,"Accept":"application/vnd.github+json","Content-Type":"application/json"};
+  // Get current SHA (needed for update; undefined for create)
+  let sha;
+  try{
+    const get=await fetch(`${apiBase}?ref=${cfg.branch||"main"}`,{headers});
+    if(get.ok){const d=await get.json();sha=d.sha;}
+  }catch{}
+  // Push
+  const body={
+    message:"Update state.json via MIEM Stundenplan",
+    content:btoa(unescape(encodeURIComponent(json))),
+    branch:cfg.branch||"main",
+    ...(sha?{sha}:{})
+  };
+  const put=await fetch(apiBase,{method:"PUT",headers,body:JSON.stringify(body)});
+  return put.ok;
+}
+
+/* ══ SAVE ADMIN STATE ══ */
+async function saveAdminState(){
+  if(!isAdmin)return;
+  autoSave();
+  const json=JSON.stringify(buildState(),null,2);
+  const btn=document.getElementById("btn-save");
+  const sp=document.getElementById("sp-save-btn");
+  const cfg=loadGithubConfig();
+
+  if(cfg.token&&cfg.owner&&cfg.repo){
+    // GitHub push
+    if(btn){btn.innerHTML='⏳ <span class="btn-label">Pushe…</span>';btn.disabled=true;}
+    if(sp){sp.textContent="⏳ Pushe zu GitHub…";sp.disabled=true;}
+    try{
+      const ok=await pushStateToGithub(json);
+      if(ok){
+        if(btn){btn.innerHTML='✓ <span class="btn-label">Gepusht!</span>';btn.classList.add("save-pulse");}
+        if(sp){sp.textContent="✓ state.json gepusht!";}
+      }else{
+        // Fallback: download
+        downloadStateJson(json);
+        if(btn){btn.innerHTML='⚠ <span class="btn-label">Download</span>';}
+        if(sp){sp.textContent="⚠ Push fehlgeschlagen – heruntergeladen";}
+      }
+    }catch(e){
+      downloadStateJson(json);
+      if(btn){btn.innerHTML='⚠ <span class="btn-label">Download</span>';}
+      if(sp){sp.textContent="⚠ "+e.message;}
+    }
+    setTimeout(()=>{
+      if(btn){btn.innerHTML='💾 <span class="btn-label">Speichern</span>';btn.disabled=false;btn.classList.remove("save-pulse");}
+      if(sp){sp.textContent="💾 Speichern & ins Repo pushen";sp.disabled=false;}
+    },2500);
+  }else{
+    // No GitHub config — just download
+    downloadStateJson(json);
+    if(btn){btn.innerHTML='✓ <span class="btn-label">Heruntergeladen</span>';btn.classList.add("save-pulse");setTimeout(()=>{btn.innerHTML='💾 <span class="btn-label">Speichern</span>';btn.classList.remove("save-pulse");},2500);}
+    if(sp){const orig=sp.textContent;sp.textContent="✓ state.json heruntergeladen";setTimeout(()=>{sp.textContent=orig;},2500);}
+  }
+}
+
+function downloadStateJson(json){
+  const blob=new Blob([json],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="state.json";a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+/* Fetch state.json from server (GitHub Pages) and apply it.
+   Falls back to localStorage if fetch fails. */
+async function fetchServerState(silent=false){
+  try{
+    const res=await fetch(STATE_FILE+"?t="+Date.now(),{cache:"no-store"});
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const s=await res.json();
+    applyState(s);
+    // Also update localStorage with the server version
+    localStorage.setItem(STORE_KEY,JSON.stringify(s));
+    return true;
+  }catch{
+    if(!silent)console.info("state.json nicht gefunden – nutze localStorage");
+    return false;
+  }
+}
+
+/* Refresh button: fetch fresh state.json from server */
+async function reloadFromStore(){
+  const btn=document.getElementById("refresh-btn");
+  if(btn){btn.style.opacity="0.5";btn.style.pointerEvents="none";}
+  const ok=await fetchServerState(false);
+  if(ok){
+    render();applyZoom();
+    if(btn){
+      btn.style.opacity="";btn.style.pointerEvents="";
+      btn.style.transition="transform .45s ease";
+      btn.style.transform="rotate(360deg)";
+      setTimeout(()=>{btn.style.transform="";btn.style.transition="";},500);
+    }
+  }else{
+    // No server state — fall back to localStorage
+    loadSavedState();render();applyZoom();
+    if(btn){btn.style.opacity="";btn.style.pointerEvents="";}
+  }
+}
 function toggleTheme(){
   const cur=document.documentElement.getAttribute("data-theme"),next=cur==="dark"?"light":"dark";
   document.documentElement.setAttribute("data-theme",next);
@@ -1356,7 +1568,16 @@ function openSettings(){
   if(isAdminBlock)isAdminBlock.style.display=isAdmin?"block":"none";
   const isAdminFoot=document.getElementById("sp-admin-footer");
   if(isAdminFoot)isAdminFoot.style.display=isAdmin?"block":"none";
-  if(isAdmin){buildSpModList();buildCellFields();}
+  if(isAdmin){
+    buildSpModList();buildCellFields();
+    // Pre-fill GitHub config
+    const cfg=loadGithubConfig();
+    const t=document.getElementById("gh-token");if(t&&cfg.token)t.value=cfg.token;
+    const o=document.getElementById("gh-owner");if(o&&cfg.owner)o.value=cfg.owner;
+    const r=document.getElementById("gh-repo");if(r&&cfg.repo)r.value=cfg.repo;
+    const b=document.getElementById("gh-branch");if(b)b.value=cfg.branch||"main";
+    updateGhStatusSub();
+  }
   document.getElementById("sp-overlay").classList.add("open");
 }
 function closeSettings(){document.getElementById("sp-overlay").classList.remove("open");}
@@ -1488,23 +1709,32 @@ function ovClose(e,id){if(e.target===document.getElementById(id))closeOv(id);}
 
 
 /* ══ INIT ══ */
-loadSavedState();
-applyCustomColors();
-const _isDark=document.documentElement.getAttribute("data-theme")==="dark";
-document.getElementById("theme-btn").textContent=_isDark?"☀️":"🌙";
-const _dm=document.getElementById("sp-darkmode");if(_dm)_dm.checked=_isDark;
-updateDayPills();
-updateKW();
-render();
-applyZoom();
 // Sync mobile title span with input value
 function syncMobileTitle(){
   const t=document.getElementById("site-title");
   const s=document.getElementById("mobile-title");
   if(t&&s)s.textContent=t.value;
 }
-syncMobileTitle();
-document.getElementById("site-title").addEventListener("input",syncMobileTitle);
+
+// ── INIT ──
+// 1. Apply theme immediately from localStorage to avoid flash
+(()=>{const raw=localStorage.getItem(STORE_KEY);if(raw){try{const s=JSON.parse(raw);if(s.theme)document.documentElement.setAttribute("data-theme",s.theme);}catch{}}})();
+
+// 2. Try to fetch state.json from server (GitHub Pages), fall back to localStorage
+(async()=>{
+  const fromServer=await fetchServerState(true);
+  if(!fromServer)loadSavedState();
+  applyCustomColors();
+  const _isDark=document.documentElement.getAttribute("data-theme")==="dark";
+  document.getElementById("theme-btn").textContent=_isDark?"☀️":"🌙";
+  const _dm=document.getElementById("sp-darkmode");if(_dm)_dm.checked=_isDark;
+  updateDayPills();
+  updateKW();
+  render();
+  applyZoom();
+  syncMobileTitle();
+  document.getElementById("site-title").addEventListener("input",syncMobileTitle);
+})();
 </script>
 </body>
 </html>
