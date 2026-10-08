@@ -810,10 +810,7 @@ input[type=checkbox],input[type=radio]{accent-color:#4a6fd0}
 /* ── Review 1: laufender Termin, Heute-Spalte, Zeitfeld, Moodle-Knopf, Handy ── */
 .ag-item{position:relative}
 .ag-item.live{border-color:color-mix(in srgb,var(--now) 55%,transparent)}
-.ag-live{position:absolute;left:8px;right:8px;height:2px;border-radius:2px;background:var(--now);pointer-events:none;z-index:2;box-shadow:0 0 8px color-mix(in srgb,var(--now) 55%,transparent)}
-.ag-live::before{content:"";position:absolute;left:-3px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--now)}
-.ag-live span{position:absolute;right:0;top:-10px;font-size:11px;font-weight:700;line-height:14px;padding:0 7px;border-radius:999px;background:var(--now);color:var(--now-ink);font-variant-numeric:tabular-nums}
-.ag-badge{position:absolute;top:10px;right:14px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;line-height:14px;padding:2px 9px;border-radius:999px;background:color-mix(in srgb,var(--now) 16%,transparent);color:var(--now-text)}
+.ag-badge{grid-column:1/-1;justify-self:start;order:-1;margin-bottom:2px;font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;line-height:14px;padding:2px 9px;border-radius:999px;background:color-mix(in srgb,var(--now) 16%,transparent);color:var(--now-text)}
 .tl-col.today{background:color-mix(in srgb,var(--accent) 9%,var(--tile));border-color:color-mix(in srgb,var(--accent) 38%,transparent)}
 .tl-ev .dz{opacity:.95}
 .tl-ev.compact .dz,.tl-ev.narrow .dz{display:none}
@@ -881,6 +878,12 @@ button,input,select,textarea{font-family:inherit}
 @media(max-width:768px) and (orientation:portrait){
   .mobile-title{font-size:clamp(14px,4.1vw,17px);letter-spacing:-.01em;overflow:hidden;text-overflow:ellipsis}
 }
+
+/* Laufender Termin in der Agenda: Badge oben, Fortschritt unten am Kartenrand */
+.ag-item.live{overflow:hidden;border-color:var(--now);border-left-color:var(--c,var(--now));box-shadow:0 0 0 1px color-mix(in srgb,var(--now) 45%,transparent),var(--g-sh-s)}
+.ag-badge{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ag-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:color-mix(in srgb,var(--now) 18%,transparent);pointer-events:none}
+.ag-progress i{display:block;height:100%;background:var(--now);border-radius:0 2px 2px 0}
 </style>
 </head>
 <body>
@@ -1873,11 +1876,14 @@ function renderAgenda(){
     const time=t.async?`<b>async</b>`:`<b>${SL[t.slot].sh}</b><span>${SL[t.slot].eh}</span>`;
     const room=roomOf(t);
     const meta=[t.fmt,room,m.doz&&m.doz!=="–"?m.doz:""].filter(Boolean).join(" · ");
-    // Läuft der Termin gerade, steht die Jetzt-Linie in der Karte (nicht darüber)
+    // Läuft der Termin gerade: Badge mit Uhrzeit und Restzeit, Fortschrittsbalken am unteren Kartenrand (keine Linie durch den Text)
     let live="",liveCls="";
     if(isTodayAgenda&&!t.async){
       const a=slotMin(SL[t.slot].sh),b=slotMin(SL[t.slot].eh),n=nowMinutes();
-      if(n>=a&&n<b){liveCls=" live";live=`<div class="ag-live" style="top:${((n-a)/(b-a))*100}%"><span>${nowLabel()}</span></div><span class="ag-badge">läuft</span>`;}
+      if(n>=a&&n<b){
+        liveCls=" live";
+        live=`<span class="ag-badge" title="Läuft gerade, noch ${b-n} min">läuft · ${nowLabel()} · noch ${b-n} min</span><div class="ag-progress" aria-hidden="true"><i style="width:${((n-a)/(b-a))*100}%"></i></div>`;
+      }
     }
     return `<article class="ag-item${liveCls} ${t.async?"async":""} typ-${m.typ}" onclick="showDetail('${k}')" tabindex="0" title="${tipOf(m,t)}">${live}
       <div class="ag-time">${time}</div>
