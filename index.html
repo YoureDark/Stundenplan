@@ -606,6 +606,26 @@ body.is-admin .day-sep-empty{cursor:default;}
 /* ── PRINT ── */
 /* light cells */
 
+
+/* ══ DESIGN POLISH ══ */
+.gh{border-radius:8px;padding:9px 6px;border-left-width:0;font-size:13px;letter-spacing:.06em}
+.gh.today{box-shadow:0 2px 8px var(--shadow)}
+.gt{border-radius:8px;border-left-width:0;padding:6px 10px;font-variant-numeric:tabular-nums;color:var(--text2)}
+.gt.today-row{background:var(--bg4);color:var(--text1)}
+.grid{gap:6px 10px}
+.cell{
+  border-radius:8px;padding:9px 12px;
+  box-shadow:0 1px 2px var(--shadow);
+  transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;
+}
+.cell:hover{transform:translateY(-2px);box-shadow:0 8px 18px var(--shadow2)}
+.cell-cf{border-width:1.5px}
+.cn{font-size:13px;font-weight:700;letter-spacing:.01em;line-height:1.25}
+.cd{font-size:11.5px;line-height:1.4;opacity:.85;margin-top:3px}
+.cell-async{border-width:1px}
+.cbadge{border-radius:4px;font-size:8px}
+.editable-sem{max-width:260px;overflow:hidden;text-overflow:ellipsis}
+@media (prefers-reduced-motion: reduce){.cell{transition:none}}
 </style>
 </head>
 <body>
