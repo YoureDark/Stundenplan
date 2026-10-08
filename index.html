@@ -134,7 +134,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
   .divider-v{display:none!important;}
   /* Title: hide input, show span which truncates cleanly */
   .editable-title{display:none!important;}
-  .mobile-title{display:block;}
+  .mobile-title{display:block!important;font-size:17px;letter-spacing:-.02em;}
   .header-logo{flex:1;min-width:0;overflow:hidden;align-items:center;}
   .bh{height:30px;padding:0 9px;font-size:11px;}
   /* Legend: two rows, smaller */
@@ -766,6 +766,23 @@ body{font-feature-settings:"tnum" 1,"cv11" 1;letter-spacing:-.005em}
 .tl-now{position:absolute;left:0;right:0;height:0;border-top:2px solid var(--now);z-index:4;pointer-events:none}
 .tl-now::before{content:"";position:absolute;left:-5px;top:-6px;width:10px;height:10px;border-radius:50%;background:var(--now)}
 .tl-now span{position:absolute;right:4px;top:-11px;font-size:10px;font-weight:700;line-height:14px;padding:0 6px;border-radius:999px;background:var(--now);color:#fff}
+
+/* ══ LIQUID GLASS v2: stronger highlight, narrow-lane text, phone title ══ */
+.tl-ev.narrow .nm,.tl-ev.narrow .fx{display:none}
+.tl-ev.narrow b{font-size:11px}
+.tl-ev.narrow .mt{font-size:10px}
+.header,.bh,.btn,.vs-btn,.ag-tab,.zoom-ctrl,.ag-item,.tl-ev,.tl-head,#sp-panel{
+  background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(255,255,255,.42));
+  -webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 12px 32px -14px rgba(30,30,60,.3);
+}
+[data-theme="dark"] .header,[data-theme="dark"] .bh,[data-theme="dark"] .btn,[data-theme="dark"] .vs-btn,[data-theme="dark"] .ag-tab,[data-theme="dark"] .zoom-ctrl,[data-theme="dark"] .ag-item,[data-theme="dark"] .tl-ev,[data-theme="dark"] .tl-head,[data-theme="dark"] #sp-panel{
+  background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.03));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 14px 40px -16px rgba(0,0,0,.7);
+}
+.modal{background:linear-gradient(135deg,rgba(252,251,248,.94),rgba(246,244,240,.9))}
+[data-theme="dark"] .modal{background:linear-gradient(135deg,rgba(24,24,30,.94),rgba(16,16,22,.92))}
+.vs-btn.on,.ag-tab.on{background:linear-gradient(135deg,var(--accent),var(--accent2))}
 </style>
 </head>
 <body>
@@ -1653,8 +1670,9 @@ function renderTimeline(){
       const m=M[e.k],room=roomOf(e.t);
       const compact=(e.b-e.a)*PX-4<64?" compact":"";
       const narrow=n>1?" narrow":"";
-      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${m.name}">
-        <b>${e.t.lbl}</b><small>${m.name}</small><small>${SL[e.t.slot].sh}–${SL[e.t.slot].eh} · ${e.t.fmt}${room?" · "+room:""}</small></div>`;
+      const time=`${SL[e.t.slot].sh}–${SL[e.t.slot].eh}`, detail=[m.name,time,e.t.fmt,room].filter(Boolean).join(" · ");
+      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${detail}">
+        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small></div>`;
     }).join("");
     heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]}</div>`;
     cols+=`<div class="tl-col" style="height:${H}px">${hours}${breaks}${blocks}${nowLineHtml(di,START,END,PX)}</div>`;
