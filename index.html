@@ -1900,90 +1900,7 @@ const DEFAULT_SEM={
    "title": "Vorlesungsfreie Zeit"
   }
  ],
- "termine": [
-  {
-   "from": "2026-09-10",
-   "to": "2026-10-09",
-   "start": "09:00",
-   "end": "23:59",
-   "title": "Online-Einschreibung zu den Sprachkursen (Language Center)"
-  },
-  {
-   "from": "2026-10-01",
-   "title": "Semesterbeginn"
-  },
-  {
-   "from": "2026-10-01",
-   "start": "08:00",
-   "title": "Beginn der planmäßigen (Online-)Vorlesungen (höhere Semester)"
-  },
-  {
-   "from": "2026-10-02",
-   "to": "2026-10-07",
-   "start": "09:00",
-   "end": "23:59",
-   "title": "Online-Einschreibung zu den Allgemeinwissenschaftlichen Wahlpflichtfächern"
-  },
-  {
-   "from": "2026-10-14",
-   "title": "Bekanntgabe der Prüfungskommissionen, der Prüfenden und der Endabgabetermine für Studien- und Projektarbeiten"
-  },
-  {
-   "from": "2026-10-21",
-   "to": "2026-11-02",
-   "start": "12:00",
-   "end": "23:59",
-   "title": "Online-Anmeldung zu den Prüfungen in StudyOhm"
-  },
-  {
-   "from": "2026-11-02",
-   "title": "Spätester Antrag auf Nachteilsausgleich per Mail beim Studienbüro (§ 23 ASPO)"
-  },
-  {
-   "from": "2026-11-27",
-   "title": "Bekanntgabe von Ort und Zeit aller schriftlichen (Online-)Prüfungen und der zugelassenen Hilfsmittel"
-  },
-  {
-   "from": "2026-11-30",
-   "end": "11:59",
-   "title": "Endtermin für nachträgliche Prüfungsanmeldungen (nur mit Zustimmung der Prüfungskommission und triftigem Grund)"
-  },
-  {
-   "from": "2027-01-07",
-   "title": "Bekanntgabe der Nichtzulassungen zu den (vorgezogenen) Prüfungen vom 15.01. bis 22.01."
-  },
-  {
-   "from": "2027-01-08",
-   "to": "2027-01-14",
-   "title": "Schriftliche (Online-)Prüfungen in den Allgemeinwissenschaftlichen Wahlpflichtfächern"
-  },
-  {
-   "from": "2027-01-15",
-   "to": "2027-01-22",
-   "title": "(Vorgezogene) schriftliche (Online-)Prüfungen"
-  },
-  {
-   "from": "2027-01-15",
-   "title": "Bekanntgabe der Nichtzulassungen zu den Prüfungen vom 23.01. bis 12.02."
-  },
-  {
-   "from": "2027-01-22",
-   "title": "Letzter Lehrveranstaltungstag"
-  },
-  {
-   "from": "2027-01-23",
-   "to": "2027-02-12",
-   "title": "Schriftliche (Online-)Prüfungen"
-  },
-  {
-   "from": "2027-03-05",
-   "title": "Notenbekanntgabe"
-  },
-  {
-   "from": "2027-03-14",
-   "title": "Semesterende"
-  }
- ]
+ "termine": []
 };
 let semInfo=DEFAULT_SEM;
 function holidayOn(ds){return (semInfo.frei||[]).find(h=>ds>=h.from&&ds<=(h.to||h.from))||null;}
@@ -2589,7 +2506,7 @@ function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("
 
 /* ══ CALENDAR EXPORT ══ */
 function getOccurrences(modId,s,e){const m=M[modId];const sD=new Date(s||m.semStart||"2026-03-17"),eD=new Date(e||m.semEnd||"2026-07-19");const evs=[];const cancelled=new Set((m.exceptions||[]).filter(x=>x.type==="cancelled").map(x=>x.date));const extras=(m.exceptions||[]).filter(x=>x.type==="extra");for(const t of m.termine){if(t.async||t.day>=5)continue;const jd=t.day+1;const sl=SL[t.slot];let d=new Date(sD);while(d.getDay()!==jd)d.setDate(d.getDate()+1);while(d<=eD){const ds=d.toISOString().slice(0,10);if(!cancelled.has(ds)&&!holidayOn(ds))evs.push({modId,date:ds,startTime:sl.sh,endTime:sl.eh,label:t.lbl,fmt:t.fmt,raum:t.raum,name:m.name,doz:m.doz});d.setDate(d.getDate()+7);}}for(const ex of extras)evs.push({modId,date:ex.date,startTime:"08:00",endTime:"18:00",label:m.id+" Extra",fmt:"Präsenz",raum:"–",name:m.name+(ex.note?" ("+ex.note+")":""),doz:m.doz});return evs;}
-function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("")+`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)" title="Allgemeine Semestertermine und vorlesungsfreie Zeiten mit exportieren"><input type="checkbox" class="ex-cb" value="__SEM__" checked> Semestertermine</label>`;}
+function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("")+`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)" title="Vorlesungsfreie Zeiten als ganztägige Termine mit exportieren"><input type="checkbox" class="ex-cb" value="__SEM__" checked> Vorlesungsfrei</label>`;}
 function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const all=[];for(const k of sel){if(k==="__SEM__")all.push(...semOccurrences(s,e));else all.push(...getOccurrences(k,s,e));}all.sort((a,b)=>a.date.localeCompare(b.date));return all;}
 /* Semestertermine und vorlesungsfreie Zeiten für den Export (ganztägig, wenn keine Uhrzeit angegeben ist) */
 function semOccurrences(s,e){
