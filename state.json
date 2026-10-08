@@ -1,144 +1,49 @@
 {
   "title": "MIEM · STUNDENPLAN",
-  "semester": "SoSe 2026 · TH Nürnberg",
+  "semester": "WiSe 2026/27 · TH Nürnberg",
   "modules": {
-    "LM": {
-      "id": "LM",
-      "nr": "B3",
-      "name": "Lean Management",
+    "INENG": {
+      "id": "INENG",
+      "nr": "B1",
+      "name": "Industrial Engineering",
       "typ": "base",
-      "doz": "Prof. Felderhoff Jan Fabian",
-      "erst": "Do 19.03.2026, Online (MS Teams)",
+      "doz": "Prof. Dr. Felderhoff Jan Fabian",
+      "erst": "Fr 02.10.2026, 11:30, KA.604 (Hybrid)",
       "prf": "–",
-      "kc": "LM_SoSe26",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=7050",
+      "kc": "INENG_WiSe26",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=7969",
       "hint": "Alle Infos im Moodle-Kurs.",
-      "semStart": "2026-03-19",
-      "semEnd": "2026-07-19",
-      "exceptions": [],
-      "termine": [
+      "semStart": "2026-10-02",
+      "semEnd": "2027-01-22",
+      "exceptions": [
         {
-          "day": 3,
-          "slot": 4,
-          "fmt": "Synchron",
-          "raum": "–",
-          "lbl": "LM:SU",
-          "async": false
-        }
-      ]
-    },
-    "TRFT": {
-      "id": "TRFT",
-      "nr": "B4",
-      "name": "Trends in der Fertigungstechnik",
-      "typ": "base",
-      "doz": "Prof. Frick Thomas",
-      "erst": "Do 19.03.2026, Online (MS Teams)",
-      "prf": "–",
-      "kc": "TFTSS26",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2153",
-      "hint": "MS Teams Code im Moodle.",
-      "semStart": "2026-03-19",
-      "semEnd": "2026-07-19",
-      "exceptions": [],
-      "termine": [
-        {
-          "day": 3,
-          "slot": 3,
-          "fmt": "Synchron",
-          "raum": "–",
-          "lbl": "TRFT:UE",
-          "async": false
-        }
-      ]
-    },
-    "DIGIP": {
-      "id": "DIGIP",
-      "nr": "B5",
-      "name": "Digitalisierung industrieller Prozesse",
-      "typ": "base",
-      "doz": "Prof. Gölzer Philipp",
-      "erst": "Fr 20.03.2026, KA.213",
-      "prf": "–",
-      "kc": "Analog",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2522",
-      "hint": "Fr 08:00–09:30 (KA.309) + Fr 09:45–11:15 (KA.213).",
-      "semStart": "2026-03-20",
-      "semEnd": "2026-07-17",
-      "exceptions": [],
-      "termine": [
-        {
-          "day": 4,
-          "slot": 0,
-          "fmt": "Hybrid",
-          "raum": "KA.309",
-          "lbl": "DIGIP:SU/UE",
-          "async": false
+          "type": "cancelled",
+          "date": "2026-12-24",
+          "note": "Weihnachtsferien"
         },
         {
-          "day": 4,
-          "slot": 1,
-          "fmt": "Hybrid",
-          "raum": "KA.213",
-          "lbl": "DIGIP:SU/UE",
-          "async": false
+          "type": "cancelled",
+          "date": "2026-12-25",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-31",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-01",
+          "note": "Weihnachtsferien"
         }
-      ]
-    },
-    "RBSIM": {
-      "id": "RBSIM",
-      "nr": "S2",
-      "name": "Robotersimulation",
-      "typ": "sim",
-      "doz": "Prof. Wagner Maximilian",
-      "erst": "Fr 20.03.2026, KA.213",
-      "prf": "–",
-      "kc": "RBSIM2026",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2852",
-      "hint": "Teams-ID: 340 328 980 167 53, PW: e2pC9am3.",
-      "semStart": "2026-03-20",
-      "semEnd": "2026-07-17",
-      "exceptions": [],
+      ],
       "termine": [
         {
           "day": 4,
           "slot": 2,
           "fmt": "Hybrid",
-          "raum": "KA.213",
-          "lbl": "RBSIM:SU",
-          "async": false
-        },
-        {
-          "day": 3,
-          "slot": 5,
-          "fmt": "Synchron",
-          "raum": "-",
-          "lbl": "mRBSIM:UE",
-          "async": false
-        }
-      ]
-    },
-    "FPSIM": {
-      "id": "FPSIM",
-      "nr": "S3",
-      "name": "Fertigungsprozesssimulation",
-      "typ": "sim",
-      "doz": "Prof. Schmid + Prof. von Großmann",
-      "erst": "Fr 20.03.2026, KA.213",
-      "prf": "–",
-      "kc": "M-IEM-FPS",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=3231",
-      "hint": "Teams Code: j18y6ct.",
-      "semStart": "2026-03-20",
-      "semEnd": "2026-07-17",
-      "exceptions": [],
-      "termine": [
-        {
-          "day": 4,
-          "slot": 3,
-          "fmt": "Hybrid",
-          "raum": "KA.213",
-          "lbl": "FPSIM:SU",
+          "raum": "KA.604",
+          "lbl": "INENG:SU",
           "async": false
         },
         {
@@ -146,66 +51,342 @@
           "slot": 6,
           "fmt": "Synchron",
           "raum": "–",
-          "lbl": "FPSIM:UE",
+          "lbl": "INENG:Ue",
           "async": false
         }
       ]
     },
-    "PROPS": {
-      "id": "PROPS",
-      "nr": "W9",
-      "name": "Projektmanagement & Produktentwicklung",
-      "typ": "wpf",
-      "doz": "Eichhorn Niels",
-      "erst": "–",
+    "MLIP": {
+      "id": "MLIP",
+      "nr": "B6",
+      "name": "Machine Learning in der industriellen Produktion",
+      "typ": "base",
+      "doz": "Prof. Dr. Rosales Rafael",
+      "erst": "Fr 02.10.2026, 14:00, KA.604 (Hybrid)",
       "prf": "–",
-      "kc": "–",
-      "moodle": "https://elearning.ohmportal.de/course/view.php?id=2737",
-      "hint": "Mi 19:15–20:45.",
-      "semStart": "2026-03-18",
-      "semEnd": "2026-07-15",
-      "exceptions": [],
+      "kc": "thnMBmilp26",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=8066",
+      "hint": "Fr 18.12.2026 in KA.304.",
+      "semStart": "2026-10-02",
+      "semEnd": "2027-01-22",
+      "exceptions": [
+        {
+          "type": "cancelled",
+          "date": "2026-12-24",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-25",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-31",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-01",
+          "note": "Weihnachtsferien"
+        }
+      ],
       "termine": [
         {
-          "day": 2,
-          "slot": 6,
-          "fmt": "Synchron",
-          "raum": "Zoom",
-          "lbl": "PROPS:UE",
+          "day": 4,
+          "slot": 3,
+          "fmt": "Hybrid",
+          "raum": "KA.604",
+          "lbl": "MLIP:SU",
           "async": false
         },
         {
-          "day": 2,
-          "slot": 5,
+          "day": 3,
+          "slot": 3,
           "fmt": "Synchron",
-          "raum": "Zoom",
-          "lbl": "PROPS:UE",
+          "raum": "–",
+          "lbl": "MLIP:Ue",
           "async": false
         }
       ]
     },
-    "ISCM": {
-      "id": "ISCM",
-      "nr": "B2",
-      "name": "Integrated Supply Chain Management",
-      "typ": "base",
-      "doz": "vhb",
-      "erst": "–",
+    "MAINP": {
+      "id": "MAINP",
+      "nr": "M2",
+      "name": "Managing International Projects",
+      "typ": "mgmt",
+      "doz": "Prof. Dr. Eitel Birgit / Prof. Dr. Wei Naiming",
+      "erst": "Do 08.10.2026, 15:45, BL.315 (Präsenz)",
       "prf": "–",
-      "kc": "–",
-      "moodle": "–",
-      "hint": "Vollständig asynchron.",
-      "semStart": "2026-03-17",
-      "semEnd": "2026-07-15",
-      "exceptions": [],
+      "kc": "bwmoodle",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=8164",
+      "hint": "Do 15:45–19:00 in BL.315, Präsenz.",
+      "semStart": "2026-10-08",
+      "semEnd": "2027-01-22",
+      "exceptions": [
+        {
+          "type": "cancelled",
+          "date": "2026-12-24",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-25",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-31",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-01",
+          "note": "Weihnachtsferien"
+        }
+      ],
       "termine": [
         {
           "day": 3,
+          "slot": 4,
+          "fmt": "Präsenz",
+          "raum": "BL.315",
+          "lbl": "MAINP:SU",
+          "async": false
+        },
+        {
+          "day": 3,
+          "slot": 5,
+          "fmt": "Präsenz",
+          "raum": "BL.315",
+          "lbl": "MAINP:Ue",
+          "async": false
+        }
+      ]
+    },
+    "STMNG": {
+      "id": "STMNG",
+      "nr": "M3",
+      "name": "Strategic Management in a global Context",
+      "typ": "mgmt",
+      "doz": "Prof. Wellner Kai-Uwe",
+      "erst": "Fr 09.10.2026, 17:30, BL.001 (Präsenz)",
+      "prf": "–",
+      "kc": "bwmoodle",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=1976",
+      "hint": "Präsenz ohne Aufzeichnung. Freitage: 09.10., 16.10., 23.10., 20.11., 27.11., 15.01., 22.01. Samstage 9:45–17:15: 24.10., 21.11. (BL.115), 16.01. Moodle sichtbar ab 09.10.",
+      "semStart": "2026-10-09",
+      "semEnd": "2027-01-22",
+      "exceptions": [
+        {
+          "type": "cancelled",
+          "date": "2026-10-30",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-11-06",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-11-13",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-04",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-11",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-18",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-25",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-01",
+          "note": "kein Termin"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-08",
+          "note": "kein Termin"
+        },
+        {
+          "type": "extra",
+          "date": "2026-10-24",
+          "note": "Samstag 9:45–17:15"
+        },
+        {
+          "type": "extra",
+          "date": "2026-11-21",
+          "note": "Samstag 9:45–17:15, BL.115"
+        },
+        {
+          "type": "extra",
+          "date": "2027-01-16",
+          "note": "Samstag 9:45–17:15"
+        }
+      ],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 5,
+          "fmt": "Präsenz",
+          "raum": "BL.001",
+          "lbl": "STMNG:SU",
+          "async": false
+        },
+        {
+          "day": 4,
+          "slot": 6,
+          "fmt": "Präsenz",
+          "raum": "BL.001",
+          "lbl": "STMNG:SU",
+          "async": false
+        },
+        {
+          "day": 5,
+          "slot": 2,
+          "fmt": "Präsenz/Block",
+          "raum": "n.V.",
+          "lbl": "STMNG:SU Blocktermine",
+          "async": false
+        }
+      ]
+    },
+    "ASP": {
+      "id": "ASP",
+      "nr": "S1",
+      "name": "Automatisierung und Simulation von Produktionsanlagen",
+      "typ": "sim",
+      "doz": "Prof. Dr. Schmidt-Vollus Ronald",
+      "erst": "Fr 02.10.2026, 09:45, KA.604 (Präsenz)",
+      "prf": "–",
+      "kc": "–",
+      "moodle": "–",
+      "hint": "Moodle-Zugang gibt es in der ersten Veranstaltung (Präsenz). Praktikum ab Dezember bei Strattner Tristan, Termine n.V.",
+      "semStart": "2026-10-02",
+      "semEnd": "2027-01-22",
+      "exceptions": [
+        {
+          "type": "cancelled",
+          "date": "2026-12-24",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-25",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-31",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-01",
+          "note": "Weihnachtsferien"
+        }
+      ],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 1,
+          "fmt": "Hybrid",
+          "raum": "KA.604",
+          "lbl": "ASP:SU",
+          "async": false
+        },
+        {
+          "day": 3,
+          "slot": 5,
+          "fmt": "Hybrid",
+          "raum": "KA.604",
+          "lbl": "ASP:SU",
+          "async": false
+        },
+        {
+          "day": 5,
           "slot": 0,
-          "fmt": "Asynchron",
-          "raum": "vhb",
-          "lbl": "ISCM (Async)",
-          "async": true
+          "fmt": "Präsenz/Block",
+          "raum": "n.V.",
+          "lbl": "ASP:Pr 2.1",
+          "async": false
+        },
+        {
+          "day": 5,
+          "slot": 1,
+          "fmt": "Präsenz/Block",
+          "raum": "n.V.",
+          "lbl": "ASP:Pr 2.2",
+          "async": false
+        }
+      ]
+    },
+    "DESIM": {
+      "id": "DESIM",
+      "nr": "S4",
+      "name": "Discrete Event Simulation / Digital Factory",
+      "typ": "sim",
+      "doz": "Prof. Dr. Gölzer Philipp",
+      "erst": "Fr 02.10.2026, 08:00, KA.604 (Hybrid)",
+      "prf": "–",
+      "kc": "DESIM",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=1916",
+      "hint": "Alle Infos im Moodle-Kurs.",
+      "semStart": "2026-10-02",
+      "semEnd": "2027-01-22",
+      "exceptions": [
+        {
+          "type": "cancelled",
+          "date": "2026-12-24",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-25",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-31",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-01",
+          "note": "Weihnachtsferien"
+        }
+      ],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 0,
+          "fmt": "Hybrid",
+          "raum": "KA.604",
+          "lbl": "DESIM:SU",
+          "async": false
+        },
+        {
+          "day": 3,
+          "slot": 4,
+          "fmt": "Synchron",
+          "raum": "–",
+          "lbl": "DESIM:Ue",
+          "async": false
         }
       ]
     }
@@ -216,9 +397,9 @@
   },
   "theme": "dark",
   "activeDays": [
-    2,
     3,
-    4
+    4,
+    5
   ],
   "cellDisplay": {
     "label": true,
