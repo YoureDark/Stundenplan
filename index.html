@@ -675,6 +675,28 @@ body.is-admin .day-sep-empty{cursor:default;}
 .tl-break{position:absolute;left:3px;right:3px;border-radius:6px;background:repeating-linear-gradient(135deg,transparent 0 6px,var(--bg3) 6px 7px);display:flex;align-items:center;justify-content:center;pointer-events:none}
 .tl-break span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);background:var(--bg);padding:1px 6px;border-radius:999px;white-space:nowrap}
 .tl-break.lunch span{color:var(--text2)}
+
+/* ══ KARTEN-OPTIK (wie Modulkarten) für Agenda und Zeitachse ══ */
+.ag-item{background:var(--surface);border:0;border-radius:20px;padding:14px 16px;box-shadow:0 1px 0 var(--border),0 12px 28px -20px rgba(0,0,0,.45);grid-template-columns:76px minmax(0,1fr)}
+.ag-item:hover,.ag-item:focus-visible{transform:translateY(-2px);box-shadow:0 1px 0 var(--border),0 18px 34px -20px rgba(0,0,0,.5)}
+.ag-item.typ-sim{--c:#17b89b}
+.ag-item.typ-base{--c:#6d5efc}
+.ag-item.typ-mgmt{--c:#ff7a59}
+.ag-item.typ-wpf{--c:#ec4899}
+.ag-item.async{border:1px dashed var(--border2)}
+.ag-item.conflict{--c:#e11d48}
+.ag-time{background:color-mix(in srgb,var(--c) 13%,transparent);border-radius:14px;padding:9px 6px;text-align:center;color:var(--c)}
+.ag-time b{color:var(--c);font-weight:700}
+.ag-code{color:var(--c);font-weight:800;letter-spacing:-.01em}
+.ag-name{color:var(--text1);font-weight:600}
+.ag-meta{color:var(--text2)}
+.tl-ev{border:0;border-radius:16px;padding:9px 11px;background:color-mix(in srgb,var(--c,#888) 12%,var(--surface));box-shadow:0 1px 0 var(--border),0 10px 22px -16px rgba(0,0,0,.5)}
+.tl-ev.typ-sim{--c:#17b89b}
+.tl-ev.typ-base{--c:#6d5efc}
+.tl-ev.typ-mgmt{--c:#ff7a59}
+.tl-ev.typ-wpf{--c:#ec4899}
+.tl-ev b{color:var(--c,var(--text1));font-weight:800}
+.tl-ev small{color:var(--text2)}
 </style>
 </head>
 <body>
