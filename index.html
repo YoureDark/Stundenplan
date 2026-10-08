@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5">
 <script>try{var _t=localStorage.getItem("miem-sp-theme");if(_t!=="dark"&&_t!=="light"){var _s=JSON.parse(localStorage.getItem("miem-sp-state-v7")||"{}");_t=_s&&_s.theme;}if(_t==="dark"||_t==="light")document.documentElement.setAttribute("data-theme",_t);}catch(e){}</script>
 <title>MIEM Stundenplan – WiSe 2026/27</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0c0e1a">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Stundenplan">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%234a6fd0'/%3E%3Crect x='7' y='9' width='18' height='16' rx='3' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M7 14h18M12 6v5M20 6v5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -509,7 +514,7 @@ body.is-admin .admin-only{display:inline-flex!important}
   --g-sh-h:0 2px 4px rgba(35,40,100,.08),0 20px 40px -16px rgba(40,45,120,.45);
   --g-sh-s:0 1px 2px rgba(35,40,100,.08),0 6px 14px -8px rgba(40,45,120,.3);
   --g-sh-s-h:0 2px 4px rgba(35,40,100,.1),0 12px 22px -10px rgba(40,45,120,.45);
-  --bar:rgba(255,255,255,.9);
+  --bar:rgba(255,255,255,.95);
   --tile:rgba(255,255,255,.55);--tile-h:rgba(255,255,255,.85);
   --input-bg:rgba(255,255,255,.78);
   --card-hi:rgba(255,255,255,.55);
@@ -533,7 +538,7 @@ body.is-admin .admin-only{display:inline-flex!important}
   --g-sh-h:0 2px 4px rgba(0,0,0,.5),0 22px 44px -16px rgba(0,0,0,.9);
   --g-sh-s:0 1px 2px rgba(0,0,0,.4),0 6px 14px -8px rgba(0,0,0,.7);
   --g-sh-s-h:0 2px 4px rgba(0,0,0,.5),0 12px 22px -10px rgba(0,0,0,.85);
-  --bar:rgba(12,14,26,.9);
+  --bar:rgba(12,14,26,.95);
   --tile:rgba(255,255,255,.055);--tile-h:rgba(255,255,255,.11);
   --input-bg:rgba(255,255,255,.06);
   --card-hi:rgba(255,255,255,.08);
@@ -903,7 +908,39 @@ button,input,select,textarea{font-family:inherit}
 /* Review 4: Stundenlabel unter dem Chip, Strich in der laufenden Karte */
 .tl-tick.under-chip{visibility:hidden}
 .tl-ev>b,.tl-ev>small{position:relative;z-index:1}
-.tl-ev-now{position:absolute;left:0;right:0;height:2px;margin-top:-1px;background:var(--now);opacity:.45;pointer-events:none;z-index:0}
+
+/* Runde 6: Wochenleiste, Ausfälle, Prüfungen, Kopieren, Moodle auf der Karte */
+.view-switch{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
+.week-nav{display:flex;align-items:center;gap:6px}
+.week-nav .btn{height:32px;padding:0 12px;border-radius:999px;font-size:13px;font-weight:600}
+.week-nav .wk-btn{width:32px;padding:0;justify-content:center;font-size:18px;line-height:1}
+.wk-label{font-size:13px;font-weight:600;color:var(--text2);font-variant-numeric:tabular-nums;min-width:150px;text-align:center}
+.wk-today[hidden]{display:none}
+.ag-date,.tl-date{font-weight:500;opacity:.75;font-variant-numeric:tabular-nums}
+.ag-item.cancelled,.tl-ev.cancelled{opacity:.62;background-image:repeating-linear-gradient(135deg,transparent 0 7px,color-mix(in srgb,var(--text3) 12%,transparent) 7px 8px)}
+.ag-item.cancelled .ag-code,.ag-item.cancelled .ag-name,.tl-ev.cancelled b{text-decoration:line-through}
+.ag-badge.off{background:color-mix(in srgb,var(--text3) 18%,transparent);color:var(--text2)}
+.tl-off{display:block;position:relative;z-index:1;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text2);margin-bottom:2px}
+.ag-extra{margin:0 0 8px;padding:10px 14px;border-radius:var(--r-md);border:1px dashed var(--accent);color:var(--text1);font-size:13px;font-weight:600;cursor:pointer}
+.ag-moodle{display:inline-flex;align-items:center;margin-top:8px;padding:5px 12px;border-radius:999px;font-size:12px;font-weight:600;text-decoration:none;color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.ag-moodle:hover{background:color-mix(in srgb,var(--accent) 18%,transparent)}
+.term-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:3px 0}
+.copy-btn{flex:none;padding:4px 10px;font-size:12px;border-radius:999px}
+.copy-btn.ok{color:var(--col-sim-t);border-color:var(--col-sim-b)}
+@media(max-width:560px){.view-switch{justify-content:center}.wk-label{min-width:0}}
+
+/* Teams: gut sichtbarer Button, hervorgehoben kurz vor und während des Termins */
+.ag-links,.dm-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.dm-links{margin-top:0}
+.ag-links .ag-moodle{margin-top:0}
+.ag-teams,.tl-teams,.teams-link{display:inline-flex;align-items:center;gap:6px;border-radius:999px;font-weight:700;text-decoration:none;color:#fff;background:#5b5fc7;border:1px solid #4f52b2;transition:filter .15s,transform .15s}
+.ag-teams{padding:5px 12px;font-size:12px}
+.teams-link{padding:9px 16px;font-size:13px}
+.tl-teams{position:relative;z-index:1;margin-top:4px;padding:2px 9px;font-size:11px;align-self:flex-start;width:max-content}
+.ag-teams:hover,.tl-teams:hover,.teams-link:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.ag-teams.soon,.tl-teams.soon,.teams-link.soon{background:#4b4fd8;box-shadow:0 0 0 3px color-mix(in srgb,#7b7ff0 45%,transparent);animation:teamsPulse 1.6s ease-in-out infinite}
+@keyframes teamsPulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,#7b7ff0 15%,transparent)}}
+.tl-ev.fit-2 .tl-teams:not(.soon),.tl-ev.fit-3 .tl-teams:not(.soon),.tl-ev.fit-4 .tl-teams,.tl-ev.fit-5 .tl-teams{display:none}
 </style>
 </head>
 <body>
@@ -946,6 +983,12 @@ button,input,select,textarea{font-family:inherit}
   <div class="seg" role="tablist" aria-label="Ansicht">
     <button class="vs-btn" data-view="agenda" onclick="setView('agenda')" title="Agenda: Termine eines Tages als Liste, mit Jetzt-Linie">Agenda</button>
     <button class="vs-btn" data-view="timeline" onclick="setView('timeline')" title="Zeitachse: Wochenablauf nach Uhrzeit, mit Jetzt-Linie">Zeitachse</button>
+  </div>
+  <div class="week-nav" role="group" aria-label="Woche wählen">
+    <button class="btn wk-btn" onclick="shiftWeek(-1)" title="Vorherige Woche" aria-label="Vorherige Woche">‹</button>
+    <span class="wk-label" id="wk-label"></span>
+    <button class="btn wk-btn" onclick="shiftWeek(1)" title="Nächste Woche" aria-label="Nächste Woche">›</button>
+    <button class="btn wk-today" id="wk-today" onclick="shiftWeek(0)" title="Zurück zur aktuellen Woche" hidden>Heute</button>
   </div>
 </div>
 <div class="grid-wrap"><div id="main"></div></div>
@@ -1823,6 +1866,61 @@ function updateDayPills(){
   ).join("");
 }
 
+/* ══ WOCHE: blättern, Datum je Spalte, Ausfälle ══ */
+let weekOffset=0;
+function weekMonday(){
+  const d=new Date();d.setHours(0,0,0,0);
+  const wd=d.getDay();
+  d.setDate(d.getDate()+(wd===0?1:1-wd)+weekOffset*7);   // Sonntag zeigt schon die neue Woche
+  return d;
+}
+function dateOfDay(di){const d=weekMonday();d.setDate(d.getDate()+di);return d;}
+function isoDate(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function fmtDM(d){return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+".";}
+/* Teams: Termine mit Online-Anteil (Synchron, Hybrid) bekommen einen Button, der die Teams-App öffnet */
+function isOnline(t){return /synchron|hybrid/i.test(t&&t.fmt||"");}
+/* Hervorheben: Termin läuft gerade oder startet in den nächsten 10 Minuten (nur echte heutige Termine) */
+function teamsSoon(t,di){
+  if(di!==viewToday()||t.async||!isOnline(t))return false;
+  const a=slotMin(SL[t.slot].sh),b=slotMin(SL[t.slot].eh),n=nowMinutes();
+  return n>=a-10&&n<b;
+}
+function openTeams(ev){
+  if(ev){ev.preventDefault();ev.stopPropagation();}
+  let left=false;
+  const onHide=()=>{if(document.hidden)left=true;};
+  document.addEventListener("visibilitychange",onHide);
+  addEventListener("blur",onHide,{once:true});
+  location.href="msteams:/";
+  // Keine App installiert: nach kurzer Zeit Teams im Browser öffnen
+  setTimeout(()=>{document.removeEventListener("visibilitychange",onHide);if(!left&&!document.hidden)window.open("https://teams.microsoft.com","_blank","noopener");},1200);
+}
+function teamsBtn(t,di,cls){
+  if(!isOnline(t))return "";
+  const soon=teamsSoon(t,di);
+  return `<a class="${cls}${soon?" soon":""}" href="https://teams.microsoft.com" onclick="openTeams(event)" title="Öffnet die Teams-App, ohne App Teams im Browser${soon?" (Termin startet gleich oder läuft)":""}">Teams öffnen</a>`;
+}
+function viewToday(){return weekOffset===0?getTodayDayIndex():-1;}
+/* Status eines Termins an einem Datum: "ok", "cancelled" (Ausfall/Ferien) oder "off" (außerhalb des Semesters) */
+function occStatus(m,ds){
+  if((m.semStart&&ds<m.semStart)||(m.semEnd&&ds>m.semEnd))return {state:"off"};
+  const ex=(m.exceptions||[]).find(x=>x.type==="cancelled"&&x.date===ds);
+  if(ex)return {state:"cancelled",note:ex.note||""};
+  return {state:"ok"};
+}
+function shiftWeek(dir){
+  weekOffset=dir===0?0:weekOffset+dir;
+  render();
+  if(weekOffset===0)focusToday();
+}
+function renderWeekNav(){
+  const lbl=document.getElementById("wk-label"),btn=document.getElementById("wk-today");
+  if(!lbl)return;
+  const mo=weekMonday(),sa=dateOfDay(5);
+  lbl.textContent=`KW ${getISOWeek(mo)} · ${fmtDM(mo)}–${fmtDM(sa)}`;
+  lbl.title=weekOffset===0?"Aktuelle Woche":weekOffset>0?`In ${weekOffset} Woche${weekOffset>1?"n":""}`:`Vor ${-weekOffset} Woche${weekOffset<-1?"n":""}`;
+  if(btn)btn.hidden=weekOffset===0;
+}
 function getTodayDayIndex(){
   // 0=Mo..4=Fr, 5=Block/Sa, -1=weekend
   const d=new Date().getDay(); // 0=Sun,1=Mon..6=Sat
@@ -1832,14 +1930,14 @@ function getTodayDayIndex(){
 
 /* Red "now" line in the timeline column of today */
 function nowLineHtml(di,START,END,PX){
-  if(di!==getTodayDayIndex())return "";
+  if(di!==viewToday())return "";
   const m=Math.min(END,Math.max(START,nowMinutes()));
   const edge=nowMinutes()<START?" edge before":nowMinutes()>END?" edge after":"";
   return `<div class="tl-now${edge}" style="top:${(m-START)*PX}px"></div>`;
 }
 /* Uhrzeit-Chip der Jetzt-Linie sitzt in der Zeitspalte, nicht über den Karten */
 function nowChipHtml(days,START,END,PX){
-  if(!days.includes(getTodayDayIndex()))return "";
+  if(!days.includes(viewToday()))return "";
   const m=Math.min(END,Math.max(START,nowMinutes()));
   const tip=nowMinutes()<START?"Der Tag hat noch nicht begonnen":nowMinutes()>END?"Alle Termine heute sind vorbei":"Aktuelle Uhrzeit";
   return `<div class="tl-now-chip" style="top:${(m-START)*PX}px" title="${tip}">${nowLabel()}</div>`;
@@ -1880,6 +1978,7 @@ function breakInfo(i){
 }
 function render(){
   document.querySelectorAll(".vs-btn").forEach(b=>b.classList.toggle("on",b.dataset.view===viewMode));
+  renderWeekNav();
   if(viewMode==="timeline")renderTimeline();
   else renderAgenda();
   updateNextBanner();
@@ -1889,14 +1988,19 @@ function renderAgenda(){
   if(!keys().length){el.innerHTML=`<div class="none-msg">Keine Module vorhanden.</div>`;return;}
   const days=activeDayList();
   if(!days.length){el.innerHTML=`<div class="none-msg">Keine Tage ausgewählt.</div>`;return;}
-  const today=getTodayDayIndex();
+  const today=viewToday();
   if(!days.includes(agendaDay))agendaDay=days.includes(today)?today:days[0];
-  const tabs=days.map(di=>`<button class="ag-tab${di===agendaDay?" on":""}" onclick="setAgendaDay(${di})" title="Termine für ${DL[di]} anzeigen">${DL[di]}${di===today?" · heute":""}</button>`).join("");
+  const tabs=days.map(di=>`<button class="ag-tab${di===agendaDay?" on":""}" onclick="setAgendaDay(${di})" title="Termine für ${DL[di]}, ${fmtDM(dateOfDay(di))} anzeigen">${DL[di]} <span class="ag-date">${fmtDM(dateOfDay(di))}</span>${di===today?" · heute":""}</button>`).join("");
+  const ds=isoDate(dateOfDay(agendaDay));
   const timed=[],asy=[];
   for(const k of keys())for(const t of M[k].termine){
     if(t.day!==agendaDay)continue;
-    (t.async?asy:timed).push({k,t});
+    const st=occStatus(M[k],ds);
+    if(st.state==="off")continue;
+    (t.async?asy:timed).push({k,t,st});
   }
+  const extras=[];
+  for(const k of keys())for(const x of (M[k].exceptions||[]))if(x.type==="extra"&&x.date===ds)extras.push({k,x});
   timed.sort((a,b)=>a.t.slot-b.t.slot);
   const breakRow=i=>{const b=breakInfo(i);return `<div class="ag-break">${b.label} · ${b.min} min</div>`;};
   const timedWithBreaks=[];
@@ -1905,15 +2009,17 @@ function renderAgenda(){
     if(lastSlot!==null)for(let g=lastSlot;g<it.t.slot;g++)timedWithBreaks.push({brk:g});
     timedWithBreaks.push(it);lastSlot=it.t.slot;
   }
-  const isTodayAgenda=agendaDay===getTodayDayIndex();
-  const item=({k,t})=>{
+  const isTodayAgenda=agendaDay===viewToday();
+  const item=({k,t,st})=>{
+    const off=st&&st.state==="cancelled";
     const m=M[k];
     const time=t.async?`<b>async</b>`:`<b>${SL[t.slot].sh}</b><span>${SL[t.slot].eh}</span>`;
     const room=roomOf(t);
     const meta=[t.fmt,room,m.doz&&m.doz!=="–"?m.doz:""].filter(Boolean).join(" · ");
     // Läuft der Termin gerade: Badge mit Uhrzeit und Restzeit, Fortschrittsbalken am unteren Kartenrand (keine Linie durch den Text)
     let live="",liveCls="";
-    if(isTodayAgenda&&!t.async){
+    if(off){liveCls=" cancelled";live=`<span class="ag-badge off" title="Dieser Termin findet in dieser Woche nicht statt">fällt aus${st.note?" · "+st.note:""}</span>`;}
+    else if(isTodayAgenda&&!t.async){
       const a=slotMin(SL[t.slot].sh),b=slotMin(SL[t.slot].eh),n=nowMinutes();
       if(n>=a&&n<b){
         liveCls=" live";
@@ -1923,7 +2029,7 @@ function renderAgenda(){
     return `<article class="ag-item${liveCls} ${t.async?"async":""} typ-${m.typ}" onclick="showDetail('${k}')" tabindex="0" title="${tipOf(m,t)}">${live}
       <div class="ag-time">${time}</div>
       <div class="ag-body"><div class="ag-code">${t.lbl}</div>
-      <div class="ag-name">${m.name}</div><div class="ag-meta">${meta}</div></div></article>`;
+      <div class="ag-name">${m.name}</div><div class="ag-meta">${meta}</div>${!off&&(isOnline(t)||(m.moodle&&m.moodle!=="–"))?`<div class="ag-links">${teamsBtn(t,agendaDay,"ag-teams")}`:""}${m.moodle&&m.moodle!=="–"&&!off?`<a class="ag-moodle" href="${m.moodle}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Moodle-Kurs von ${m.id} öffnen">Moodle öffnen</a>`:""}${!off&&(isOnline(t)||(m.moodle&&m.moodle!=="–"))?"</div>":""}</div></article>`;
   };
   const nowRow=`<div class="ag-now"><span>${nowLabel()}</span></div>`;
   const agendaRows=[];let nowPlaced=!isTodayAgenda;
@@ -1937,7 +2043,8 @@ function renderAgenda(){
   if(!nowPlaced)agendaRows.push(nowRow);
   el.innerHTML=`<div class="ag-wrap">
     <div class="ag-tabs" role="tablist">${tabs}</div>
-    <div class="ag-list">${timed.length?agendaRows.join(""):`<div class="none-msg">Keine Termine an diesem Tag.</div>`}</div>
+    ${extras.map(({k,x})=>`<div class="ag-extra" onclick="showDetail('${k}')" title="Zusätzlicher Termin">Zusatztermin · ${M[k].id}${x.note?" · "+x.note:""}</div>`).join("")}
+    <div class="ag-list">${timed.length?agendaRows.join(""):`<div class="none-msg">${keys().some(k=>occStatus(M[k],ds).state!=="off")?"Keine Termine an diesem Tag.":"Vorlesungsfrei: Dieser Tag liegt außerhalb des Semesters."}</div>`}</div>
     ${asy.length?`<div class="ag-sub">Asynchron, ohne feste Zeit</div><div class="ag-list">${asy.map(item).join("")}</div>`:""}
   </div>`;
 }
@@ -1947,14 +2054,16 @@ function renderTimeline(){
   const days=activeDayList();
   if(!days.length){el.innerHTML=`<div class="none-msg">Keine Tage ausgewählt.</div>`;return;}
   const START=8*60,END=20*60+45,PX=1.15,H=(END-START)*PX;
-  const today=getTodayDayIndex();
+  const today=viewToday();
   let cols="",heads="";
   for(const di of days){
-    const evs=[];
+    const evs=[],ds=isoDate(dateOfDay(di));
     for(const k of keys())for(const t of M[k].termine){
       if(t.async||t.day!==di)continue;
+      const st=occStatus(M[k],ds);
+      if(st.state==="off")continue;
       const a=slotMin(SL[t.slot].sh),b=slotMin(SL[t.slot].eh);
-      evs.push({k,t,a,b,lane:0});
+      evs.push({k,t,a,b,lane:0,st});
     }
     evs.sort((x,y)=>x.a-y.a||x.b-y.b);
     const laneEnds=[];
@@ -1980,12 +2089,13 @@ function renderTimeline(){
       const m=M[e.k],room=roomOf(e.t);
       const compact=(e.b-e.a)*PX-4<64?" compact":"";
       const narrow=n>1?" narrow":"";
-      const nm=nowMinutes(),live=di===today&&nm>=e.a&&nm<e.b?" live":"";
+      const off=e.st.state==="cancelled";
+      const nm=nowMinutes(),live=!off&&di===today&&nm>=e.a&&nm<e.b?" live":"";
       const time=`${SL[e.t.slot].sh}–${SL[e.t.slot].eh}`, detail=[m.name,time,e.t.fmt,room].filter(Boolean).join(" · ");
-      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${detail} · Klicken für Details">
-        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${live?`<i class="tl-ev-now" style="top:${((nm-e.a)/(e.b-e.a))*100}%" aria-hidden="true"></i>`:""}</div>`;
+      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}${off?" cancelled":""}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${off?"Fällt aus"+(e.st.note?" ("+e.st.note+")":"")+" · ":""}${detail} · Klicken für Details">${off?`<em class="tl-off">fällt aus${e.st.note?" · "+e.st.note:""}</em>`:""}
+        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${off?"":teamsBtn(e.t,di,"tl-teams")}${live?`<div class="ag-progress" aria-hidden="true"><i style="width:${((nm-e.a)/(e.b-e.a))*100}%"></i></div>`:""}</div>`;
     }).join("");
-    heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]}${di===today?" · heute":""}</div>`;
+    heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]} <span class="tl-date">${fmtDM(dateOfDay(di))}</span>${di===today?" · heute":""}</div>`;
     cols+=`<div class="tl-col${di===today?" today":""}" style="height:${H}px">${hours}${breaks}${blocks}${nowLineHtml(di,START,END,PX)}</div>`;
   }
   let axis="";
@@ -2018,7 +2128,8 @@ window.addEventListener("resize",()=>{clearTimeout(_fitT);_fitT=setTimeout(()=>{
 /* ══ ZOOM ══ */
 const ZOOM_LEVELS=[75,90,100,110,125,150];
 let zoomLevel=100;
-try{const z=parseInt(localStorage.getItem("miem-sp-zoom"),10);if(ZOOM_LEVELS.includes(z))zoomLevel=z;}catch{}
+// Gespeicherte Zoomstufe nur auf breiten Bildschirmen, schmal sind die Zoom-Knöpfe ausgeblendet
+try{const z=parseInt(localStorage.getItem("miem-sp-zoom"),10);if(ZOOM_LEVELS.includes(z)&&innerWidth>=900)zoomLevel=z;}catch{}
 /* Ein Zoom für Agenda und Zeitachse: skaliert Schrift, Abstände und Zeitachse gemeinsam */
 function applyZoom(){
   const main=document.getElementById("main");
@@ -2038,38 +2149,34 @@ function changeZoom(dir){
 /* ── NEXT EVENT BANNER ── */
 function updateNextBanner(){
   const wrap=document.getElementById("next-banner-wrap");if(!wrap)return;
-  const now=new Date();
-  const todayJs=now.getDay(); // 0=Sun..6=Sat
-  const nowMins=now.getHours()*60+now.getMinutes();
-  const dayMap={1:0,2:1,3:2,4:3,5:4}; // JS→grid day
+  const now=new Date(),nowMins=now.getHours()*60+now.getMinutes();
   const typCol={sim:"var(--col-sim-b)",base:"var(--col-base-b)"};
-  let next=null,bestDiff=Infinity;
-  for(const k of keys()){
-    const m=M[k];
-    for(const t of m.termine){
-      if(t.async)continue;
-      const gridDay=t.day; // 0=Mo..4=Fr
-      const jsDay=gridDay+1; // 1=Mon..5=Fri
-      if(jsDay<1||jsDay>5)continue;
-      const [sh,sm]=SL[t.slot].sh.split(":").map(Number);
-      const slotMins=sh*60+sm;
-      let diff;
-      if(jsDay===todayJs){
-        diff=slotMins-nowMins;
-        if(diff<0)diff+=7*24*60; // already passed today → next week
-      }else{
-        const daysAhead=(jsDay-todayJs+7)%7||7;
-        diff=daysAhead*24*60+(slotMins-nowMins);
+  let next=null;
+  // Die nächsten 6 Wochen Tag für Tag durchgehen: Semestergrenzen und Ausfälle zählen mit
+  for(let off=0;off<42&&!next;off++){
+    const d=new Date(now);d.setHours(0,0,0,0);d.setDate(d.getDate()+off);
+    const jd=d.getDay();if(jd===0)continue;
+    const di=jd-1,ds=isoDate(d);
+    let best=null;
+    for(const k of keys()){
+      const m=M[k];
+      if(occStatus(m,ds).state!=="ok")continue;
+      for(const t of m.termine){
+        if(t.async||t.day!==di)continue;
+        const sm=slotMin(SL[t.slot].sh);
+        if(off===0&&sm<=nowMins)continue;
+        if(!best||sm<best.sm)best={m,t,sm,off};
       }
-      if(diff>0&&diff<bestDiff){bestDiff=diff;next={m,t,diff};}
     }
+    if(best)next=best;
   }
-  if(!next){wrap.innerHTML="";return;}
-  const d=next.diff,h=Math.floor(d/60),mn=d%60;
-  const timeStr=h<24?(h>0?`in ${h}h ${mn>0?mn+"min":""}`:`in ${mn} min`):(Math.floor(d/60/24))+" Tagen";
-  const dotCol=typCol[next.m.typ]||"var(--gray-b)";
-  const slotTime=SL[next.t.slot].sh;
-  wrap.innerHTML=`<div class="next-banner"><div class="next-banner-dot" style="background:${dotCol}"></div><span style="color:var(--text2);font-size:11px;font-weight:600;min-width:40px">${slotTime}</span><div style="flex:1"><strong>${next.t.lbl}</strong><span style="color:var(--text3)"> · ${DL[next.t.day]}</span></div><div class="next-time">⏱ ${timeStr}</div></div>`;
+  let h="";
+  if(next){
+    const diff=next.off*24*60+next.sm-nowMins,hh=Math.floor(diff/60),mn=diff%60;
+    const timeStr=next.off===0?(hh>0?`in ${hh}h${mn>0?" "+mn+" min":""}`:`in ${mn} min`):next.off===1?"morgen":`in ${next.off} Tagen`;
+    h+=`<div class="next-banner"><div class="next-banner-dot" style="background:${typCol[next.m.typ]||"var(--gray-b)"}"></div><span style="color:var(--text2);font-size:11px;font-weight:600;min-width:40px">${SL[next.t.slot].sh}</span><div style="flex:1"><strong>${next.t.lbl}</strong><span style="color:var(--text3)"> · ${DL[next.t.day]}</span></div><div class="next-time">⏱ ${timeStr}</div></div>`;
+  }
+  wrap.innerHTML=h;
 }
 
 /* ── MODULE SEARCH in settings ── */
@@ -2244,6 +2351,18 @@ function openSettings(){
 }
 function closeSettings(){document.getElementById("sp-overlay").classList.remove("open");}
 function spOverlayClose(e){if(e.target===document.getElementById("sp-overlay"))closeSettings();}
+/* Text in die Zwischenablage, mit Rückmeldung am Button */
+function copyText(btn){
+  const txt=btn.dataset.copy||"";
+  const done=()=>{const o=btn.textContent;btn.textContent="Kopiert ✓";btn.classList.add("ok");setTimeout(()=>{btn.textContent=o;btn.classList.remove("ok");},1500);};
+  if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(txt).then(done).catch(()=>fallbackCopy(txt,done));
+  else fallbackCopy(txt,done);
+}
+function fallbackCopy(txt,done){
+  const ta=document.createElement("textarea");ta.value=txt;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();
+  try{document.execCommand("copy");done();}catch{}
+  ta.remove();
+}
 /* ══ DETAIL ══ */
 function showDetail(k){
   const m=M[k];
@@ -2255,7 +2374,7 @@ function showDetail(k){
   const mh=(!m.moodle||m.moodle==="–")?"–":`<a href="${m.moodle}" target="_blank">${m.moodle}</a>`;
   const kch=(!m.kc||m.kc==="–")?"–":`<code>${m.kc}</code>`;
   const excStr=(m.exceptions||[]).length===0?"–":m.exceptions.map(e=>`${e.type==="cancelled"?"✕":"＋"} ${e.date}${e.note?" ("+e.note+")":""}`).join(", ");
-  const rows=[["Kürzel",m.id],["Dozent",m.doz||"–"],["1. Termin",m.erst||"–"],["Prüfung",m.prf||"–"],["Moodle",mh],["Kurscode",kch],["Semester",`${m.semStart||"–"} → ${m.semEnd||"–"}`],["Ausnahmen",excStr],["Hinweise",m.hint||"–"],["Termine",m.termine.map(t=>`${DL[t.day]} ${SL[t.slot].l} (${t.fmt}${t.raum&&t.raum!=="–"?" · "+t.raum:""})`).join("<br>")]].filter(([,v])=>v&&v!=="–");
+  const rows=[["Kürzel",m.id],["Dozent",m.doz||"–"],["1. Termin",m.erst||"–"],["Prüfung",m.prf||"–"],["Moodle",mh],["Kurscode",kch],["Semester",`${m.semStart||"–"} → ${m.semEnd||"–"}`],["Ausnahmen",excStr],["Hinweise",m.hint||"–"],["Termine",m.termine.map(t=>{const txt=`${t.lbl} · ${DL[t.day]} ${SL[t.slot].l}${t.raum&&t.raum!=="–"?" · "+t.raum:""}`;return `<div class="term-row"><span>${DL[t.day]} ${SL[t.slot].l} (${t.fmt}${t.raum&&t.raum!=="–"?" · "+t.raum:""})</span><button class="btn copy-btn" data-copy="${txt.replace(/"/g,"&quot;")}" onclick="copyText(this)" title="Raum und Uhrzeit als Text kopieren">Kopieren</button></div>`;}).join("")]].filter(([,v])=>v&&v!=="–");
   document.getElementById("dm-rows").innerHTML="<hr class='md'>"+rows.map(([l,v])=>`<div class="mrow"><div class="mlbl">${l}</div><div class="mval">${v}</div></div>`).join("");
   document.getElementById("dm-del").style.display=isAdmin?"inline-flex":"none";
   document.getElementById("dm-edit").style.display=isAdmin?"inline-flex":"none";
@@ -2265,9 +2384,10 @@ function showDetail(k){
   document.getElementById("dm-exc").onclick=()=>{closeOv("ov-detail");openExceptions(k);};
   // Moodle quick-link
   const mrow=document.getElementById("dm-moodle-row");
-  if(m.moodle&&m.moodle!=="–"){
-    mrow.innerHTML=`<a class="moodle-link" href="${m.moodle}" target="_blank" rel="noopener">📚 Moodle öffnen${m.kc&&m.kc!=="–"?" · "+m.kc:""}</a>`;
-  }else{mrow.innerHTML="";}
+  const soonT=weekOffset===0?m.termine.find(t=>teamsSoon(t,t.day)):null;
+  const tb=m.termine.some(isOnline)?`<a class="teams-link${soonT?" soon":""}" href="https://teams.microsoft.com" onclick="openTeams(event)" title="Öffnet die Teams-App, ohne App Teams im Browser">Teams öffnen${soonT?" · "+(nowMinutes()<slotMin(SL[soonT.slot].sh)?"startet gleich":"läuft"):""}</a>`:"";
+  const mb=m.moodle&&m.moodle!=="–"?`<a class="moodle-link" href="${m.moodle}" target="_blank" rel="noopener">📚 Moodle öffnen${m.kc&&m.kc!=="–"?" · "+m.kc:""}</a>`:"";
+  mrow.innerHTML=tb||mb?`<div class="dm-links">${tb}${mb}</div>`:"";
   // label color picker (always visible)
   const labelRow=document.getElementById("dm-label-row");
   const swatchWrap=document.getElementById("dm-label-swatches");
@@ -2413,6 +2533,9 @@ setInterval(()=>{
   render();
   const n=document.querySelector(sel);if(n&&x)n.scrollLeft=x;
 },60000);
+
+/* Als App nutzbar: Service Worker hält den letzten Stand für offline bereit */
+if("serviceWorker" in navigator&&location.protocol==="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
 </html>
