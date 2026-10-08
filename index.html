@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5">
-<title>MIEM Stundenplan – SoSe 2026</title>
+<title>MIEM Stundenplan – WiSe 2026/27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -727,7 +727,7 @@ body{
     <div class="header-logo">
       <input class="editable-title" id="site-title" value="MIEM · STUNDENPLAN" readonly>
       <span class="mobile-title" id="mobile-title">MIEM · STUNDENPLAN</span>
-      <input class="editable-sem" id="site-sem" value="SoSe 2026 · TH Nürnberg" readonly>
+      <input class="editable-sem" id="site-sem" value="WiSe 2026/27 · TH Nürnberg" readonly>
       <span class="header-kw" id="header-kw"></span>
     </div>
     <div class="admin-badge" id="admin-badge">⚙ Admin</div>
@@ -1091,7 +1091,7 @@ body{
         <button class="sp-action-btn primary" id="sp-save-btn" onclick="saveAdminState()" style="margin-bottom:6px">💾 Speichern &amp; ins Repo pushen</button>
         <button class="sp-action-btn danger" onclick="closeSettings();doLogout()">Abmelden</button>
       </div>
-      <div class="sp-version">MIEM Stundenplan · SoSe 2026</div>
+      <div class="sp-version">MIEM Stundenplan · WiSe 2026/27</div>
     </div>
   </div>
 </div>
@@ -1913,7 +1913,7 @@ function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("
 function getOccurrences(modId,s,e){const m=M[modId];const sD=new Date(s||m.semStart||"2026-03-17"),eD=new Date(e||m.semEnd||"2026-07-19");const evs=[];const cancelled=new Set((m.exceptions||[]).filter(x=>x.type==="cancelled").map(x=>x.date));const extras=(m.exceptions||[]).filter(x=>x.type==="extra");for(const t of m.termine){if(t.async||t.day>=5)continue;const jd=t.day+1;const sl=SL[t.slot];let d=new Date(sD);while(d.getDay()!==jd)d.setDate(d.getDate()+1);while(d<=eD){const ds=d.toISOString().slice(0,10);if(!cancelled.has(ds))evs.push({modId,date:ds,startTime:sl.sh,endTime:sl.eh,label:t.lbl,fmt:t.fmt,raum:t.raum,name:m.name,doz:m.doz});d.setDate(d.getDate()+7);}}for(const ex of extras)evs.push({modId,date:ex.date,startTime:"08:00",endTime:"18:00",label:m.id+" Extra",fmt:"Präsenz",raum:"–",name:m.name+(ex.note?" ("+ex.note+")":""),doz:m.doz});return evs;}
 function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("");}
 function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const all=[];for(const k of sel)all.push(...getOccurrences(k,s,e));all.sort((a,b)=>a.date.localeCompare(b.date));return all;}
-function exportICS(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const uid=()=>Math.random().toString(36).substr(2,9).toUpperCase();const icsDate=(d,t)=>d.replace(/-/g,"")+"T"+t.replace(/:/g,"")+"00";const now=new Date().toISOString().replace(/[-:]/g,"").replace(/\..+/,"")+"Z";let ics="BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//MIEM Stundenplan//DE\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:MIEM Stundenplan SoSe 2026\r\n";for(const ev of evs){const m=M[ev.modId];ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\nDTSTART:${icsDate(ev.date,ev.startTime)}\r\nDTEND:${icsDate(ev.date,ev.endTime)}\r\nSUMMARY:${ev.name} (${ev.modId})\r\nDESCRIPTION:Dozent: ${ev.doz}\\nFormat: ${ev.fmt}\\nKurscode: ${m.kc}\\nMoodle: ${m.moodle}\r\nLOCATION:${ev.raum!=="–"?ev.raum:"Online"}\r\nEND:VEVENT\r\n`;}ics+="END:VCALENDAR";download("miem_stundenplan.ics",ics,"text/calendar");}
+function exportICS(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const uid=()=>Math.random().toString(36).substr(2,9).toUpperCase();const icsDate=(d,t)=>d.replace(/-/g,"")+"T"+t.replace(/:/g,"")+"00";const now=new Date().toISOString().replace(/[-:]/g,"").replace(/\..+/,"")+"Z";let ics="BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//MIEM Stundenplan//DE\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:MIEM Stundenplan WiSe 2026/27\r\n";for(const ev of evs){const m=M[ev.modId];ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\nDTSTART:${icsDate(ev.date,ev.startTime)}\r\nDTEND:${icsDate(ev.date,ev.endTime)}\r\nSUMMARY:${ev.name} (${ev.modId})\r\nDESCRIPTION:Dozent: ${ev.doz}\\nFormat: ${ev.fmt}\\nKurscode: ${m.kc}\\nMoodle: ${m.moodle}\r\nLOCATION:${ev.raum!=="–"?ev.raum:"Online"}\r\nEND:VEVENT\r\n`;}ics+="END:VCALENDAR";download("miem_stundenplan.ics",ics,"text/calendar");}
 function exportCSV(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const wd=["So","Mo","Di","Mi","Do","Fr","Sa"];const rows=[["Datum","Wochentag","Start","Ende","Modul","Kürzel","Label","Format","Raum","Dozent","Moodle"]];for(const ev of evs){const m=M[ev.modId];const d=new Date(ev.date);rows.push([ev.date,wd[d.getDay()],ev.startTime,ev.endTime,ev.name,ev.modId,ev.label,ev.fmt,ev.raum!=="–"?ev.raum:"Online",ev.doz,m.moodle]);}const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");download("miem_stundenplan.csv",csv,"text/csv;charset=utf-8");}
 function download(name,content,type){const blob=new Blob([content],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();}
 
