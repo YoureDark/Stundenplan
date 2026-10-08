@@ -897,6 +897,9 @@ button,input,select,textarea{font-family:inherit}
 .tl-now.edge.before::before,.tl-now.edge.after::before{opacity:.85}
 .tl-ev.live{border-color:var(--now);border-left-color:var(--c,var(--now));box-shadow:0 0 0 1px color-mix(in srgb,var(--now) 45%,transparent),var(--g-sh-s)}
 .tl-axis{z-index:5}
+/* Jetzt-Linie auch über den Karten sichtbar: dünn und halbtransparent, damit der Text nicht durchgestrichen wirkt */
+.tl-now-over{position:absolute;left:0;right:0;height:0;border-top:1px solid color-mix(in srgb,var(--now) 55%,transparent);z-index:4;pointer-events:none}
+.tl-now-over.edge{border-top-style:dashed}
 .tl-now-chip{position:absolute;left:2px;right:2px;transform:translateY(-50%);text-align:center;font-size:11px;font-weight:700;line-height:16px;padding:0 4px;border-radius:999px;background:var(--now);color:var(--now-ink);font-variant-numeric:tabular-nums;box-shadow:0 4px 12px -4px var(--now);z-index:2}
 .tl-ev b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
 .tl-ev.fit-1 .dz,.tl-ev.fit-2 .dz,.tl-ev.fit-3 .dz,.tl-ev.fit-4 .dz,.tl-ev.fit-5 .dz{display:none}
@@ -2016,7 +2019,7 @@ function nowLineHtml(di,START,END,PX){
   if(di!==viewToday())return "";
   const m=Math.min(END,Math.max(START,nowMinutes()));
   const edge=nowMinutes()<START?" edge before":nowMinutes()>END?" edge after":"";
-  return `<div class="tl-now${edge}" style="top:${(m-START)*PX}px"></div>`;
+  return `<div class="tl-now${edge}" style="top:${(m-START)*PX}px"></div><div class="tl-now-over${edge}" style="top:${(m-START)*PX}px"></div>`;
 }
 /* Uhrzeit-Chip der Jetzt-Linie sitzt in der Zeitspalte, nicht über den Karten */
 function nowChipHtml(days,START,END,PX){
