@@ -732,7 +732,7 @@ body{
     </div>
     <div class="admin-badge" id="admin-badge">⚙ Admin</div>
     <div class="header-actions">
-      <button class="bh admin-only" id="btn-save" onclick="saveAdminState()">💾 <span class="btn-label">Speichern</span></button>
+      <button class="bh admin-only" id="btn-save" title="Speichert den Stand ins GitHub-Repo, wenn Token und Repo eingetragen sind. Ohne Konfiguration wird nur eine lokale state.json heruntergeladen." onclick="saveAdminState()">💾 <span class="btn-label">Speichern</span></button>
       <div class="zoom-ctrl" id="zoom-ctrl">
         <button class="zoom-btn bh" onclick="changeZoom(-1)" title="Verkleinern">−</button>
         <span class="zoom-label" id="zoom-label">100%</span>
@@ -798,7 +798,7 @@ body{
     </div>
     <div class="mactions">
       <button class="btn btn-d admin-only" id="dm-del">🗑 Löschen</button>
-      <button class="btn admin-only" id="dm-exc">📅 Termine</button>
+      <button class="btn admin-only" id="dm-exc" title="Termine dieses Moduls anpassen: einzelne Termine absagen oder zusätzliche anlegen.">📅 Termine</button>
       <button class="btn admin-only" id="dm-edit">✎ Bearbeiten</button>
       <button class="btn btn-p" onclick="closeOv('ov-detail')">Schließen</button>
     </div>
@@ -810,12 +810,12 @@ body{
   <div class="modal m-edit">
     <div class="mhead"><div class="mtitle" id="em-title">Modul hinzufügen</div><button class="mclose" onclick="closeOv('ov-edit')">×</button></div>
     <div class="fsec"><div class="fsec-title">Grunddaten</div>
-      <div class="frow"><div><label class="flbl">Kürzel *</label><input class="fi" id="f-id" placeholder="z.B. RBSIM" maxlength="12"></div><div><label class="flbl">Modul-Nr.</label><input class="fi" id="f-nr" placeholder="z.B. S2"></div></div>
+      <div class="frow"><div><label class="flbl">Kürzel *</label><input class="fi" id="f-id" title="Eindeutige Abkürzung des Moduls, z. B. RBSIM. Dient als Schlüssel für Termine und Farben und muss einmalig sein." placeholder="z.B. RBSIM" maxlength="12"></div><div><label class="flbl">Modul-Nr.</label><input class="fi" id="f-nr" title="Modulnummer aus dem Studienplan, z. B. S2. Nur zur Anzeige." placeholder="z.B. S2"></div></div>
     </div>
     <div class="fsec"><label class="flbl">Modulname *</label><input class="fi" id="f-name" placeholder="Vollständiger Modulname"></div>
     <div class="fsec"><div class="frow">
       <div><label class="flbl">Typ *</label>
-        <select class="fs" id="f-typ">
+        <select class="fs" id="f-typ" title="Modultyp: bestimmt Farbe und Gruppe. Simulation, Management, Basismodul oder Wahlpflichtfach.">
           <option value="sim">Simulation (S)</option>
           <option value="mgmt">Management (M)</option>
           <option value="base" selected>Basismodul (B)</option>
@@ -825,13 +825,13 @@ body{
       <div><label class="flbl">Dozent</label><input class="fi" id="f-doz" placeholder="Prof. Nachname"></div>
     </div></div>
     <div class="fsec"><div class="fsec-title">Veranstaltungsinfos</div>
-      <label class="flbl">1. Veranstaltung</label><input class="fi" id="f-erst" placeholder="Fr 20.03.2026, Präsenz KA.213">
+      <label class="flbl">1. Veranstaltung</label><input class="fi" id="f-erst" title="Erster Termin des Moduls. Nur zur Information, es werden keine Termine erzeugt. Termine legst du unter „Termine“ an." placeholder="Fr 20.03.2026, Präsenz KA.213">
     </div>
     <div class="fsec"><div class="frow">
-      <div><label class="flbl">Prüfungsleistung</label><input class="fi" id="f-prf" placeholder="Klausur 90 min"></div>
-      <div><label class="flbl">Kurscode</label><input class="fi" id="f-kc" placeholder="z.B. RBSIM2026"></div>
+      <div><label class="flbl">Prüfungsleistung</label><input class="fi" id="f-prf" title="Art der Prüfungsleistung, z. B. Klausur 90 min. Wird in der Detailansicht angezeigt." placeholder="Klausur 90 min"></div>
+      <div><label class="flbl">Kurscode</label><input class="fi" id="f-kc" title="Kurscode aus Moodle. Nur zur Anzeige und wird im Export ausgegeben." placeholder="z.B. RBSIM2026"></div>
     </div></div>
-    <div class="fsec"><label class="flbl">Moodle-Link</label><input class="fi" id="f-moodle" placeholder="https://elearning.ohmportal.de/..."></div>
+    <div class="fsec"><label class="flbl">Moodle-Link</label><input class="fi" id="f-moodle" title="Link zum Moodle-Kurs. Wird in der Detailansicht und im Export verwendet." placeholder="https://elearning.ohmportal.de/..."></div>
     <div class="fsec"><label class="flbl">Hinweise</label><textarea class="fta" id="f-hint" placeholder="Sonstige Hinweise…"></textarea></div>
     <div class="fsec"><div class="fsec-title">Regelmäßige Termine</div>
       <div class="tlist" id="tlist"></div>
@@ -848,8 +848,8 @@ body{
     <div class="mhead"><div class="mtitle" id="exc-title">Termine konfigurieren</div><button class="mclose" onclick="closeOv('ov-exc')">×</button></div>
     <div class="fsec"><div class="fsec-title">Vorlesungszeitraum</div>
       <div class="sem-period">
-        <div><label class="flbl">Beginn</label><input class="fi" id="exc-start" type="date"></div>
-        <div><label class="flbl">Ende</label><input class="fi" id="exc-end" type="date"></div>
+        <div><label class="flbl">Beginn</label><input class="fi" id="exc-start" title="Erster Tag des Zeitraums für diesen Ausnahme-Eintrag, z. B. Feiertage." type="date"></div>
+        <div><label class="flbl">Ende</label><input class="fi" id="exc-end" title="Letzter Tag des Zeitraums für diesen Ausnahme-Eintrag." type="date"></div>
       </div>
     </div>
     <div class="fsec"><div class="fsec-title">Ausnahmen & Sondertermine</div>
@@ -870,8 +870,8 @@ body{
     <div class="mhead"><div class="mtitle">Kalender exportieren</div><button class="mclose" onclick="closeOv('ov-export')">×</button></div>
     <div class="fsec"><div class="fsec-title">Zeitraum</div>
       <div class="frow">
-        <div><label class="flbl">Beginn</label><input class="fi" id="ex-start" type="date"></div>
-        <div><label class="flbl">Ende</label><input class="fi" id="ex-end" type="date"></div>
+        <div><label class="flbl">Beginn</label><input class="fi" id="ex-start" title="Erster Tag des Zeitraums, der exportiert wird." type="date"></div>
+        <div><label class="flbl">Ende</label><input class="fi" id="ex-end" title="Letzter Tag des Zeitraums, der exportiert wird." type="date"></div>
       </div>
     </div>
     <div class="fsec"><div class="fsec-title">Module</div>
@@ -1024,19 +1024,19 @@ body{
             </div>
             <div class="fsec">
               <label class="flbl">GitHub Token (ghp_…)</label>
-              <input class="fi" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+              <input class="fi" id="gh-token" title="Fine-grained GitHub-Token mit Contents-Schreibrecht nur für dieses Repo. Wird nur im eigenen Browser gespeichert." type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
               <div class="fhint">Benötigt: <strong>repo → contents: write</strong></div>
             </div>
             <div class="fsec">
               <label class="flbl">Owner / Repo</label>
               <div class="frow">
-                <div><label class="flbl">Owner (Username)</label><input class="fi" id="gh-owner" placeholder="dein-username"></div>
-                <div><label class="flbl">Repo-Name</label><input class="fi" id="gh-repo" placeholder="miem-stundenplan"></div>
+                <div><label class="flbl">Owner (Username)</label><input class="fi" id="gh-owner" title="GitHub-Benutzername oder Organisation, der das Repo gehört." placeholder="dein-username"></div>
+                <div><label class="flbl">Repo-Name</label><input class="fi" id="gh-repo" title="Name des Repos, in das der Stand gespeichert wird." placeholder="miem-stundenplan"></div>
               </div>
             </div>
             <div class="fsec">
               <label class="flbl">Branch</label>
-              <input class="fi" id="gh-branch" placeholder="main" value="main">
+              <input class="fi" id="gh-branch" title="Branch, auf den gepusht wird. Meist main." placeholder="main" value="main">
             </div>
             <div style="display:flex;gap:8px;margin-top:4px">
               <button class="btn btn-p" onclick="saveGithubConfig()" style="flex:1">✓ Speichern</button>
@@ -1162,10 +1162,6 @@ function buildState(){
   };
 }
 
-/* Auto-save to localStorage (instant, local only) */
-function autoSave(){
-  localStorage.setItem(STORE_KEY,JSON.stringify(buildState()));
-}
 
 /* Load from localStorage (fallback) */
 function loadSavedState(){
