@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de" data-theme="light">
+<html lang="de" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5">
@@ -884,6 +884,21 @@ button,input,select,textarea{font-family:inherit}
 .ag-badge{white-space:nowrap;font-variant-numeric:tabular-nums}
 .ag-progress{position:absolute;left:0;right:0;bottom:0;height:3px;background:color-mix(in srgb,var(--now) 18%,transparent);pointer-events:none}
 .ag-progress i{display:block;height:100%;background:var(--now);border-radius:0 2px 2px 0}
+
+/* Review 3: Jetzt-Linie der Zeitachse hinter den Karten, Chip in der Zeitspalte, Randzustand, Karten ohne halbe Zeilen */
+.tl-now{z-index:0}
+.tl-now span{display:none}
+.tl-now.edge{border-top-style:dashed;box-shadow:none;opacity:.85}
+.tl-now.edge.before::before,.tl-now.edge.after::before{opacity:.85}
+.tl-ev.live{border-color:var(--now);border-left-color:var(--c,var(--now));box-shadow:0 0 0 1px color-mix(in srgb,var(--now) 45%,transparent),var(--g-sh-s)}
+.tl-axis{z-index:5}
+.tl-now-chip{position:absolute;left:2px;right:2px;transform:translateY(-50%);text-align:center;font-size:11px;font-weight:700;line-height:16px;padding:0 4px;border-radius:999px;background:var(--now);color:var(--now-ink);font-variant-numeric:tabular-nums;box-shadow:0 4px 12px -4px var(--now);z-index:2}
+.tl-ev b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.tl-ev.fit-1 .dz,.tl-ev.fit-2 .dz,.tl-ev.fit-3 .dz,.tl-ev.fit-4 .dz,.tl-ev.fit-5 .dz{display:none}
+.tl-ev.fit-2 .fx,.tl-ev.fit-3 .fx,.tl-ev.fit-4 .fx,.tl-ev.fit-5 .fx{display:none}
+.tl-ev.fit-3 .nm,.tl-ev.fit-4 .nm,.tl-ev.fit-5 .nm{display:none}
+.tl-ev.fit-4 .mt,.tl-ev.fit-5 .mt{display:none}
+.tl-ev.fit-5 b{-webkit-line-clamp:1}
 </style>
 </head>
 <body>
@@ -1810,10 +1825,16 @@ function getTodayDayIndex(){
 /* Red "now" line in the timeline column of today */
 function nowLineHtml(di,START,END,PX){
   if(di!==getTodayDayIndex())return "";
-  const d=new Date(),m=d.getHours()*60+d.getMinutes();
-  if(m<START||m>END)return "";
-  const hh=String(d.getHours()).padStart(2,"0"),mm=String(d.getMinutes()).padStart(2,"0");
-  return `<div class="tl-now" style="top:${(m-START)*PX}px"><span>${hh}:${mm}</span></div>`;
+  const m=Math.min(END,Math.max(START,nowMinutes()));
+  const edge=nowMinutes()<START?" edge before":nowMinutes()>END?" edge after":"";
+  return `<div class="tl-now${edge}" style="top:${(m-START)*PX}px"></div>`;
+}
+/* Uhrzeit-Chip der Jetzt-Linie sitzt in der Zeitspalte, nicht über den Karten */
+function nowChipHtml(days,START,END,PX){
+  if(!days.includes(getTodayDayIndex()))return "";
+  const m=Math.min(END,Math.max(START,nowMinutes()));
+  const tip=nowMinutes()<START?"Der Tag hat noch nicht begonnen":nowMinutes()>END?"Alle Termine heute sind vorbei":"Aktuelle Uhrzeit";
+  return `<div class="tl-now-chip" style="top:${(m-START)*PX}px" title="${tip}">${nowLabel()}</div>`;
 }
 /* Current-time helpers for Agenda */
 function nowMinutes(){const d=new Date();return d.getHours()*60+d.getMinutes();}
@@ -1830,9 +1851,15 @@ function setView(v){
 }
 /* Auf schmalen Bildschirmen scrollt die Zeitachse seitlich: direkt zur Spalte von heute springen */
 function focusToday(){
-  if(innerWidth>=760||viewMode!=="timeline")return;
+  if(viewMode!=="timeline")return;
   const box=document.querySelector(".tl-scroll"),head=document.querySelector(".tl-head.today");
-  if(box&&head)box.scrollLeft=Math.max(0,head.offsetLeft-60);
+  if(innerWidth<760&&box&&head)box.scrollLeft=Math.max(0,head.offsetLeft-60);
+  // Jetzt-Linie einmal vertikal in die Mitte holen, falls heute eine Spalte ist und sie außerhalb des Sichtfelds liegt
+  const line=document.querySelector(".tl-col.today .tl-now");
+  if(line){
+    const r=line.getBoundingClientRect();
+    if(r.top<80||r.bottom>innerHeight-40)window.scrollTo({top:Math.max(0,r.top+scrollY-innerHeight/2),behavior:"auto"});
+  }
 }
 function setAgendaDay(di){agendaDay=di;render();}
 function activeDayList(){return [0,1,2,3,4,5].filter(i=>activeDaySet.has(i));}
@@ -1945,8 +1972,9 @@ function renderTimeline(){
       const m=M[e.k],room=roomOf(e.t);
       const compact=(e.b-e.a)*PX-4<64?" compact":"";
       const narrow=n>1?" narrow":"";
+      const nm=nowMinutes(),live=di===today&&nm>=e.a&&nm<e.b?" live":"";
       const time=`${SL[e.t.slot].sh}–${SL[e.t.slot].eh}`, detail=[m.name,time,e.t.fmt,room].filter(Boolean).join(" · ");
-      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${detail} · Klicken für Details">
+      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${detail} · Klicken für Details">
         <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}</div>`;
     }).join("");
     heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]}${di===today?" · heute":""}</div>`;
@@ -1956,9 +1984,22 @@ function renderTimeline(){
   for(let hh=8;hh<=20;hh++)axis+=`<div class="tl-tick" style="top:${(hh*60-START)*PX}px">${String(hh).padStart(2,"0")}:00</div>`;
   el.innerHTML=`<div class="tl-scroll"><div class="tl-board" style="--n:${days.length}">
     <div class="tl-corner"></div>${heads}
-    <div class="tl-axis" style="height:${H}px">${axis}</div>${cols}
+    <div class="tl-axis" style="height:${H}px">${axis}${nowChipHtml(days,START,END,PX)}</div>${cols}
     </div></div>`;
+  fitTimelineCards();
 }
+/* Zeitachse: Karten haben eine feste, zeitproportionale Höhe. Passt der Inhalt nicht,
+   fallen erst Dozent, dann Format/Raum, Modulname und Uhrzeit weg, nie eine halbe Zeile. */
+function fitTimelineCards(){
+  document.querySelectorAll(".tl-ev").forEach(ev=>{
+    ev.classList.remove("fit-1","fit-2","fit-3","fit-4","fit-5");
+    for(let i=1;i<=5&&ev.scrollHeight>ev.clientHeight+1;i++){
+      ev.classList.remove("fit-"+(i-1));ev.classList.add("fit-"+i);
+    }
+  });
+}
+let _fitT=null;
+window.addEventListener("resize",()=>{clearTimeout(_fitT);_fitT=setTimeout(()=>{if(viewMode==="timeline")fitTimelineCards();},120);});
 
 
 /* ══ ZOOM ══ */
@@ -1970,6 +2011,7 @@ function applyZoom(){
   if(main)main.style.zoom=zoomLevel===100?"":String(zoomLevel/100);
   const lbl=document.getElementById("zoom-label");
   if(lbl)lbl.textContent=zoomLevel+"%";
+  if(viewMode==="timeline")fitTimelineCards();
 }
 function changeZoom(dir){
   const idx=ZOOM_LEVELS.indexOf(zoomLevel);
