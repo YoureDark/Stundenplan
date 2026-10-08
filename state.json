@@ -239,7 +239,7 @@
     "light": {},
     "dark": {}
   },
-  "theme": "dark",
+  "theme": "light",
   "activeDays": [
     3,
     4,
