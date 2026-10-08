@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ── LIGHT ── */
-[data-theme="light"] {
+[data-theme="light"]{
   --bg:#f7f5f0; --bg2:#efecea; --bg3:#e5e2dc; --bg4:#d8d4cc;
   --surface:#ffffff; --border:#dedad2; --border2:#c8c4bb;
   --text1:#181612; --text2:#4a4740; --text3:#6b675e;
@@ -24,7 +24,7 @@
   --gray-bg:#edeae4; --gray-b:#ccc8c0; --gray-t:#9a9790;
 }
 /* ── DARK ── */
-[data-theme="dark"] {
+[data-theme="dark"]{
   --bg:#0a0a0a; --bg2:#111111; --bg3:#1a1a1a; --bg4:#222222;
   --surface:#161616; --border:#2a2a2a; --border2:#383838;
   --text1:#f0f0f0; --text2:#b4b4bc; --text3:#9494a0;
@@ -132,7 +132,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
   .legend{font-size:11px;gap:5px 12px;padding:6px 12px;}
   .dot{width:9px;height:9px;}
   /* Conflict banner */
-  
+
   /* Next banner */
   .next-banner{font-size:11px;padding:7px 12px;margin:6px 12px 0;}
   .next-banner strong{font-size:11px;}
@@ -164,13 +164,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 }
 .leg{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-.dot-sim  {background:var(--col-sim-bg);  border:1px solid var(--col-sim-b)}
-.dot-base {background:var(--col-base-bg); border:1px solid var(--col-base-b)}
+.dot-sim{background:var(--col-sim-bg);  border:1px solid var(--col-sim-b)}
+.dot-base{background:var(--col-base-bg); border:1px solid var(--col-base-b)}
 .dot-async{background:var(--col-async-bg);border:1px dashed var(--col-async-b)}
 
-
 /* ══ CONFLICT BANNER ══ */
-
 
 /* ══ GRID WRAPPER – horizontally scrollable ══ */
 .grid-wrap{
@@ -178,35 +176,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
   overflow-x:auto;
   -webkit-overflow-scrolling:touch;
 }
-.grid{
-  --gt-w:100px;--col-min:160px;--n:6;
-  display:grid;
-  grid-template-columns:var(--gt-w) repeat(var(--n),minmax(var(--col-min),1fr));
-  gap:4px 8px;
-  min-width:calc(var(--gt-w) + var(--n)*(var(--col-min) + 10px));
-}
-.gh{
-  font-family:'Inter',sans-serif;font-size:14px;font-weight:700;
-  letter-spacing:.04em;padding:8px 6px;text-align:center;
-  background:var(--bg3);color:var(--text2);border-radius:4px;
-  border-left:3px solid var(--border2);
-}
-.gh.today{background:var(--accent2);color:#fff;border-left-color:var(--accent);}
-.gt{
-  font-family:'Inter',sans-serif;font-size:12px;
-  padding:6px 8px 6px 9px;color:var(--text2);background:var(--bg3);
-  display:flex;flex-direction:column;align-items:flex-start;justify-content:center;
-  line-height:1.6;white-space:nowrap;
-  border-radius:4px;
-  border-left:3px solid var(--border2);
-  align-self:stretch;
-}
-.gt.today-row{color:var(--text2);border-left-color:var(--accent2);}
 
 /* ══ CELLS ══ */
 /* gap between columns is 8px; separator sits at -4px = exact center */
-.cell-group{display:flex;gap:2px;min-width:0;position:relative;}
-.day-sep-empty{min-width:0;position:relative;}
+
 .col-sep::before{
   content:'';
   position:absolute;
@@ -216,18 +189,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
   background:var(--border2);
   pointer-events:none;
 }
-.cell{
-  border-radius:4px;padding:8px 10px;min-height:80px;
-  cursor:pointer;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;
-  transition:all .15s;position:relative;border:1px solid transparent;overflow:hidden;
-}
-.cell-sim  {background:var(--col-sim-bg);  border-color:var(--col-sim-b)}
-.cell-base {background:var(--col-base-bg); border-color:var(--col-base-b)}
-.cell-async{background:var(--col-async-bg);border:1px dashed var(--col-async-b)}
-
 
 /* custom label stripe */
-.cell-label-stripe{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;}
+
 /* color picker swatches in detail modal */
 .label-color-wrap{display:flex;flex-direction:column;gap:8px;padding:10px 0 4px}
 .label-color-row{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
@@ -239,12 +203,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 .label-swatch.active{border-color:var(--text1);transform:scale(1.1)}
 .label-swatch.none{background:var(--bg3);border:1px dashed var(--border2);display:flex;align-items:center;justify-content:center;font-size:15px}
 .label-preview{width:16px;height:16px;border-radius:4px;flex-shrink:0}
-.cn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;line-height:1.3}
-.cd{font-family:'Inter',sans-serif;font-size:11px;margin-top:2px;line-height:1.3;opacity:.78}
-.cn-sim  {color:var(--col-sim-t)}  .cd-sim  {color:var(--col-sim-mid)}
-.cn-base {color:var(--col-base-t)} .cd-base {color:var(--col-base-mid)}
-.cn-async{color:var(--col-async-t)}.cd-async{color:var(--col-async-mid)}
-   
+
 .none-msg{padding:3rem;text-align:center;font-family:'Inter',sans-serif;font-size:12px;color:var(--text3);background:var(--bg2);border-radius:8px;margin:12px 0;border:1px dashed var(--border2)}
 
 /* ══ OVERLAY & MODALS ══ */
@@ -252,12 +211,12 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 .overlay.open{display:flex}
 .modal{background:var(--surface);border:1px solid var(--border2);border-radius:12px;width:100%;max-height:92vh;overflow-y:auto;padding:20px;box-shadow:0 20px 60px var(--shadow2);animation:mIn .18s ease}
 @keyframes mIn{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
-.m-detail {max-width:500px}
-.m-edit   {max-width:580px}
+.m-detail{max-width:500px}
+.m-edit{max-width:580px}
 .m-confirm{max-width:380px}
-.m-login  {max-width:360px}
-.m-export {max-width:520px}
-.m-colors {max-width:560px}
+.m-login{max-width:360px}
+.m-export{max-width:520px}
+.m-colors{max-width:560px}
 .m-semester{max-width:420px}
 .mhead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
 .mtitle{font-family:'Inter',sans-serif;font-size:18px;font-weight:700;line-height:1.3;padding-right:10px;color:var(--text1)}
@@ -298,7 +257,7 @@ hr.md{border:none;border-top:1px solid var(--border);margin:12px 0}
 .exc-list{display:flex;flex-direction:column;gap:4px;margin-bottom:7px;max-height:170px;overflow-y:auto}
 .exc-item{display:grid;grid-template-columns:120px 1fr auto;gap:5px;align-items:center;padding:6px 8px;background:var(--bg2);border-radius:6px;border:1px solid var(--border)}
 .exc-item.cancelled{border-color:var(--col-cf-b);background:var(--col-cf-bg)}
-.exc-item.extra    {border-color:var(--col-sim-b);background:var(--col-sim-bg)}
+.exc-item.extra{border-color:var(--col-sim-b);background:var(--col-sim-bg)}
 .exc-item input[type="date"],.exc-item input[type="text"]{font-family:'Inter',sans-serif;font-size:11px;padding:4px 6px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--text1);outline:none;width:100%}
 .exc-badge{font-family:'Inter',sans-serif;font-size:11px;padding:2px 6px;border-radius:3px;white-space:nowrap}
 .exc-badge.c{background:var(--col-cf-bg);color:var(--col-cf-t);border:1px solid var(--col-cf-b)}
@@ -438,24 +397,8 @@ body.is-admin .admin-only{display:inline-flex!important}
 .admin-only{display:none!important}
 body.is-admin .admin-only{display:inline-flex!important}
 
-
-
 /* ── ADMIN: empty cell add button ── */
-.cell-empty-add{
-  width:100%;height:100%;min-height:80px;
-  display:none;
-  align-items:center;justify-content:center;
-  border:1.5px dashed var(--border2);border-radius:4px;
-  color:var(--text3);font-size:22px;font-weight:300;
-  cursor:pointer;transition:all .15s;
-  background:transparent;
-}
-body.is-admin .day-sep-empty:hover .cell-empty-add{
-  border-color:var(--accent2);color:var(--accent2);
-  background:rgba(74,127,193,.06);
-}
-body.is-admin .day-sep-empty .cell-empty-add{display:flex;}
-body.is-admin .day-sep-empty{cursor:default;}
+
 /* today-row handled above */
 /* Mobile title span (replaces input on portrait) */
 .mobile-title{
@@ -466,18 +409,7 @@ body.is-admin .day-sep-empty{cursor:default;}
   min-width:0;flex:1;
 }
 
-.today-col{}
-.today-col-empty{}
-
 /* ── CELL EXTRAS: exam icon, moodle badge ── */
-.cell-exam-dot{position:absolute;bottom:4px;right:4px;width:8px;height:8px;border-radius:50%;background:var(--col-cf-mid);box-shadow:0 0 5px var(--col-cf-mid);}
-.cell-moodle-btn{
-  display:none;position:absolute;bottom:5px;left:5px;right:5px;
-  padding:3px 7px;border-radius:4px;font-family:'Inter',sans-serif;font-size:11px;
-  background:rgba(74,127,193,.88);color:#fff;border:none;cursor:pointer;text-align:center;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;z-index:2;
-}
-.cell:hover .cell-moodle-btn{display:block;}
 
 /* ── NEXT EVENT BANNER ── */
 .next-banner{
@@ -512,11 +444,10 @@ body.is-admin .day-sep-empty{cursor:default;}
 /* ── PRINT ── */
 /* light cells */
 
-
 /* ══ VIEW SWITCH ══ */
 .view-switch{display:flex;gap:6px;padding:10px 16px 0}
 .vs-btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer}
-.grid-wrap:not(.is-grid){padding-top:10px}
+.grid-wrap{padding-top:10px}
 /* ══ AGENDA ══ */
 .ag-wrap{max-width:720px;margin:0 auto;padding:4px 0 24px}
 .ag-tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
@@ -558,7 +489,7 @@ body.is-admin .day-sep-empty{cursor:default;}
 /* ══════════════════════════════════════════════════════════════════
    DESIGN SYSTEM · Liquid Glass
    Eine einzige Quelle für Optik und Zustände (hover, active, focus,
-   disabled). Kopfzeile, alle drei Ansichten, Dialoge und Einstellungen
+   disabled). Kopfzeile, beide Ansichten, Dialoge und Einstellungen
    benutzen dieselben Tokens, Radien, Schatten und Schriftgrößen.
    ══════════════════════════════════════════════════════════════════ */
 :root{
@@ -744,15 +675,15 @@ input[type=checkbox],input[type=radio]{accent-color:#4a6fd0}
 .vs-btn{height:30px;padding:0 16px;border-radius:999px;border:0;font-size:13px;font-weight:600}
 .vs-btn.on{--b-bg:var(--acc-fill);--b-bg-h:var(--acc-fill-h);--b-fg:#fff;--b-fg-h:#fff;box-shadow:0 6px 16px -8px rgba(47,86,176,.9)}
 
-/* ── Karten: Raster-Zelle, Agenda-Eintrag, Zeitachsen-Block ──
-   Eine Kategoriefarbe (--c…) steuert alle drei Ansichten. */
-.cell,.ag-item,.tl-ev{
+/* ── Karten: Agenda-Eintrag, Zeitachsen-Block ──
+   Eine Kategoriefarbe (--c…) steuert beide Ansichten. */
+.ag-item,.tl-ev{
   --c:var(--col-base-b);--c-bg:var(--col-base-bg);--c-t:var(--col-base-t);--c-m:var(--col-base-mid);
 }
-.cell-sim,.typ-sim{--c:var(--col-sim-b);--c-bg:var(--col-sim-bg);--c-t:var(--col-sim-t);--c-m:var(--col-sim-mid)}
-.cell-base,.typ-base{--c:var(--col-base-b);--c-bg:var(--col-base-bg);--c-t:var(--col-base-t);--c-m:var(--col-base-mid)}
-.cell-async,.ag-item.async{--c:var(--col-async-b);--c-bg:var(--col-async-bg);--c-t:var(--col-async-t);--c-m:var(--col-async-mid)}
-.cell,.ag-item,.tl-ev{
+.typ-sim{--c:var(--col-sim-b);--c-bg:var(--col-sim-bg);--c-t:var(--col-sim-t);--c-m:var(--col-sim-mid)}
+.typ-base{--c:var(--col-base-b);--c-bg:var(--col-base-bg);--c-t:var(--col-base-t);--c-m:var(--col-base-mid)}
+.ag-item.async{--c:var(--col-async-b);--c-bg:var(--col-async-bg);--c-t:var(--col-async-t);--c-m:var(--col-async-mid)}
+.ag-item,.tl-ev{
   background:
     linear-gradient(145deg,var(--card-hi),transparent 62%),
     color-mix(in srgb,var(--c-bg) 84%,transparent);
@@ -761,43 +692,18 @@ input[type=checkbox],input[type=radio]{accent-color:#4a6fd0}
   -webkit-backdrop-filter:blur(16px) saturate(165%);backdrop-filter:blur(16px) saturate(165%);
   transition:transform .22s var(--ease),box-shadow .22s,border-color .22s;
 }
-.cell-async,.ag-item.async{border-style:dashed}
-.cell:hover,.ag-item:hover,.tl-ev:hover,.ag-item:focus-visible,.tl-ev:focus-visible{
+.ag-item.async{border-style:dashed}
+.ag-item:hover,.tl-ev:hover,.ag-item:focus-visible,.tl-ev:focus-visible{
   transform:translateY(-2px);border-color:color-mix(in srgb,var(--c) 75%,transparent);
   box-shadow:var(--g-hi),inset 4px 0 0 var(--c),var(--g-sh-h);
 }
-.cell:active,.ag-item:active,.tl-ev:active{transform:translateY(0) scale(.99)}
-.cell:focus-visible,.ag-item:focus-visible,.tl-ev:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ag-item:active,.tl-ev:active{transform:translateY(0) scale(.99)}
+.ag-item:focus-visible,.tl-ev:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* Raster */
-.grid{gap:6px 10px}
-.cell{border-radius:var(--r-md);padding:9px 14px 9px 16px}
-.cn{font-size:13px;font-weight:700;letter-spacing:.005em;line-height:1.25;color:var(--c-t)}
-.cd{font-size:12px;font-weight:500;line-height:1.4;margin-top:3px;opacity:1;color:var(--c-m)}
-.gh{
-  border-radius:var(--r-sm);border:1px solid var(--g-edge);border-left-width:1px;padding:9px 6px;
-  font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--text2);
-  background:var(--g-fill);box-shadow:var(--g-hi),var(--g-sh-s);
-  -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);
-}
-.gh.today,.tl-head.today{background:var(--acc-fill);color:#fff;border-color:rgba(255,255,255,.3);box-shadow:0 8px 20px -10px rgba(47,86,176,.9)}
-.gt{
-  border-radius:var(--r-sm);border:1px solid var(--g-edge);border-left-width:1px;padding:6px 10px;
-  font-weight:600;font-variant-numeric:tabular-nums;color:var(--text2);
-  background:var(--g-fill);box-shadow:var(--g-hi),var(--g-sh-s);
-  -webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%);
-}
-.gt.today-row{color:var(--text2);border-left-color:var(--g-edge)}
-.gt.now{color:var(--now);font-weight:800}
+/* Heute-Spalte der Zeitachse */
+.tl-head.today{background:var(--acc-fill);color:#fff;border-color:rgba(255,255,255,.3);box-shadow:0 8px 20px -10px rgba(47,86,176,.9)}
+
 .col-sep::before{left:-5px;background:linear-gradient(to bottom,transparent,var(--border2) 12%,var(--border2) 88%,transparent)}
-.cell-empty-add{border-radius:var(--r-md);border-width:1.5px}
-.cell-label-stripe{border-radius:var(--r-md) 0 0 var(--r-md)}
-.cell-exam-dot{box-shadow:0 0 0 3px color-mix(in srgb,var(--col-cf-mid) 25%,transparent)}
-.cell-moodle-btn{
-  left:auto;right:8px;bottom:8px;width:auto;padding:3px 9px;border-radius:999px;
-  background:var(--acc-fill);box-shadow:0 4px 12px -4px rgba(47,86,176,.8);font-weight:600;
-}
-.cell-moodle-btn:hover{filter:brightness(1.1)}
 
 /* Agenda */
 .ag-wrap{padding-top:6px}
@@ -850,10 +756,6 @@ input[type=checkbox],input[type=radio]{accent-color:#4a6fd0}
 .tl-now{position:absolute;left:0;right:0;height:0;border-top:2px solid var(--now);z-index:4;pointer-events:none;box-shadow:0 0 8px color-mix(in srgb,var(--now) 60%,transparent)}
 .tl-now::before{content:"";position:absolute;left:-5px;top:-6px;width:10px;height:10px;border-radius:50%;background:var(--now)}
 .tl-now span{position:absolute;right:6px;top:-11px;font-size:11px;font-weight:700;line-height:14px;padding:0 7px;border-radius:999px;background:var(--now);color:var(--now-ink)}
-/* Jetzt-Linie im Raster liegt über den Karten, lässt Klicks aber durch */
-.gn-line{position:absolute;left:-12px;right:0;height:2px;background:var(--now);z-index:3;pointer-events:none;box-shadow:0 0 8px color-mix(in srgb,var(--now) 60%,transparent)}
-.gn-line::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--now)}
-.cell-group,.day-sep-empty{position:relative}
 
 /* ── Dialoge und Einstellungen ── */
 .overlay,.settings-overlay{
@@ -916,8 +818,7 @@ input[type=checkbox],input[type=radio]{accent-color:#4a6fd0}
 .tl-ev .dz{opacity:.95}
 .tl-ev.compact .dz,.tl-ev.narrow .dz{display:none}
 .tl-ev.compact .mt{display:none}
-.gt{font-size:13px;line-height:1.3;gap:3px}
-.gt-now{font-size:11px;font-weight:700;line-height:14px;padding:0 7px;border-radius:999px;background:var(--now);color:var(--now-ink)}
+
 .moodle-link{
   display:flex;align-items:center;gap:10px;padding:11px 16px;border-radius:var(--r-md);
   background:var(--acc-fill);color:#fff;text-decoration:none;font-size:14px;font-weight:600;
@@ -926,15 +827,14 @@ input[type=checkbox],input[type=radio]{accent-color:#4a6fd0}
 .moodle-link:hover{background:var(--acc-fill-h);transform:translateY(-1px);box-shadow:var(--g-hi),var(--g-sh-s-h)}
 .moodle-link:active{transform:translateY(0) scale(.98)}
 @media(max-width:760px){
-  .grid{--gt-w:84px;--col-min:min(68vw,280px)}
+
   .tl-board{--ax-w:46px;--col-min:min(70vw,280px)}
-  .gt{font-size:11px;padding:6px 6px}
-  .grid-wrap,.tl-scroll{scroll-snap-type:x proximity}
-  .grid-wrap{scroll-padding-left:92px}
+
+  .tl-scroll{scroll-snap-type:x proximity}
   .tl-scroll{scroll-padding-left:50px}
-  .gh,.tl-head,.tl-col{scroll-snap-align:start}
+  .tl-head,.tl-col{scroll-snap-align:start}
   /* Die Zeitspalte bleibt beim seitlichen Wischen stehen */
-  .gt,.gt-placeholder,.tl-axis,.tl-corner{position:sticky;left:0;z-index:6}
+  .tl-axis,.tl-corner{position:sticky;left:0;z-index:6}
   .tl-axis{background:var(--bar);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-radius:var(--r-sm)}
 }
 
@@ -1023,7 +923,6 @@ button,input,select,textarea{font-family:inherit}
   <div class="seg" role="tablist" aria-label="Ansicht">
     <button class="vs-btn" data-view="agenda" onclick="setView('agenda')" title="Agenda: Termine eines Tages als Liste, mit Jetzt-Linie">Agenda</button>
     <button class="vs-btn" data-view="timeline" onclick="setView('timeline')" title="Zeitachse: Wochenablauf nach Uhrzeit, mit Jetzt-Linie">Zeitachse</button>
-    <button class="vs-btn" data-view="grid" onclick="setView('grid')" title="Raster: Wochenübersicht nach Zeitblöcken">Raster</button>
   </div>
 </div>
 <div class="grid-wrap"><div id="main"></div></div>
@@ -1238,19 +1137,6 @@ button,input,select,textarea{font-family:inherit}
           </div>
         </div>
 
-        <!-- ACC: Cell Display -->
-        <div class="sp-acc" id="acc-cell-display">
-          <button class="sp-acc-header adm-h" onclick="toggleAcc('acc-cell-display')">
-            <span class="sp-acc-icon">🏷</span>
-            <span class="sp-acc-text"><span class="sp-acc-label adm">Admin – Kachel-Inhalt</span></span>
-            <span class="sp-acc-chev">›</span>
-          </button>
-          <div class="sp-acc-body">
-            <div style="font-size:11px;color:var(--text3);font-family:'Inter',sans-serif;margin-bottom:10px">Wähle was in den Kacheln angezeigt wird:</div>
-            <div id="sp-cell-fields" style="display:flex;flex-direction:column;gap:4px"></div>
-          </div>
-        </div>
-
         <!-- ACC: GitHub Sync -->
         <div class="sp-acc" id="acc-admin-github">
           <button class="sp-acc-header adm-h" onclick="toggleAcc('acc-admin-github')">
@@ -1409,8 +1295,6 @@ function applyState(s){
     setThemeIcon(s.theme==="dark");
   }
   if(s.activeDays){activeDaySet=new Set(s.activeDays);updateDayPills();}
-  if(s.cellDisplay)cellDisplay=Object.assign(cellDisplay,s.cellDisplay);
-  if(typeof s.cellHeight==="number"&&s.cellHeight>=70)cellHeight=s.cellHeight;
 }
 
 /* Build current state object */
@@ -1420,7 +1304,7 @@ function buildState(){
     semester:document.getElementById("site-sem").value,
     modules:M,customColors,
     theme:document.documentElement.getAttribute("data-theme"),
-    activeDays:[...activeDaySet],cellDisplay,cellHeight
+    activeDays:[...activeDaySet]
   };
 }
 
@@ -1834,8 +1718,6 @@ let M={
 
 let excModId=null, editId=null;
 // What to show in each timetable cell
-let cellDisplay={label:true,nr:true,format:true,raum:true,doz:false,pruefung:true,moodle:true};
-let cellHeight=80; // px, default
 
 
 /* ══ LABEL COLORS ══ */
@@ -1873,15 +1755,12 @@ let activeDaySet=new Set([0,1,2,3,4,5]); // 0=Mo..4=Fr, 5=Block/Sa
 
 /* ══ GRID ══ */
 function keys(){return Object.keys(M);}
-function cellCls(m,t){if(t.async)return"cell cell-async";if(m.typ==="sim")return"cell cell-sim";return"cell cell-base";}
 /* Quickinfo für Karten: Name, Dozent:in, Format, Raum + Hinweis */
 function tipOf(m,t){
   const room=roomOf(t),doz=m.doz&&m.doz!=="–"?m.doz:"";
   const esc=s=>String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;");
   return esc([m.name,doz,[t.fmt,room].filter(Boolean).join(", ")].filter(Boolean).join(" · ")+" – Klicken für Details");
 }
-function nCls(m,t){if(t.async)return"cn cn-async";if(m.typ==="sim")return"cn cn-sim";return"cn cn-base";}
-function dCls(m,t){if(t.async)return"cd cd-async";if(m.typ==="sim")return"cd cd-sim";return"cd cd-base";}
 
 /* ══ AUTO-SAVE (modules + activeDays) ══
    Saves silently on every change — no admin click needed.
@@ -1893,9 +1772,7 @@ function autoSave(){
     modules:M,
     customColors,
     theme:document.documentElement.getAttribute("data-theme"),
-    activeDays:[...activeDaySet],
-    cellDisplay,
-    cellHeight
+    activeDays:[...activeDaySet]
   };
   localStorage.setItem(STORE_KEY,JSON.stringify(state));
 }
@@ -1935,89 +1812,24 @@ function nowLineHtml(di,START,END,PX){
   const hh=String(d.getHours()).padStart(2,"0"),mm=String(d.getMinutes()).padStart(2,"0");
   return `<div class="tl-now" style="top:${(m-START)*PX}px"><span>${hh}:${mm}</span></div>`;
 }
-/* Current-time helpers for Raster and Agenda */
+/* Current-time helpers for Agenda */
 function nowMinutes(){const d=new Date();return d.getHours()*60+d.getMinutes();}
 function nowLabel(){const m=nowMinutes();return String(Math.floor(m/60)).padStart(2,"0")+":"+String(m%60).padStart(2,"0");}
-function isNowSlot(di,si){
-  if(di!==getTodayDayIndex())return false;
-  // Pausen gehören zum davor liegenden Block: die Linie bleibt dann an dessen Unterkante
-  const now=nowMinutes(),from=slotMin(SL[si].sh),to=si<SL.length-1?slotMin(SL[si+1].sh):slotMin(SL[si].eh);
-  return now>=from&&now<to;
-}
-function gridNowLine(di,si){
-  if(!isNowSlot(di,si))return "";
-  const a=slotMin(SL[si].sh),b=slotMin(SL[si].eh);
-  return `<div class="gn-line" style="top:${Math.min(100,((nowMinutes()-a)/(b-a))*100)}%"></div>`;
-}
-function renderGrid(){
-  const el=document.getElementById("main");
-  if(!keys().length){el.innerHTML=`<div class="none-msg">Keine Module vorhanden.</div>`;return;}
-  const activeDays=[0,1,2,3,4,5].filter(i=>activeDaySet.has(i));
-  const colCount=activeDays.length;
-  const todayDi=getTodayDayIndex();
-  let h=`<div class="grid" style="--n:${colCount}"><div class="gt-placeholder"></div>`;
-  activeDays.forEach((di,idx)=>{
-    const isTod=di===todayDi;
-    h+=`<div class="gh${isTod?" today":""}">${DL[di]}${isTod?" · heute":""}</div>`;
-  });
-  SL.forEach((slot,si)=>{
-    const rowHasTod=activeDays.includes(todayDi);
-    h+=`<div class="gt${rowHasTod?" today-row":""}${isNowSlot(todayDi,si)?" now":""}">${SL[si].sh}–${SL[si].eh}${isNowSlot(todayDi,si)?`<span class="gt-now">${nowLabel()}</span>`:""}</div>`;
-    activeDays.forEach(di=>{
-      const cells=[];for(const k of keys())for(const t of M[k].termine)if(t.day===di&&t.slot===si)cells.push({k,t});
-      const isTodayCol=di===todayDi;
-      const isFirstDay=di===activeDays[0];
-      const sep=isFirstDay?"":" col-sep";
-      if(!cells.length){h+=`<div class="day-sep-empty${sep}${isTodayCol?" today-col-empty":""}">${gridNowLine(di,si)}<button class="cell-empty-add" onclick="openAddAtSlot(${di},${si})" title="Modul hinzufügen">＋</button></div>`;return;}
-      h+=`<div class="cell-group${sep}${isTodayCol?" today-col":""}">${gridNowLine(di,si)}`;
-      for(const{k,t}of cells){
-        const m=M[k];
-        const hasExam=m.prf&&m.prf!=="–";
-        const hasMoodle=m.moodle&&m.moodle!=="–";
-        const examDot=(cellDisplay.pruefung&&hasExam)?`<div class="cell-exam-dot" title="Prüfung: ${m.prf}"></div>`:"";
-        const moodleBtn=(cellDisplay.moodle&&hasMoodle)?`<button class="cell-moodle-btn" title="Moodle-Kurs in neuem Tab öffnen" onclick="event.stopPropagation();window.open('${m.moodle}','_blank')">📚</button>`:"";
-        // build cell content lines
-        const line1=cellDisplay.label?`<div class="${nCls(m,t)}">${t.lbl}</div>`:"";
-        let parts=[];
-        if(cellDisplay.nr)parts.push(m.nr);
-        if(cellDisplay.format)parts.push(t.fmt);
-        if(cellDisplay.raum&&t.raum&&t.raum!=="–")parts.push(t.raum);
-        if(cellDisplay.doz&&m.doz&&m.doz!=="–")parts.push(m.doz.replace(/^Prof\. ?/,""));
-        const line2=parts.length?`<div class="${dCls(m,t)}">${parts.join(" · ")}</div>`:"";
-        // custom label color override
-        let customStyle=`min-height:${cellHeight}px`;
-        let stripeEl="";
-        if(m.labelColor&&m.labelColor!=="none"){
-          const lc=getLabelColor(m.labelColor);
-          if(lc){
-            customStyle+=`;background:${lc.bg};border-color:${lc.b}`;
-            stripeEl=`<div class="cell-label-stripe" style="background:${lc.b}"></div>`;
-          }
-        }
-        h+=`<div class="${cellCls(m,t)}" style="${customStyle}" onclick="showDetail('${k}')" tabindex="0" title="${tipOf(m,t)}">${stripeEl}${examDot}${line1}${line2}${moodleBtn}</div>`;
-      }
-      h+="</div>";
-    });
-  });
-  h+="</div>";el.innerHTML=h;
-  updateNextBanner();
-}
-/* ══ VIEWS: Agenda / Zeitachse / Raster ══ */
+/* ══ VIEWS: Agenda / Zeitachse ══ */
 let viewMode="agenda";
 let agendaDay=null;
-try{const v=localStorage.getItem("miem-sp-view");if(v==="agenda"||v==="timeline"||v==="grid")viewMode=v;}catch{}
+try{const v=localStorage.getItem("miem-sp-view");if(v==="agenda"||v==="timeline")viewMode=v;}catch{}
 function setView(v){
   viewMode=v;
   try{localStorage.setItem("miem-sp-view",v);}catch{}
   render();
   focusToday();
 }
-/* Auf schmalen Bildschirmen scrollt Raster/Zeitachse seitlich: direkt zur Spalte von heute springen */
+/* Auf schmalen Bildschirmen scrollt die Zeitachse seitlich: direkt zur Spalte von heute springen */
 function focusToday(){
-  if(innerWidth>=760||viewMode==="agenda")return;
-  const box=viewMode==="grid"?document.querySelector(".grid-wrap"):document.querySelector(".tl-scroll");
-  const head=document.querySelector(viewMode==="grid"?".gh.today":".tl-head.today");
-  if(box&&head)box.scrollLeft=Math.max(0,head.offsetLeft-(viewMode==="grid"?96:60));
+  if(innerWidth>=760||viewMode!=="timeline")return;
+  const box=document.querySelector(".tl-scroll"),head=document.querySelector(".tl-head.today");
+  if(box&&head)box.scrollLeft=Math.max(0,head.offsetLeft-60);
 }
 function setAgendaDay(di){agendaDay=di;render();}
 function activeDayList(){return [0,1,2,3,4,5].filter(i=>activeDaySet.has(i));}
@@ -2030,10 +1842,7 @@ function breakInfo(i){
 }
 function render(){
   document.querySelectorAll(".vs-btn").forEach(b=>b.classList.toggle("on",b.dataset.view===viewMode));
-  const gw=document.querySelector(".grid-wrap");
-  if(gw)gw.classList.toggle("is-grid",viewMode==="grid");
-  if(viewMode==="grid")renderGrid();
-  else if(viewMode==="timeline")renderTimeline();
+  if(viewMode==="timeline")renderTimeline();
   else renderAgenda();
   updateNextBanner();
 }
@@ -2149,7 +1958,7 @@ function renderTimeline(){
 /* ══ ZOOM ══ */
 let zoomLevel=100;
 const ZOOM_LEVELS=[75,90,100,110,125,150];
-/* Ein Zoom für alle drei Ansichten: skaliert Schrift, Abstände und Zeitachse gemeinsam */
+/* Ein Zoom für Agenda und Zeitachse: skaliert Schrift, Abstände und Zeitachse gemeinsam */
 function applyZoom(){
   const main=document.getElementById("main");
   if(main)main.style.zoom=zoomLevel===100?"":String(zoomLevel/100);
@@ -2352,25 +2161,6 @@ function toggleAcc(id){
   if(!el)return;
   el.classList.toggle("open");
 }
-const CELL_FIELD_LABELS={label:"Modulname / Label",nr:"Modulnummer",format:"Format (Hybrid/Sync…)",raum:"Raum",doz:"Dozent",pruefung:"Prüfungs-Dot",moodle:"Moodle-Button"};
-function buildCellFields(){
-  const el=document.getElementById("sp-cell-fields");if(!el)return;
-  const heightRow=`<div class="sp-irow" style="margin-bottom:8px">
-    <div style="flex:1">
-      <div class="sp-irow-label">Zeilenhöhe</div>
-      <div class="sp-irow-sub" id="sp-height-val">${cellHeight} px</div>
-    </div>
-    <input type="range" min="50" max="200" step="4" value="${cellHeight}"
-      style="width:120px;accent-color:var(--accent);cursor:pointer"
-      oninput="cellHeight=parseInt(this.value);document.getElementById('sp-height-val').textContent=this.value+' px';render()">
-  </div>`;
-  const toggles=Object.keys(CELL_FIELD_LABELS).map(k=>`
-    <div class="sp-irow">
-      <div><div class="sp-irow-label">${CELL_FIELD_LABELS[k]}</div></div>
-      <label class="toggle-sw"><input type="checkbox" data-field="${k}" ${cellDisplay[k]?"checked":""} onchange="cellDisplay['${k}']=this.checked;render()"><div class="toggle-track"></div></label>
-    </div>`).join("");
-  el.innerHTML=heightRow+toggles;
-}
 function openSettings(){
   updateDayPills();
   const isAdminBlock=document.getElementById("sp-admin-block");
@@ -2378,7 +2168,7 @@ function openSettings(){
   const isAdminFoot=document.getElementById("sp-admin-footer");
   if(isAdminFoot)isAdminFoot.style.display=isAdmin?"block":"none";
   if(isAdmin){
-    buildSpModList();buildCellFields();
+    buildSpModList();
     // Pre-fill GitHub config
     const cfg=loadGithubConfig();
     const t=document.getElementById("gh-token");if(t&&cfg.token)t.value=cfg.token;
@@ -2447,14 +2237,6 @@ function setLabelColor(k,colorId){
 }
 
 /* ══ EDIT/ADD ══ */
-function openAddAtSlot(day,slot){
-  if(!isAdmin)return;
-  openAdd();
-  // After modal opens, add a pre-filled term row
-  setTimeout(()=>{
-    addTRow({day,slot,fmt:"Synchron",raum:"",lbl:""});
-  },50);
-}
 function openAdd(){if(!isAdmin)return;editId=null;document.getElementById("em-title").textContent="Modul hinzufügen";["f-id","f-nr","f-name","f-doz","f-erst","f-prf","f-kc","f-moodle","f-hint"].forEach(id=>document.getElementById(id).value="");document.getElementById("f-typ").value="base";document.getElementById("f-id").disabled=false;document.getElementById("tlist").innerHTML="";openOv("ov-edit");}
 function openEdit(k){if(!isAdmin)return;editId=k;const m=M[k];document.getElementById("em-title").textContent="Bearbeiten – "+m.id;document.getElementById("f-id").value=m.id;document.getElementById("f-id").disabled=true;document.getElementById("f-nr").value=m.nr||"";document.getElementById("f-name").value=m.name||"";document.getElementById("f-typ").value=m.typ||"base";document.getElementById("f-doz").value=m.doz||"";document.getElementById("f-erst").value=m.erst||"";document.getElementById("f-prf").value=m.prf||"";document.getElementById("f-kc").value=m.kc||"";document.getElementById("f-moodle").value=m.moodle||"";document.getElementById("f-hint").value=m.hint||"";const tl=document.getElementById("tlist");tl.innerHTML="";(m.termine||[]).forEach(t=>addTRow(t));openOv("ov-edit");}
 function addTRow(t=null){const tl=document.getElementById("tlist");const div=document.createElement("div");div.className="titem";div.innerHTML=`<select class="td">${DL.map((d,i)=>`<option value="${i}"${t&&t.day===i?" selected":""}>${d}</option>`).join("")}</select><select class="ts">${SL.map((s,i)=>`<option value="${i}"${t&&t.slot===i?" selected":""}>${s.l}</option>`).join("")}</select><select class="tf">${FMTS.map(f=>`<option${t&&t.fmt===f?" selected":""}>${f}</option>`).join("")}</select><input class="tr" placeholder="Raum" value="${t?t.raum||"":""}"><input class="tl" placeholder="Label" value="${t?t.lbl||"":""}"><button class="tremove" onclick="this.parentElement.remove()">×</button>`;tl.appendChild(div);}
@@ -2563,7 +2345,7 @@ function syncMobileTitle(){
 })();
 /* Jetzt-Linie jede Minute nachziehen; Scrollposition bleibt dabei erhalten */
 setInterval(()=>{
-  const sel=viewMode==="grid"?".grid-wrap":".tl-scroll";
+  const sel=".tl-scroll";
   const x=(document.querySelector(sel)||{}).scrollLeft||0;
   render();
   const n=document.querySelector(sel);if(n&&x)n.scrollLeft=x;
