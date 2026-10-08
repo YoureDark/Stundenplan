@@ -11,7 +11,7 @@
 [data-theme="light"] {
   --bg:#f7f5f0; --bg2:#efecea; --bg3:#e5e2dc; --bg4:#d8d4cc;
   --surface:#ffffff; --border:#dedad2; --border2:#c8c4bb;
-  --text1:#181612; --text2:#56534a; --text3:#95928a;
+  --text1:#181612; --text2:#4a4740; --text3:#6b675e;
   --accent:#4a7fc1; --accent2:#2d5a92; --danger:#c0392b;
   --shadow:rgba(0,0,0,.06); --shadow2:rgba(0,0,0,.14);
   --admin-bg:#fffdf5; --admin-border:#e0b840;
@@ -27,7 +27,7 @@
 [data-theme="dark"] {
   --bg:#0a0a0a; --bg2:#111111; --bg3:#1a1a1a; --bg4:#222222;
   --surface:#161616; --border:#2a2a2a; --border2:#383838;
-  --text1:#f0f0f0; --text2:#a0a0a0; --text3:#606060;
+  --text1:#f0f0f0; --text2:#b4b4bc; --text3:#9494a0;
   --accent:#6a9fd4; --accent2:#4a7fc1; --danger:#e05050;
   --shadow:rgba(0,0,0,.4); --shadow2:rgba(0,0,0,.6);
   --admin-bg:#1a1800; --admin-border:#6a5010;
@@ -174,9 +174,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 .leg{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
 .dot-sim  {background:var(--col-sim-bg);  border:1px solid var(--col-sim-b)}
-.dot-mgmt {background:var(--col-mgmt-bg); border:1px solid var(--col-mgmt-b)}
 .dot-base {background:var(--col-base-bg); border:1px solid var(--col-base-b)}
-.dot-wpf  {background:var(--col-wpf-bg);  border:1px solid var(--col-wpf-b)}
 .dot-async{background:var(--col-async-bg);border:1px dashed var(--col-async-b)}
 
 
@@ -281,9 +279,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 }
 .cell:hover{transform:translateY(-1px);box-shadow:0 4px 10px var(--shadow2)}
 .cell-sim  {background:var(--col-sim-bg);  border-color:var(--col-sim-b)}
-.cell-mgmt {background:var(--col-mgmt-bg); border-color:var(--col-mgmt-b)}
 .cell-base {background:var(--col-base-bg); border-color:var(--col-base-b)}
-.cell-wpf  {background:var(--col-wpf-bg);  border-color:var(--col-wpf-b)}
 .cell-async{background:var(--col-async-bg);border:1px dashed var(--col-async-b)}
 
 
@@ -303,9 +299,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 .cn{font-family:'Inter',sans-serif;font-weight:600;font-size:13px;line-height:1.3}
 .cd{font-family:'Inter',sans-serif;font-size:11px;margin-top:2px;line-height:1.3;opacity:.78}
 .cn-sim  {color:var(--col-sim-t)}  .cd-sim  {color:var(--col-sim-mid)}
-.cn-mgmt {color:var(--col-mgmt-t)} .cd-mgmt {color:var(--col-mgmt-mid)}
 .cn-base {color:var(--col-base-t)} .cd-base {color:var(--col-base-mid)}
-.cn-wpf  {color:var(--col-wpf-t)}  .cd-wpf  {color:var(--col-wpf-mid)}
 .cn-async{color:var(--col-async-t)}.cd-async{color:var(--col-async-mid)}
    
 .none-msg{padding:3rem;text-align:center;font-family:'Inter',sans-serif;font-size:12px;color:var(--text3);background:var(--bg2);border-radius:8px;margin:12px 0;border:1px dashed var(--border2)}
@@ -328,9 +322,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 .mclose:hover{background:var(--bg3);color:var(--text1)}
 .mbadge{display:inline-flex;align-items:center;font-family:'Inter',sans-serif;font-size:11px;font-weight:600;padding:4px 10px;border-radius:5px;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em}
 .bs{background:var(--col-sim-bg); color:var(--col-sim-t); border:1px solid var(--col-sim-b)}
-.bm{background:var(--col-mgmt-bg);color:var(--col-mgmt-t);border:1px solid var(--col-mgmt-b)}
 .bb{background:var(--col-base-bg);color:var(--col-base-t);border:1px solid var(--col-base-b)}
-.bw{background:var(--col-wpf-bg); color:var(--col-wpf-t); border:1px solid var(--col-wpf-b)}
 .info-box{background:var(--bg2);border-radius:7px;padding:9px 13px;font-size:13px;color:var(--text2);margin-bottom:10px;border:1px solid var(--border)}
 .warn-box{background:var(--col-cf-bg);border:1px solid var(--col-cf-b);border-radius:7px;padding:9px 13px;font-size:13px;color:var(--col-cf-t);margin-bottom:10px}
 .mrow{display:flex;gap:14px;margin-bottom:9px;font-size:14px;align-items:baseline}
@@ -663,9 +655,7 @@ body.is-admin .day-sep-empty{cursor:default;}
 .tl-ev.compact small:last-child{display:none}
 .tl-ev b,.tl-ev small{hyphens:auto;overflow-wrap:break-word}
 .tl-ev.typ-sim{background:var(--col-sim-bg);border-color:var(--col-sim-b)}
-.tl-ev.typ-mgmt{background:var(--col-mgmt-bg);border-color:var(--col-mgmt-b)}
 .tl-ev.typ-base{background:var(--col-base-bg);border-color:var(--col-base-b)}
-.tl-ev.typ-wpf{background:var(--col-wpf-bg);border-color:var(--col-wpf-b)}
 .tl-ev:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 .ag-break{font-family:'Inter',sans-serif;font-size:11px;color:var(--text3);text-align:center;padding:4px 0;letter-spacing:.04em}
@@ -678,8 +668,6 @@ body.is-admin .day-sep-empty{cursor:default;}
 .ag-item:hover,.ag-item:focus-visible{transform:translateY(-2px);box-shadow:0 1px 0 var(--border),0 18px 34px -20px rgba(0,0,0,.5)}
 .ag-item.typ-sim{--c:#17b89b}
 .ag-item.typ-base{--c:#6d5efc}
-.ag-item.typ-mgmt{--c:#ff7a59}
-.ag-item.typ-wpf{--c:#ec4899}
 .ag-item.async{border:1px dashed var(--border2)}
 
 .ag-time{background:color-mix(in srgb,var(--c) 13%,transparent);border-radius:14px;padding:9px 6px;text-align:center;color:var(--c)}
@@ -690,8 +678,6 @@ body.is-admin .day-sep-empty{cursor:default;}
 .tl-ev{border:0;border-radius:16px;padding:9px 11px;background:color-mix(in srgb,var(--c,#888) 12%,var(--surface));box-shadow:0 1px 0 var(--border),0 10px 22px -16px rgba(0,0,0,.5)}
 .tl-ev.typ-sim{--c:#17b89b}
 .tl-ev.typ-base{--c:#6d5efc}
-.tl-ev.typ-mgmt{--c:#ff7a59}
-.tl-ev.typ-wpf{--c:#ec4899}
 .tl-ev b{color:var(--c,var(--text1));font-weight:800}
 .tl-ev small{color:var(--text2)}
 
@@ -801,6 +787,18 @@ body{font-feature-settings:"tnum" 1,"cv11" 1;letter-spacing:-.005em}
 .ag-now{display:flex;align-items:center;gap:8px;margin:10px 0}
 .ag-now::before,.ag-now::after{content:"";flex:1;height:2px;background:var(--now)}
 .ag-now span{font-size:11px;font-weight:700;color:#fff;background:var(--now);padding:2px 9px;border-radius:999px;font-variant-numeric:tabular-nums}
+
+/* ══ READABILITY: category-coloured text and cell subtitles reach AA contrast ══ */
+.cd{opacity:1}
+[data-theme="light"] .ag-code,[data-theme="light"] .ag-time,[data-theme="light"] .tl-ev b{color:color-mix(in srgb,var(--c,#555) 72%,#000)}
+[data-theme="light"] .cd-sim{color:color-mix(in srgb,var(--col-sim-mid) 62%,#000)}
+[data-theme="light"] .cd-base{color:color-mix(in srgb,var(--col-base-mid) 62%,#000)}
+[data-theme="light"] .cd-async{color:color-mix(in srgb,var(--col-async-mid) 62%,#000)}
+[data-theme="light"] .header-kw{color:color-mix(in srgb,var(--accent) 65%,#000)}
+[data-theme="dark"] .ag-code,[data-theme="dark"] .ag-time,[data-theme="dark"] .tl-ev b{color:color-mix(in srgb,var(--c,#aaa) 80%,#fff)}
+[data-theme="dark"] .cd-sim{color:color-mix(in srgb,var(--col-sim-t) 85%,#fff)}
+[data-theme="dark"] .cd-base{color:color-mix(in srgb,var(--col-base-t) 85%,#fff)}
+[data-theme="dark"] .cd-async{color:color-mix(in srgb,var(--col-async-t) 85%,#fff)}
 </style>
 </head>
 <body>
@@ -834,9 +832,7 @@ body{font-feature-settings:"tnum" 1,"cv11" 1;letter-spacing:-.005em}
 <!-- ══ LEGEND ══ -->
 <div class="legend">
   <div class="leg"><div class="dot dot-sim"></div>Simulation</div>
-  <div class="leg"><div class="dot dot-mgmt"></div>Management</div>
   <div class="leg"><div class="dot dot-base"></div>Basismodul</div>
-  <div class="leg"><div class="dot dot-wpf"></div>Wahlpflichtfach</div>
   <div class="leg"><div class="dot dot-async"></div>Asynchron</div>
 </div>
 
@@ -898,11 +894,9 @@ body{font-feature-settings:"tnum" 1,"cv11" 1;letter-spacing:-.005em}
     <div class="fsec"><label class="flbl">Modulname *</label><input class="fi" id="f-name" placeholder="Vollständiger Modulname"></div>
     <div class="fsec"><div class="frow">
       <div><label class="flbl">Typ *</label>
-        <select class="fs" id="f-typ" title="Modultyp: bestimmt Farbe und Gruppe. Simulation, Management, Basismodul oder Wahlpflichtfach.">
+        <select class="fs" id="f-typ" title="Modultyp: bestimmt Farbe und Gruppe. Simulation oder Basismodul.">
           <option value="sim">Simulation (S)</option>
-          <option value="mgmt">Management (M)</option>
           <option value="base" selected>Basismodul (B)</option>
-          <option value="wpf">Wahlpflichtfach (WPF)</option>
         </select>
       </div>
       <div><label class="flbl">Dozent</label><input class="fi" id="f-doz" placeholder="Prof. Nachname"></div>
@@ -1651,93 +1645,6 @@ let M={
         "async": false
       }
     ]
-  },
-  "MAINP": {
-    "id": "MAINP",
-    "nr": "M2",
-    "name": "Managing International Projects",
-    "typ": "mgmt",
-    "doz": "Prof. Dr. Eitel Birgit, Prof. Dr. Wei Naiming",
-    "erst": "Do 08.10.2026, 15:45, BL.315 (Präsenz)",
-    "prf": "–",
-    "kc": "bwmoodle",
-    "moodle": "https://elearning.ohmportal.de/course/view.php?id=8164",
-    "hint": "Alle Infos im Moodle-Kurs.",
-    "semStart": "2026-10-08",
-    "semEnd": "2027-01-22",
-    "exceptions": [
-      {
-        "type": "cancelled",
-        "date": "2026-12-24",
-        "note": "Weihnachtsferien"
-      },
-      {
-        "type": "cancelled",
-        "date": "2026-12-25",
-        "note": "Weihnachtsferien"
-      },
-      {
-        "type": "cancelled",
-        "date": "2026-12-31",
-        "note": "Weihnachtsferien"
-      },
-      {
-        "type": "cancelled",
-        "date": "2027-01-01",
-        "note": "Weihnachtsferien"
-      }
-    ],
-    "termine": [
-      {
-        "day": 3,
-        "slot": 4,
-        "fmt": "Präsenz",
-        "raum": "BL.315",
-        "lbl": "MAINP:SU",
-        "async": false
-      },
-      {
-        "day": 3,
-        "slot": 5,
-        "fmt": "Präsenz",
-        "raum": "BL.315",
-        "lbl": "MAINP:Ue",
-        "async": false
-      }
-    ]
-  },
-  "STMNG": {
-    "id": "STMNG",
-    "nr": "M3",
-    "name": "Strategic Management in a global Context",
-    "typ": "mgmt",
-    "doz": "Prof. Wellner Kai-Uwe",
-    "erst": "Fr 09.10.2026, 17:30, BL.001 (Präsenz)",
-    "prf": "–",
-    "kc": "bwmoodle",
-    "moodle": "https://elearning.ohmportal.de/course/view.php?id=1976",
-    "hint": "Alle Infos im Moodle-Kurs. Samstagstermine: 24.10., 21.11., 16.01.2027.",
-    "semStart": "2026-10-09",
-    "semEnd": "2027-01-22",
-    "exceptions": [],
-    "termine": [
-      {
-        "day": 4,
-        "slot": 5,
-        "fmt": "Präsenz",
-        "raum": "BL.001",
-        "lbl": "STMNG:SU",
-        "async": false
-      },
-      {
-        "day": 5,
-        "slot": 2,
-        "fmt": "Blocktermine",
-        "raum": "n.V.",
-        "lbl": "STMNG:Block",
-        "async": false
-      }
-    ]
   }
 };
 
@@ -2227,7 +2134,7 @@ function showDetail(k){
   const m=M[k];
   document.getElementById("dm-title").textContent=m.nr+" – "+m.name;
   const bcMap={sim:"bs",mgmt:"bm",base:"bb",wpf:"bw"};
-  const blMap={sim:"Simulation (S)",mgmt:"Management (M)",base:"Basismodul (B)",wpf:"Wahlpflichtfach (WPF)"};
+  const blMap={sim:"Simulation (S)",base:"Basismodul (B)"};
   document.getElementById("dm-badge").innerHTML=`<div class="mbadge ${bcMap[m.typ]||"bb"}">${blMap[m.typ]||"Basismodul"}</div>`;
   document.getElementById("dm-warn").innerHTML="";
   const mh=(!m.moodle||m.moodle==="–")?"–":`<a href="${m.moodle}" target="_blank">${m.moodle}</a>`;
@@ -2324,7 +2231,7 @@ function importJSON(){if(!isAdmin)return;document.getElementById("json-file").cl
 function handleImport(e){if(!isAdmin)return;const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.modules){M=d.modules;if(d.title)document.getElementById("site-title").value=d.title;if(d.semester)document.getElementById("site-sem").value=d.semester;if(d.customColors){customColors=d.customColors;applyCustomColors();}if(d.theme){document.documentElement.setAttribute("data-theme",d.theme);document.getElementById("theme-btn").textContent=d.theme==="dark"?"☀️":"🌙";}}else M=d;render();autoSave();}catch{alert("Ungültige JSON-Datei.");}};r.readAsText(file);e.target.value="";}
 
 /* ══ COLORS ══ */
-const COLOR_DEFS=[{id:"sim",label:"Simulation",vars:["bg","b","t"]},{id:"mgmt",label:"Management",vars:["bg","b","t"]},{id:"base",label:"Basismodul",vars:["bg","b","t"]},{id:"wpf",label:"Wahlpflichtfach",vars:["bg","b","t"]},{id:"async",label:"Asynchron",vars:["bg","b","t"]}];
+const COLOR_DEFS=[{id:"sim",label:"Simulation",vars:["bg","b","t"]},{id:"base",label:"Basismodul",vars:["bg","b","t"]},{id:"async",label:"Asynchron",vars:["bg","b","t"]}];
 let customColors={light:{},dark:{}};
 let colorEditTheme="dark";
 function toHex(c){if(!c)return"#888888";if(c.startsWith("#"))return c.length===4?`#${c[1]}${c[1]}${c[2]}${c[2]}${c[3]}${c[3]}`:c;if(c.startsWith("rgb")){const m=c.match(/\d+/g);if(!m)return"#000000";return"#"+m.slice(0,3).map(x=>parseInt(x).toString(16).padStart(2,"0")).join("");}return"#888888";}
