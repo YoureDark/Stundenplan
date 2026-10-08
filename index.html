@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5">
-<script>try{var _s=JSON.parse(localStorage.getItem("miem-sp-state-v7")||"{}");if(_s&&(_s.theme==="dark"||_s.theme==="light"))document.documentElement.setAttribute("data-theme",_s.theme);}catch(e){}</script>
+<script>try{var _t=localStorage.getItem("miem-sp-theme");if(_t!=="dark"&&_t!=="light"){var _s=JSON.parse(localStorage.getItem("miem-sp-state-v7")||"{}");_t=_s&&_s.theme;}if(_t==="dark"||_t==="light")document.documentElement.setAttribute("data-theme",_t);}catch(e){}</script>
 <title>MIEM Stundenplan – WiSe 2026/27</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%234a6fd0'/%3E%3Crect x='7' y='9' width='18' height='16' rx='3' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M7 14h18M12 6v5M20 6v5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -509,7 +509,7 @@ body.is-admin .admin-only{display:inline-flex!important}
   --g-sh-h:0 2px 4px rgba(35,40,100,.08),0 20px 40px -16px rgba(40,45,120,.45);
   --g-sh-s:0 1px 2px rgba(35,40,100,.08),0 6px 14px -8px rgba(40,45,120,.3);
   --g-sh-s-h:0 2px 4px rgba(35,40,100,.1),0 12px 22px -10px rgba(40,45,120,.45);
-  --bar:rgba(255,255,255,.6);
+  --bar:rgba(255,255,255,.9);
   --tile:rgba(255,255,255,.55);--tile-h:rgba(255,255,255,.85);
   --input-bg:rgba(255,255,255,.78);
   --card-hi:rgba(255,255,255,.55);
@@ -533,7 +533,7 @@ body.is-admin .admin-only{display:inline-flex!important}
   --g-sh-h:0 2px 4px rgba(0,0,0,.5),0 22px 44px -16px rgba(0,0,0,.9);
   --g-sh-s:0 1px 2px rgba(0,0,0,.4),0 6px 14px -8px rgba(0,0,0,.7);
   --g-sh-s-h:0 2px 4px rgba(0,0,0,.5),0 12px 22px -10px rgba(0,0,0,.85);
-  --bar:rgba(12,14,26,.58);
+  --bar:rgba(12,14,26,.9);
   --tile:rgba(255,255,255,.055);--tile-h:rgba(255,255,255,.11);
   --input-bg:rgba(255,255,255,.06);
   --card-hi:rgba(255,255,255,.08);
@@ -899,6 +899,11 @@ button,input,select,textarea{font-family:inherit}
 .tl-ev.fit-3 .nm,.tl-ev.fit-4 .nm,.tl-ev.fit-5 .nm{display:none}
 .tl-ev.fit-4 .mt,.tl-ev.fit-5 .mt{display:none}
 .tl-ev.fit-5 b{-webkit-line-clamp:1}
+
+/* Review 4: Stundenlabel unter dem Chip, Strich in der laufenden Karte */
+.tl-tick.under-chip{visibility:hidden}
+.tl-ev>b,.tl-ev>small{position:relative;z-index:1}
+.tl-ev-now{position:absolute;left:0;right:0;height:2px;margin-top:-1px;background:var(--now);opacity:.45;pointer-events:none;z-index:0}
 </style>
 </head>
 <body>
@@ -1308,7 +1313,8 @@ function applyState(s){
   if(s.title){document.getElementById("site-title").value=s.title;syncMobileTitle();}
   if(s.semester)document.getElementById("site-sem").value=s.semester;
   if(s.customColors){customColors=s.customColors;applyCustomColors();}
-  if(s.theme){
+  // Eine eigene Hell/Dunkel-Wahl dieses Browsers hat Vorrang vor dem Standard aus state.json
+  if(s.theme&&!personalTheme()){
     document.documentElement.setAttribute("data-theme",s.theme);
     setThemeIcon(s.theme==="dark");
   }
@@ -1487,9 +1493,11 @@ async function reloadFromStore(){
     if(btn){btn.style.opacity="";btn.style.pointerEvents="";}
   }
 }
+function personalTheme(){try{const t=localStorage.getItem("miem-sp-theme");return t==="dark"||t==="light"?t:null;}catch{return null;}}
 function toggleTheme(){
   const cur=document.documentElement.getAttribute("data-theme"),next=cur==="dark"?"light":"dark";
   document.documentElement.setAttribute("data-theme",next);
+  try{localStorage.setItem("miem-sp-theme",next);}catch{}
   setThemeIcon(next==="dark");
   applyCustomColors();
 }
@@ -1975,13 +1983,18 @@ function renderTimeline(){
       const nm=nowMinutes(),live=di===today&&nm>=e.a&&nm<e.b?" live":"";
       const time=`${SL[e.t.slot].sh}–${SL[e.t.slot].eh}`, detail=[m.name,time,e.t.fmt,room].filter(Boolean).join(" · ");
       return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${detail} · Klicken für Details">
-        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}</div>`;
+        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${live?`<i class="tl-ev-now" style="top:${((nm-e.a)/(e.b-e.a))*100}%" aria-hidden="true"></i>`:""}</div>`;
     }).join("");
     heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]}${di===today?" · heute":""}</div>`;
     cols+=`<div class="tl-col${di===today?" today":""}" style="height:${H}px">${hours}${breaks}${blocks}${nowLineHtml(di,START,END,PX)}</div>`;
   }
   let axis="";
-  for(let hh=8;hh<=20;hh++)axis+=`<div class="tl-tick" style="top:${(hh*60-START)*PX}px">${String(hh).padStart(2,"0")}:00</div>`;
+  // Stundenlabel, das unter dem Jetzt-Chip läge, wird ausgeblendet (Chip ist ca. 16 px hoch)
+  const chipY=days.includes(today)?(Math.min(END,Math.max(START,nowMinutes()))-START)*PX:null;
+  for(let hh=8;hh<=20;hh++){
+    const y=(hh*60-START)*PX,hide=chipY!==null&&Math.abs(y-chipY)<15;
+    axis+=`<div class="tl-tick${hide?" under-chip":""}" style="top:${y}px">${String(hh).padStart(2,"0")}:00</div>`;
+  }
   el.innerHTML=`<div class="tl-scroll"><div class="tl-board" style="--n:${days.length}">
     <div class="tl-corner"></div>${heads}
     <div class="tl-axis" style="height:${H}px">${axis}${nowChipHtml(days,START,END,PX)}</div>${cols}
@@ -2003,8 +2016,9 @@ window.addEventListener("resize",()=>{clearTimeout(_fitT);_fitT=setTimeout(()=>{
 
 
 /* ══ ZOOM ══ */
-let zoomLevel=100;
 const ZOOM_LEVELS=[75,90,100,110,125,150];
+let zoomLevel=100;
+try{const z=parseInt(localStorage.getItem("miem-sp-zoom"),10);if(ZOOM_LEVELS.includes(z))zoomLevel=z;}catch{}
 /* Ein Zoom für Agenda und Zeitachse: skaliert Schrift, Abstände und Zeitachse gemeinsam */
 function applyZoom(){
   const main=document.getElementById("main");
@@ -2017,6 +2031,7 @@ function changeZoom(dir){
   const idx=ZOOM_LEVELS.indexOf(zoomLevel);
   const base=idx===-1?2:idx;
   zoomLevel=ZOOM_LEVELS[Math.max(0,Math.min(ZOOM_LEVELS.length-1,base+dir))];
+  try{localStorage.setItem("miem-sp-zoom",String(zoomLevel));}catch{}
   applyZoom();
 }
 
@@ -2374,7 +2389,7 @@ function syncMobileTitle(){
 
 // ── INIT ──
 // 1. Apply theme immediately from localStorage to avoid flash
-(()=>{const raw=localStorage.getItem(STORE_KEY);if(raw){try{const s=JSON.parse(raw);if(s.theme)document.documentElement.setAttribute("data-theme",s.theme);}catch{}}})();
+(()=>{const raw=localStorage.getItem(STORE_KEY);if(raw){try{const s=JSON.parse(raw);if(s.theme&&!personalTheme())document.documentElement.setAttribute("data-theme",s.theme);}catch{}}})();
 
 // 2. Try to fetch state.json from server (GitHub Pages), fall back to localStorage
 (async()=>{
