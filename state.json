@@ -254,5 +254,107 @@
     "pruefung": true,
     "moodle": true
   },
-  "cellHeight": 80
+  "cellHeight": 80,
+  "semesterTermine": {
+    "frei": [
+      {
+        "from": "2026-10-03",
+        "title": "Tag der Deutschen Einheit"
+      },
+      {
+        "from": "2026-12-24",
+        "to": "2027-01-06",
+        "title": "Weihnachten & Silvester"
+      },
+      {
+        "from": "2027-01-23",
+        "to": "2027-03-14",
+        "title": "Vorlesungsfreie Zeit"
+      }
+    ],
+    "termine": [
+      {
+        "from": "2026-09-10",
+        "to": "2026-10-09",
+        "start": "09:00",
+        "end": "23:59",
+        "title": "Online-Einschreibung zu den Sprachkursen (Language Center)"
+      },
+      {
+        "from": "2026-10-01",
+        "title": "Semesterbeginn"
+      },
+      {
+        "from": "2026-10-01",
+        "start": "08:00",
+        "title": "Beginn der planmäßigen (Online-)Vorlesungen (höhere Semester)"
+      },
+      {
+        "from": "2026-10-02",
+        "to": "2026-10-07",
+        "start": "09:00",
+        "end": "23:59",
+        "title": "Online-Einschreibung zu den Allgemeinwissenschaftlichen Wahlpflichtfächern"
+      },
+      {
+        "from": "2026-10-14",
+        "title": "Bekanntgabe der Prüfungskommissionen, der Prüfenden und der Endabgabetermine für Studien- und Projektarbeiten"
+      },
+      {
+        "from": "2026-10-21",
+        "to": "2026-11-02",
+        "start": "12:00",
+        "end": "23:59",
+        "title": "Online-Anmeldung zu den Prüfungen in StudyOhm"
+      },
+      {
+        "from": "2026-11-02",
+        "title": "Spätester Antrag auf Nachteilsausgleich per Mail beim Studienbüro (§ 23 ASPO)"
+      },
+      {
+        "from": "2026-11-27",
+        "title": "Bekanntgabe von Ort und Zeit aller schriftlichen (Online-)Prüfungen und der zugelassenen Hilfsmittel"
+      },
+      {
+        "from": "2026-11-30",
+        "end": "11:59",
+        "title": "Endtermin für nachträgliche Prüfungsanmeldungen (nur mit Zustimmung der Prüfungskommission und triftigem Grund)"
+      },
+      {
+        "from": "2027-01-07",
+        "title": "Bekanntgabe der Nichtzulassungen zu den (vorgezogenen) Prüfungen vom 15.01. bis 22.01."
+      },
+      {
+        "from": "2027-01-08",
+        "to": "2027-01-14",
+        "title": "Schriftliche (Online-)Prüfungen in den Allgemeinwissenschaftlichen Wahlpflichtfächern"
+      },
+      {
+        "from": "2027-01-15",
+        "to": "2027-01-22",
+        "title": "(Vorgezogene) schriftliche (Online-)Prüfungen"
+      },
+      {
+        "from": "2027-01-15",
+        "title": "Bekanntgabe der Nichtzulassungen zu den Prüfungen vom 23.01. bis 12.02."
+      },
+      {
+        "from": "2027-01-22",
+        "title": "Letzter Lehrveranstaltungstag"
+      },
+      {
+        "from": "2027-01-23",
+        "to": "2027-02-12",
+        "title": "Schriftliche (Online-)Prüfungen"
+      },
+      {
+        "from": "2027-03-05",
+        "title": "Notenbekanntgabe"
+      },
+      {
+        "from": "2027-03-14",
+        "title": "Semesterende"
+      }
+    ]
+  }
 }
