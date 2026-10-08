@@ -670,6 +670,11 @@ body.is-admin .day-sep-empty{cursor:default;}
 .tl-ev.typ-base{background:var(--col-base-bg);border-color:var(--col-base-b)}
 .tl-ev.typ-wpf{background:var(--col-wpf-bg);border-color:var(--col-wpf-b)}
 .tl-ev:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.ag-break{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);text-align:center;padding:4px 0;letter-spacing:.04em}
+.tl-break{position:absolute;left:3px;right:3px;border-radius:6px;background:repeating-linear-gradient(135deg,transparent 0 6px,var(--bg3) 6px 7px);display:flex;align-items:center;justify-content:center;pointer-events:none}
+.tl-break span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);background:var(--bg);padding:1px 6px;border-radius:999px;white-space:nowrap}
+.tl-break.lunch span{color:var(--text2)}
 </style>
 </head>
 <body>
@@ -1477,6 +1482,11 @@ function setAgendaDay(di){agendaDay=di;render();}
 function activeDayList(){return [0,1,2,3,4,5].filter(i=>activeDaySet.has(i));}
 function slotMin(sl){const [h,m]=sl.split(":").map(Number);return h*60+m;}
 function roomOf(t){return t.raum&&t.raum!=="–"?t.raum:"";}
+// Pausen zwischen den Zeitblöcken: Lücke i liegt zwischen SL[i] und SL[i+1]
+function breakInfo(i){
+  const from=slotMin(SL[i].eh),to=slotMin(SL[i+1].sh),min=to-from;
+  return {from,to,min,label:i===2?"Mittagspause":"Pause"};
+}
 function render(){
   document.querySelectorAll(".vs-btn").forEach(b=>b.classList.toggle("on",b.dataset.view===viewMode));
   const gw=document.querySelector(".grid-wrap");
@@ -1502,6 +1512,13 @@ function renderAgenda(){
     (t.async?asy:timed).push({k,t});
   }
   timed.sort((a,b)=>a.t.slot-b.t.slot);
+  const breakRow=i=>{const b=breakInfo(i);return `<div class="ag-break">${b.label} · ${b.min} min</div>`;};
+  const timedWithBreaks=[];
+  let lastSlot=null;
+  for(const it of timed){
+    if(lastSlot!==null)for(let g=lastSlot;g<it.t.slot;g++)timedWithBreaks.push({brk:g});
+    timedWithBreaks.push(it);lastSlot=it.t.slot;
+  }
   const item=({k,t})=>{
     const m=M[k];
     const conflict=!t.async&&cs.has(t.day+"-"+t.slot);
@@ -1515,7 +1532,7 @@ function renderAgenda(){
   };
   el.innerHTML=`<div class="ag-wrap">
     <div class="ag-tabs" role="tablist">${tabs}</div>
-    <div class="ag-list">${timed.length?timed.map(item).join(""):`<div class="none-msg">Keine Termine an diesem Tag.</div>`}</div>
+    <div class="ag-list">${timed.length?timedWithBreaks.map(x=>x.brk!==undefined?breakRow(x.brk):item(x)).join(""):`<div class="none-msg">Keine Termine an diesem Tag.</div>`}</div>
     ${asy.length?`<div class="ag-sub">Asynchron, ohne feste Zeit</div><div class="ag-list">${asy.map(item).join("")}</div>`:""}
   </div>`;
 }
@@ -1544,13 +1561,18 @@ function renderTimeline(){
     const n=Math.max(1,laneEnds.length);
     let hours="";
     for(let hh=8;hh<=20;hh++)hours+=`<div class="tl-hour" style="top:${(hh*60-START)*PX}px"></div>`;
+    let breaks="";
+    for(let g=0;g<SL.length-1;g++){
+      const b=breakInfo(g);
+      breaks+=`<div class="tl-break${g===2?" lunch":""}" style="top:${(b.from-START)*PX+2}px;height:${b.min*PX-4}px"><span>${b.label} · ${b.min} min</span></div>`;
+    }
     const blocks=evs.map(e=>{
       const m=M[e.k],room=roomOf(e.t);
       return `<div class="tl-ev typ-${m.typ}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${m.name}">
         <b>${e.t.lbl}</b><small>${m.name}</small><small>${SL[e.t.slot].sh}–${SL[e.t.slot].eh} · ${e.t.fmt}${room?" · "+room:""}</small></div>`;
     }).join("");
     heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]}</div>`;
-    cols+=`<div class="tl-col" style="height:${H}px">${hours}${blocks}</div>`;
+    cols+=`<div class="tl-col" style="height:${H}px">${hours}${breaks}${blocks}</div>`;
   }
   let axis="";
   for(let hh=8;hh<=20;hh++)axis+=`<div class="tl-tick" style="top:${(hh*60-START)*PX}px">${String(hh).padStart(2,"0")}:00</div>`;
