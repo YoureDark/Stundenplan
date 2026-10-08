@@ -626,6 +626,50 @@ body.is-admin .day-sep-empty{cursor:default;}
 .cbadge{border-radius:4px;font-size:8px}
 .editable-sem{max-width:260px;overflow:hidden;text-overflow:ellipsis}
 @media (prefers-reduced-motion: reduce){.cell{transition:none}}
+
+/* ══ VIEW SWITCH ══ */
+.view-switch{display:flex;gap:6px;padding:10px 16px 0}
+.vs-btn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;height:30px;padding:0 12px;border-radius:999px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer}
+.vs-btn.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.grid-wrap:not(.is-grid){padding-top:10px}
+/* ══ AGENDA ══ */
+.ag-wrap{max-width:720px;margin:0 auto;padding:4px 0 24px}
+.ag-tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}
+.ag-tabs::-webkit-scrollbar{display:none}
+.ag-tab{flex:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;border:1px solid var(--border2);background:var(--surface);color:var(--text2);cursor:pointer}
+.ag-tab.on{background:var(--text1);border-color:var(--text1);color:var(--bg)}
+.ag-list{display:flex;flex-direction:column;gap:8px}
+.ag-item{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px;align-items:start;background:var(--surface);border:1px solid var(--border);border-left:4px solid var(--c,var(--border2));border-radius:14px;padding:12px 14px;cursor:pointer;min-width:0;transition:border-color .15s,transform .15s}
+.ag-item:hover,.ag-item:focus-visible{transform:translateY(-1px);border-color:var(--border2);outline:none}
+.ag-item.typ-sim{--c:var(--col-sim-b)}.ag-item.typ-mgmt{--c:var(--col-mgmt-b)}.ag-item.typ-base{--c:var(--col-base-b)}.ag-item.typ-wpf{--c:var(--col-wpf-b)}
+.ag-item.async{border-left-style:dashed}
+.ag-item.conflict{--c:var(--col-cf-b)}
+.ag-time{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text3);font-variant-numeric:tabular-nums;line-height:1.35}
+.ag-time b{display:block;font-size:15px;font-weight:600;color:var(--text1)}
+.ag-body{min-width:0}
+.ag-code{font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:var(--text1);overflow-wrap:anywhere}
+.ag-name{font-size:13px;color:var(--text2);margin-top:2px}
+.ag-meta{font-size:12px;color:var(--text3);margin-top:6px;overflow-wrap:anywhere}
+.ag-warn{display:inline-block;margin-left:6px;font-size:10px;font-weight:600;color:var(--col-cf-t);background:var(--col-cf-bg);border:1px solid var(--col-cf-b);border-radius:999px;padding:1px 7px;vertical-align:2px}
+.ag-sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin:18px 0 8px}
+/* ══ TIMELINE ══ */
+.tl-scroll{overflow-x:auto;padding-bottom:6px}
+.tl-board{display:grid;min-width:640px;column-gap:8px}
+.tl-head{font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-align:center;padding:8px 4px;color:var(--text2);background:var(--bg3);border-radius:8px;margin-bottom:6px}
+.tl-head.today{background:var(--accent2);color:#fff}
+.tl-corner{background:transparent}
+.tl-axis{position:relative}
+.tl-tick{position:absolute;left:0;right:0;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);transform:translateY(-6px);font-variant-numeric:tabular-nums}
+.tl-col{position:relative;border-left:1px solid var(--border)}
+.tl-hour{position:absolute;left:0;right:0;border-top:1px solid var(--border)}
+.tl-ev{position:absolute;border-radius:8px;padding:6px 8px;overflow:hidden;cursor:pointer;background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--border2);min-width:0;line-height:1.3}
+.tl-ev b{display:block;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text1)}
+.tl-ev small{display:block;font-size:11px;color:var(--text2);overflow-wrap:anywhere}
+.tl-ev.typ-sim{background:var(--col-sim-bg);border-color:var(--col-sim-b)}
+.tl-ev.typ-mgmt{background:var(--col-mgmt-bg);border-color:var(--col-mgmt-b)}
+.tl-ev.typ-base{background:var(--col-base-bg);border-color:var(--col-base-b)}
+.tl-ev.typ-wpf{background:var(--col-wpf-bg);border-color:var(--col-wpf-b)}
+.tl-ev:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </style>
 </head>
 <body>
@@ -668,6 +712,11 @@ body.is-admin .day-sep-empty{cursor:default;}
 
 <div id="cbanner"></div>
 <div id="next-banner-wrap"></div>
+<div class="view-switch" role="tablist" aria-label="Ansicht">
+  <button class="vs-btn" data-view="agenda" onclick="setView('agenda')">Agenda</button>
+  <button class="vs-btn" data-view="timeline" onclick="setView('timeline')">Zeitachse</button>
+  <button class="vs-btn" data-view="grid" onclick="setView('grid')">Raster</button>
+</div>
 <div class="grid-wrap"><div id="main"></div></div>
 
 <!-- ══ LOGIN ══ -->
@@ -1351,14 +1400,19 @@ function getTodayDayIndex(){
   return d-1; // Mon=0..Fri=4
 }
 
-function renderGrid(){
-  const el=document.getElementById("main"),banner=document.getElementById("cbanner");
+function updateConflictBanner(){
+  const banner=document.getElementById("cbanner");
   const cs=getAllConflictSlots();
   if(cs.size>0){
     const occ={},pairs=[];
     for(const k of keys())for(const t of M[k].termine){if(t.async)continue;const key=t.day+"-"+t.slot;if(occ[key])pairs.push(`${occ[key]} ↔ ${k} (${DL[t.day]} ${SL[t.slot].l})`);else occ[key]=k;}
     banner.innerHTML=`<div class="cbanner">⚠ <strong>Überschneidung:</strong> ${pairs.join("  ·  ")}</div>`;
   }else banner.innerHTML="";
+}
+function renderGrid(){
+  const el=document.getElementById("main");
+  const cs=getAllConflictSlots();
+  updateConflictBanner();
   if(!keys().length){el.innerHTML=`<div class="none-msg">Keine Module vorhanden.</div>`;return;}
   const activeDays=[0,1,2,3,4,5].filter(i=>activeDaySet.has(i));
   const colCount=activeDays.length;
@@ -1410,7 +1464,102 @@ function renderGrid(){
   h+="</div>";el.innerHTML=h;
   updateNextBanner();
 }
-function render(){renderGrid();}
+/* ══ VIEWS: Agenda / Zeitachse / Raster ══ */
+let viewMode="agenda";
+let agendaDay=null;
+try{const v=localStorage.getItem("miem-sp-view");if(v==="agenda"||v==="timeline"||v==="grid")viewMode=v;}catch{}
+function setView(v){
+  viewMode=v;
+  try{localStorage.setItem("miem-sp-view",v);}catch{}
+  render();
+}
+function setAgendaDay(di){agendaDay=di;render();}
+function activeDayList(){return [0,1,2,3,4,5].filter(i=>activeDaySet.has(i));}
+function slotMin(sl){const [h,m]=sl.split(":").map(Number);return h*60+m;}
+function roomOf(t){return t.raum&&t.raum!=="–"?t.raum:"";}
+function render(){
+  document.querySelectorAll(".vs-btn").forEach(b=>b.classList.toggle("on",b.dataset.view===viewMode));
+  const gw=document.querySelector(".grid-wrap");
+  if(gw)gw.classList.toggle("is-grid",viewMode==="grid");
+  updateConflictBanner();
+  if(viewMode==="grid")renderGrid();
+  else if(viewMode==="timeline")renderTimeline();
+  else renderAgenda();
+  updateNextBanner();
+}
+function renderAgenda(){
+  const el=document.getElementById("main");
+  if(!keys().length){el.innerHTML=`<div class="none-msg">Keine Module vorhanden.</div>`;return;}
+  const days=activeDayList();
+  if(!days.length){el.innerHTML=`<div class="none-msg">Keine Tage ausgewählt.</div>`;return;}
+  const today=getTodayDayIndex();
+  if(!days.includes(agendaDay))agendaDay=days.includes(today)?today:days[0];
+  const cs=getAllConflictSlots();
+  const tabs=days.map(di=>`<button class="ag-tab${di===agendaDay?" on":""}" onclick="setAgendaDay(${di})">${DL[di]}${di===today?" · heute":""}</button>`).join("");
+  const timed=[],asy=[];
+  for(const k of keys())for(const t of M[k].termine){
+    if(t.day!==agendaDay)continue;
+    (t.async?asy:timed).push({k,t});
+  }
+  timed.sort((a,b)=>a.t.slot-b.t.slot);
+  const item=({k,t})=>{
+    const m=M[k];
+    const conflict=!t.async&&cs.has(t.day+"-"+t.slot);
+    const time=t.async?`<b>async</b>`:`<b>${SL[t.slot].sh}</b><span>${SL[t.slot].eh}</span>`;
+    const room=roomOf(t);
+    const meta=[t.fmt,room,m.doz&&m.doz!=="–"?m.doz:""].filter(Boolean).join(" · ");
+    return `<article class="ag-item ${t.async?"async":""} ${conflict?"conflict":""} typ-${m.typ}" onclick="showDetail('${k}')" tabindex="0">
+      <div class="ag-time">${time}</div>
+      <div class="ag-body"><div class="ag-code">${t.lbl}${conflict?' <span class="ag-warn">Überschneidung</span>':""}</div>
+      <div class="ag-name">${m.name}</div><div class="ag-meta">${meta}</div></div></article>`;
+  };
+  el.innerHTML=`<div class="ag-wrap">
+    <div class="ag-tabs" role="tablist">${tabs}</div>
+    <div class="ag-list">${timed.length?timed.map(item).join(""):`<div class="none-msg">Keine Termine an diesem Tag.</div>`}</div>
+    ${asy.length?`<div class="ag-sub">Asynchron, ohne feste Zeit</div><div class="ag-list">${asy.map(item).join("")}</div>`:""}
+  </div>`;
+}
+function renderTimeline(){
+  const el=document.getElementById("main");
+  if(!keys().length){el.innerHTML=`<div class="none-msg">Keine Module vorhanden.</div>`;return;}
+  const days=activeDayList();
+  if(!days.length){el.innerHTML=`<div class="none-msg">Keine Tage ausgewählt.</div>`;return;}
+  const START=8*60,END=20*60+45,PX=1.15,H=(END-START)*PX;
+  const today=getTodayDayIndex();
+  let cols="",heads="";
+  for(const di of days){
+    const evs=[];
+    for(const k of keys())for(const t of M[k].termine){
+      if(t.async||t.day!==di)continue;
+      const a=slotMin(SL[t.slot].sh),b=slotMin(SL[t.slot].eh);
+      evs.push({k,t,a,b,lane:0});
+    }
+    evs.sort((x,y)=>x.a-y.a||x.b-y.b);
+    const laneEnds=[];
+    for(const e of evs){
+      let l=laneEnds.findIndex(end=>end<=e.a);
+      if(l===-1){l=laneEnds.length;laneEnds.push(e.b);}else laneEnds[l]=e.b;
+      e.lane=l;
+    }
+    const n=Math.max(1,laneEnds.length);
+    let hours="";
+    for(let hh=8;hh<=20;hh++)hours+=`<div class="tl-hour" style="top:${(hh*60-START)*PX}px"></div>`;
+    const blocks=evs.map(e=>{
+      const m=M[e.k],room=roomOf(e.t);
+      return `<div class="tl-ev typ-${m.typ}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${m.name}">
+        <b>${e.t.lbl}</b><small>${m.name}</small><small>${SL[e.t.slot].sh}–${SL[e.t.slot].eh} · ${e.t.fmt}${room?" · "+room:""}</small></div>`;
+    }).join("");
+    heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]}</div>`;
+    cols+=`<div class="tl-col" style="height:${H}px">${hours}${blocks}</div>`;
+  }
+  let axis="";
+  for(let hh=8;hh<=20;hh++)axis+=`<div class="tl-tick" style="top:${(hh*60-START)*PX}px">${String(hh).padStart(2,"0")}:00</div>`;
+  el.innerHTML=`<div class="tl-scroll"><div class="tl-board" style="grid-template-columns:52px repeat(${days.length},minmax(170px,1fr))">
+    <div class="tl-corner"></div>${heads}
+    <div class="tl-axis" style="height:${H}px">${axis}</div>${cols}
+    </div></div>`;
+}
+
 
 /* ══ ZOOM ══ */
 let zoomLevel=100;
