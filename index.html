@@ -677,7 +677,7 @@ body.is-admin .day-sep-empty{cursor:default;}
 .tl-break.lunch span{color:var(--text2)}
 
 /* ══ KARTEN-OPTIK (wie Modulkarten) für Agenda und Zeitachse ══ */
-.ag-item{background:var(--surface);border:0;border-radius:20px;padding:14px 16px;box-shadow:0 1px 0 var(--border),0 12px 28px -20px rgba(0,0,0,.45);grid-template-columns:76px minmax(0,1fr)}
+.ag-item{background:var(--surface);border:0;border-radius:20px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:14px 16px;box-shadow:0 1px 0 var(--border),0 12px 28px -20px rgba(0,0,0,.45);grid-template-columns:76px minmax(0,1fr)}
 .ag-item:hover,.ag-item:focus-visible{transform:translateY(-2px);box-shadow:0 1px 0 var(--border),0 18px 34px -20px rgba(0,0,0,.5)}
 .ag-item.typ-sim{--c:#17b89b}
 .ag-item.typ-base{--c:#6d5efc}
@@ -697,6 +697,26 @@ body.is-admin .day-sep-empty{cursor:default;}
 .tl-ev.typ-wpf{--c:#ec4899}
 .tl-ev b{color:var(--c,var(--text1));font-weight:800}
 .tl-ev small{color:var(--text2)}
+
+/* ══ HINTERGRUND & KOPFZEILE ══ */
+body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(900px 560px at 6% -10%,color-mix(in srgb,#7c6cff 48%,transparent),transparent 58%),
+    radial-gradient(820px 560px at 104% 4%,color-mix(in srgb,#17b89b 40%,transparent),transparent 56%),
+    radial-gradient(900px 620px at 50% 118%,color-mix(in srgb,#ff7a59 34%,transparent),transparent 58%);
+  background-attachment:fixed;
+}
+:root[data-theme="dark"] body,
+:root:not([data-theme="light"]) body{background-color:#080a14}
+:root[data-theme="dark"] .ag-item,:root:not([data-theme="light"]) .ag-item{background:color-mix(in srgb,var(--surface) 72%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.header{
+  background:color-mix(in srgb,var(--bg2) 66%,transparent)!important;
+  backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid color-mix(in srgb,var(--border) 70%,transparent)!important;
+}
+.editable-title{letter-spacing:-.02em}
+.cbanner{border-radius:14px}
 </style>
 </head>
 <body>
