@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5">
-<title>MIEM Stundenplan – SoSe 2026</title>
+<title>MIEM Stundenplan – WiSe 2026/27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -665,6 +665,8 @@ body.is-admin .day-sep-empty{cursor:default;}
 .tl-ev{position:absolute;border-radius:8px;padding:6px 8px;overflow:hidden;cursor:pointer;background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--border2);min-width:0;line-height:1.3}
 .tl-ev b{display:block;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text1)}
 .tl-ev small{display:block;font-size:11px;color:var(--text2);overflow-wrap:anywhere}
+.tl-ev.compact small:last-child{display:none}
+.tl-ev b,.tl-ev small{hyphens:auto;overflow-wrap:break-word}
 .tl-ev.typ-sim{background:var(--col-sim-bg);border-color:var(--col-sim-b)}
 .tl-ev.typ-mgmt{background:var(--col-mgmt-bg);border-color:var(--col-mgmt-b)}
 .tl-ev.typ-base{background:var(--col-base-bg);border-color:var(--col-base-b)}
@@ -673,7 +675,7 @@ body.is-admin .day-sep-empty{cursor:default;}
 
 .ag-break{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);text-align:center;padding:4px 0;letter-spacing:.04em}
 .tl-break{position:absolute;left:3px;right:3px;border-radius:6px;background:repeating-linear-gradient(135deg,transparent 0 6px,var(--bg3) 6px 7px);display:flex;align-items:center;justify-content:center;pointer-events:none}
-.tl-break span{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);background:var(--bg);padding:1px 6px;border-radius:999px;white-space:nowrap}
+.tl-break span{font-family:'JetBrains Mono',monospace;font-size:9px;line-height:12px;color:var(--text3);background:var(--bg);padding:0 5px;border-radius:999px;white-space:nowrap}
 .tl-break.lunch span{color:var(--text2)}
 
 /* ══ KARTEN-OPTIK (wie Modulkarten) für Agenda und Zeitachse ══ */
@@ -717,6 +719,10 @@ body{
 }
 .editable-title{letter-spacing:-.02em}
 .cbanner{border-radius:14px}
+/* Overlapping events share the column width: keep their text readable */
+.tl-ev.narrow{padding:6px 6px}
+.tl-ev.narrow b{font-size:10.5px;line-height:1.25}
+.tl-ev.narrow small{font-size:10px;line-height:1.3}
 </style>
 </head>
 <body>
@@ -727,12 +733,12 @@ body{
     <div class="header-logo">
       <input class="editable-title" id="site-title" value="MIEM · STUNDENPLAN" readonly>
       <span class="mobile-title" id="mobile-title">MIEM · STUNDENPLAN</span>
-      <input class="editable-sem" id="site-sem" value="SoSe 2026 · TH Nürnberg" readonly>
+      <input class="editable-sem" id="site-sem" value="WiSe 2026/27 · TH Nürnberg" readonly>
       <span class="header-kw" id="header-kw"></span>
     </div>
     <div class="admin-badge" id="admin-badge">⚙ Admin</div>
     <div class="header-actions">
-      <button class="bh admin-only" id="btn-save" onclick="saveAdminState()">💾 <span class="btn-label">Speichern</span></button>
+      <button class="bh admin-only" id="btn-save" title="Speichert den Stand ins GitHub-Repo, wenn Token und Repo eingetragen sind. Ohne Konfiguration wird nur eine lokale state.json heruntergeladen." onclick="saveAdminState()">💾 <span class="btn-label">Speichern</span></button>
       <div class="zoom-ctrl" id="zoom-ctrl">
         <button class="zoom-btn bh" onclick="changeZoom(-1)" title="Verkleinern">−</button>
         <span class="zoom-label" id="zoom-label">100%</span>
@@ -798,7 +804,7 @@ body{
     </div>
     <div class="mactions">
       <button class="btn btn-d admin-only" id="dm-del">🗑 Löschen</button>
-      <button class="btn admin-only" id="dm-exc">📅 Termine</button>
+      <button class="btn admin-only" id="dm-exc" title="Termine dieses Moduls anpassen: einzelne Termine absagen oder zusätzliche anlegen.">📅 Termine</button>
       <button class="btn admin-only" id="dm-edit">✎ Bearbeiten</button>
       <button class="btn btn-p" onclick="closeOv('ov-detail')">Schließen</button>
     </div>
@@ -810,12 +816,12 @@ body{
   <div class="modal m-edit">
     <div class="mhead"><div class="mtitle" id="em-title">Modul hinzufügen</div><button class="mclose" onclick="closeOv('ov-edit')">×</button></div>
     <div class="fsec"><div class="fsec-title">Grunddaten</div>
-      <div class="frow"><div><label class="flbl">Kürzel *</label><input class="fi" id="f-id" placeholder="z.B. RBSIM" maxlength="12"></div><div><label class="flbl">Modul-Nr.</label><input class="fi" id="f-nr" placeholder="z.B. S2"></div></div>
+      <div class="frow"><div><label class="flbl">Kürzel *</label><input class="fi" id="f-id" title="Eindeutige Abkürzung des Moduls, z. B. RBSIM. Dient als Schlüssel für Termine und Farben und muss einmalig sein." placeholder="z.B. RBSIM" maxlength="12"></div><div><label class="flbl">Modul-Nr.</label><input class="fi" id="f-nr" title="Modulnummer aus dem Studienplan, z. B. S2. Nur zur Anzeige." placeholder="z.B. S2"></div></div>
     </div>
     <div class="fsec"><label class="flbl">Modulname *</label><input class="fi" id="f-name" placeholder="Vollständiger Modulname"></div>
     <div class="fsec"><div class="frow">
       <div><label class="flbl">Typ *</label>
-        <select class="fs" id="f-typ">
+        <select class="fs" id="f-typ" title="Modultyp: bestimmt Farbe und Gruppe. Simulation, Management, Basismodul oder Wahlpflichtfach.">
           <option value="sim">Simulation (S)</option>
           <option value="mgmt">Management (M)</option>
           <option value="base" selected>Basismodul (B)</option>
@@ -825,13 +831,13 @@ body{
       <div><label class="flbl">Dozent</label><input class="fi" id="f-doz" placeholder="Prof. Nachname"></div>
     </div></div>
     <div class="fsec"><div class="fsec-title">Veranstaltungsinfos</div>
-      <label class="flbl">1. Veranstaltung</label><input class="fi" id="f-erst" placeholder="Fr 20.03.2026, Präsenz KA.213">
+      <label class="flbl">1. Veranstaltung</label><input class="fi" id="f-erst" title="Erster Termin des Moduls. Nur zur Information, es werden keine Termine erzeugt. Termine legst du unter „Termine“ an." placeholder="Fr 20.03.2026, Präsenz KA.213">
     </div>
     <div class="fsec"><div class="frow">
-      <div><label class="flbl">Prüfungsleistung</label><input class="fi" id="f-prf" placeholder="Klausur 90 min"></div>
-      <div><label class="flbl">Kurscode</label><input class="fi" id="f-kc" placeholder="z.B. RBSIM2026"></div>
+      <div><label class="flbl">Prüfungsleistung</label><input class="fi" id="f-prf" title="Art der Prüfungsleistung, z. B. Klausur 90 min. Wird in der Detailansicht angezeigt." placeholder="Klausur 90 min"></div>
+      <div><label class="flbl">Kurscode</label><input class="fi" id="f-kc" title="Kurscode aus Moodle. Nur zur Anzeige und wird im Export ausgegeben." placeholder="z.B. RBSIM2026"></div>
     </div></div>
-    <div class="fsec"><label class="flbl">Moodle-Link</label><input class="fi" id="f-moodle" placeholder="https://elearning.ohmportal.de/..."></div>
+    <div class="fsec"><label class="flbl">Moodle-Link</label><input class="fi" id="f-moodle" title="Link zum Moodle-Kurs. Wird in der Detailansicht und im Export verwendet." placeholder="https://elearning.ohmportal.de/..."></div>
     <div class="fsec"><label class="flbl">Hinweise</label><textarea class="fta" id="f-hint" placeholder="Sonstige Hinweise…"></textarea></div>
     <div class="fsec"><div class="fsec-title">Regelmäßige Termine</div>
       <div class="tlist" id="tlist"></div>
@@ -848,8 +854,8 @@ body{
     <div class="mhead"><div class="mtitle" id="exc-title">Termine konfigurieren</div><button class="mclose" onclick="closeOv('ov-exc')">×</button></div>
     <div class="fsec"><div class="fsec-title">Vorlesungszeitraum</div>
       <div class="sem-period">
-        <div><label class="flbl">Beginn</label><input class="fi" id="exc-start" type="date"></div>
-        <div><label class="flbl">Ende</label><input class="fi" id="exc-end" type="date"></div>
+        <div><label class="flbl">Beginn</label><input class="fi" id="exc-start" title="Erster Tag des Zeitraums für diesen Ausnahme-Eintrag, z. B. Feiertage." type="date"></div>
+        <div><label class="flbl">Ende</label><input class="fi" id="exc-end" title="Letzter Tag des Zeitraums für diesen Ausnahme-Eintrag." type="date"></div>
       </div>
     </div>
     <div class="fsec"><div class="fsec-title">Ausnahmen & Sondertermine</div>
@@ -870,8 +876,8 @@ body{
     <div class="mhead"><div class="mtitle">Kalender exportieren</div><button class="mclose" onclick="closeOv('ov-export')">×</button></div>
     <div class="fsec"><div class="fsec-title">Zeitraum</div>
       <div class="frow">
-        <div><label class="flbl">Beginn</label><input class="fi" id="ex-start" type="date"></div>
-        <div><label class="flbl">Ende</label><input class="fi" id="ex-end" type="date"></div>
+        <div><label class="flbl">Beginn</label><input class="fi" id="ex-start" title="Erster Tag des Zeitraums, der exportiert wird." type="date"></div>
+        <div><label class="flbl">Ende</label><input class="fi" id="ex-end" title="Letzter Tag des Zeitraums, der exportiert wird." type="date"></div>
       </div>
     </div>
     <div class="fsec"><div class="fsec-title">Module</div>
@@ -1024,19 +1030,19 @@ body{
             </div>
             <div class="fsec">
               <label class="flbl">GitHub Token (ghp_…)</label>
-              <input class="fi" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+              <input class="fi" id="gh-token" title="Fine-grained GitHub-Token mit Contents-Schreibrecht nur für dieses Repo. Wird nur im eigenen Browser gespeichert." type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
               <div class="fhint">Benötigt: <strong>repo → contents: write</strong></div>
             </div>
             <div class="fsec">
               <label class="flbl">Owner / Repo</label>
               <div class="frow">
-                <div><label class="flbl">Owner (Username)</label><input class="fi" id="gh-owner" placeholder="dein-username"></div>
-                <div><label class="flbl">Repo-Name</label><input class="fi" id="gh-repo" placeholder="miem-stundenplan"></div>
+                <div><label class="flbl">Owner (Username)</label><input class="fi" id="gh-owner" title="GitHub-Benutzername oder Organisation, der das Repo gehört." placeholder="dein-username"></div>
+                <div><label class="flbl">Repo-Name</label><input class="fi" id="gh-repo" title="Name des Repos, in das der Stand gespeichert wird." placeholder="miem-stundenplan"></div>
               </div>
             </div>
             <div class="fsec">
               <label class="flbl">Branch</label>
-              <input class="fi" id="gh-branch" placeholder="main" value="main">
+              <input class="fi" id="gh-branch" title="Branch, auf den gepusht wird. Meist main." placeholder="main" value="main">
             </div>
             <div style="display:flex;gap:8px;margin-top:4px">
               <button class="btn btn-p" onclick="saveGithubConfig()" style="flex:1">✓ Speichern</button>
@@ -1091,7 +1097,7 @@ body{
         <button class="sp-action-btn primary" id="sp-save-btn" onclick="saveAdminState()" style="margin-bottom:6px">💾 Speichern &amp; ins Repo pushen</button>
         <button class="sp-action-btn danger" onclick="closeSettings();doLogout()">Abmelden</button>
       </div>
-      <div class="sp-version">MIEM Stundenplan · SoSe 2026</div>
+      <div class="sp-version">MIEM Stundenplan · WiSe 2026/27</div>
     </div>
   </div>
 </div>
@@ -1162,10 +1168,6 @@ function buildState(){
   };
 }
 
-/* Auto-save to localStorage (instant, local only) */
-function autoSave(){
-  localStorage.setItem(STORE_KEY,JSON.stringify(buildState()));
-}
 
 /* Load from localStorage (fallback) */
 function loadSavedState(){
@@ -1606,11 +1608,15 @@ function renderTimeline(){
     let breaks="";
     for(let g=0;g<SL.length-1;g++){
       const b=breakInfo(g);
-      breaks+=`<div class="tl-break${g===2?" lunch":""}" style="top:${(b.from-START)*PX+2}px;height:${b.min*PX-4}px"><span>${b.label} · ${b.min} min</span></div>`;
+      // Hide the pause label where an event sits in the same time range, so the text never stacks on event text
+      const hit=evs.some(e=>e.a<b.to&&e.b>b.from);
+      breaks+=`<div class="tl-break${g===2?" lunch":""}" style="top:${(b.from-START)*PX+2}px;height:${b.min*PX-4}px">${hit?"":`<span>${b.label} · ${b.min} min</span>`}</div>`;
     }
     const blocks=evs.map(e=>{
       const m=M[e.k],room=roomOf(e.t);
-      return `<div class="tl-ev typ-${m.typ}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${m.name}">
+      const compact=(e.b-e.a)*PX-4<64?" compact":"";
+      const narrow=n>1?" narrow":"";
+      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${m.name}">
         <b>${e.t.lbl}</b><small>${m.name}</small><small>${SL[e.t.slot].sh}–${SL[e.t.slot].eh} · ${e.t.fmt}${room?" · "+room:""}</small></div>`;
     }).join("");
     heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]}</div>`;
@@ -1913,7 +1919,7 @@ function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("
 function getOccurrences(modId,s,e){const m=M[modId];const sD=new Date(s||m.semStart||"2026-03-17"),eD=new Date(e||m.semEnd||"2026-07-19");const evs=[];const cancelled=new Set((m.exceptions||[]).filter(x=>x.type==="cancelled").map(x=>x.date));const extras=(m.exceptions||[]).filter(x=>x.type==="extra");for(const t of m.termine){if(t.async||t.day>=5)continue;const jd=t.day+1;const sl=SL[t.slot];let d=new Date(sD);while(d.getDay()!==jd)d.setDate(d.getDate()+1);while(d<=eD){const ds=d.toISOString().slice(0,10);if(!cancelled.has(ds))evs.push({modId,date:ds,startTime:sl.sh,endTime:sl.eh,label:t.lbl,fmt:t.fmt,raum:t.raum,name:m.name,doz:m.doz});d.setDate(d.getDate()+7);}}for(const ex of extras)evs.push({modId,date:ex.date,startTime:"08:00",endTime:"18:00",label:m.id+" Extra",fmt:"Präsenz",raum:"–",name:m.name+(ex.note?" ("+ex.note+")":""),doz:m.doz});return evs;}
 function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("");}
 function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const all=[];for(const k of sel)all.push(...getOccurrences(k,s,e));all.sort((a,b)=>a.date.localeCompare(b.date));return all;}
-function exportICS(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const uid=()=>Math.random().toString(36).substr(2,9).toUpperCase();const icsDate=(d,t)=>d.replace(/-/g,"")+"T"+t.replace(/:/g,"")+"00";const now=new Date().toISOString().replace(/[-:]/g,"").replace(/\..+/,"")+"Z";let ics="BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//MIEM Stundenplan//DE\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:MIEM Stundenplan SoSe 2026\r\n";for(const ev of evs){const m=M[ev.modId];ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\nDTSTART:${icsDate(ev.date,ev.startTime)}\r\nDTEND:${icsDate(ev.date,ev.endTime)}\r\nSUMMARY:${ev.name} (${ev.modId})\r\nDESCRIPTION:Dozent: ${ev.doz}\\nFormat: ${ev.fmt}\\nKurscode: ${m.kc}\\nMoodle: ${m.moodle}\r\nLOCATION:${ev.raum!=="–"?ev.raum:"Online"}\r\nEND:VEVENT\r\n`;}ics+="END:VCALENDAR";download("miem_stundenplan.ics",ics,"text/calendar");}
+function exportICS(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const uid=()=>Math.random().toString(36).substr(2,9).toUpperCase();const icsDate=(d,t)=>d.replace(/-/g,"")+"T"+t.replace(/:/g,"")+"00";const now=new Date().toISOString().replace(/[-:]/g,"").replace(/\..+/,"")+"Z";let ics="BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//MIEM Stundenplan//DE\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:MIEM Stundenplan WiSe 2026/27\r\n";for(const ev of evs){const m=M[ev.modId];ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\nDTSTART:${icsDate(ev.date,ev.startTime)}\r\nDTEND:${icsDate(ev.date,ev.endTime)}\r\nSUMMARY:${ev.name} (${ev.modId})\r\nDESCRIPTION:Dozent: ${ev.doz}\\nFormat: ${ev.fmt}\\nKurscode: ${m.kc}\\nMoodle: ${m.moodle}\r\nLOCATION:${ev.raum!=="–"?ev.raum:"Online"}\r\nEND:VEVENT\r\n`;}ics+="END:VCALENDAR";download("miem_stundenplan.ics",ics,"text/calendar");}
 function exportCSV(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const wd=["So","Mo","Di","Mi","Do","Fr","Sa"];const rows=[["Datum","Wochentag","Start","Ende","Modul","Kürzel","Label","Format","Raum","Dozent","Moodle"]];for(const ev of evs){const m=M[ev.modId];const d=new Date(ev.date);rows.push([ev.date,wd[d.getDay()],ev.startTime,ev.endTime,ev.name,ev.modId,ev.label,ev.fmt,ev.raum!=="–"?ev.raum:"Online",ev.doz,m.moodle]);}const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");download("miem_stundenplan.csv",csv,"text/csv;charset=utf-8");}
 function download(name,content,type){const blob=new Blob([content],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();}
 
