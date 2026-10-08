@@ -514,7 +514,7 @@ body.is-admin .admin-only{display:inline-flex!important}
   --g-sh-h:0 2px 4px rgba(35,40,100,.08),0 20px 40px -16px rgba(40,45,120,.45);
   --g-sh-s:0 1px 2px rgba(35,40,100,.08),0 6px 14px -8px rgba(40,45,120,.3);
   --g-sh-s-h:0 2px 4px rgba(35,40,100,.1),0 12px 22px -10px rgba(40,45,120,.45);
-  --bar:rgba(255,255,255,.9);
+  --bar:rgba(255,255,255,.95);
   --tile:rgba(255,255,255,.55);--tile-h:rgba(255,255,255,.85);
   --input-bg:rgba(255,255,255,.78);
   --card-hi:rgba(255,255,255,.55);
@@ -538,7 +538,7 @@ body.is-admin .admin-only{display:inline-flex!important}
   --g-sh-h:0 2px 4px rgba(0,0,0,.5),0 22px 44px -16px rgba(0,0,0,.9);
   --g-sh-s:0 1px 2px rgba(0,0,0,.4),0 6px 14px -8px rgba(0,0,0,.7);
   --g-sh-s-h:0 2px 4px rgba(0,0,0,.5),0 12px 22px -10px rgba(0,0,0,.85);
-  --bar:rgba(12,14,26,.9);
+  --bar:rgba(12,14,26,.95);
   --tile:rgba(255,255,255,.055);--tile-h:rgba(255,255,255,.11);
   --input-bg:rgba(255,255,255,.06);
   --card-hi:rgba(255,255,255,.08);
@@ -908,7 +908,7 @@ button,input,select,textarea{font-family:inherit}
 /* Review 4: Stundenlabel unter dem Chip, Strich in der laufenden Karte */
 .tl-tick.under-chip{visibility:hidden}
 .tl-ev>b,.tl-ev>small{position:relative;z-index:1}
-.tl-ev-now{position:absolute;left:0;right:0;height:2px;margin-top:-1px;background:var(--now);opacity:.45;pointer-events:none;z-index:0}
+.tl-ev-now{position:absolute;left:0;right:0;height:2px;margin-top:-1px;background:var(--now);opacity:.25;pointer-events:none;z-index:0}
 
 /* Runde 6: Wochenleiste, Ausfälle, Prüfungen, Kopieren, Moodle auf der Karte */
 .view-switch{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
@@ -2129,7 +2129,8 @@ window.addEventListener("resize",()=>{clearTimeout(_fitT);_fitT=setTimeout(()=>{
 /* ══ ZOOM ══ */
 const ZOOM_LEVELS=[75,90,100,110,125,150];
 let zoomLevel=100;
-try{const z=parseInt(localStorage.getItem("miem-sp-zoom"),10);if(ZOOM_LEVELS.includes(z))zoomLevel=z;}catch{}
+// Gespeicherte Zoomstufe nur auf breiten Bildschirmen, schmal sind die Zoom-Knöpfe ausgeblendet
+try{const z=parseInt(localStorage.getItem("miem-sp-zoom"),10);if(ZOOM_LEVELS.includes(z)&&innerWidth>=900)zoomLevel=z;}catch{}
 /* Ein Zoom für Agenda und Zeitachse: skaliert Schrift, Abstände und Zeitachse gemeinsam */
 function applyZoom(){
   const main=document.getElementById("main");
