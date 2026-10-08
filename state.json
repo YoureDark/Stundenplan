@@ -233,6 +233,93 @@
           "async": false
         }
       ]
+    },
+    "MAINP": {
+      "id": "MAINP",
+      "nr": "M2",
+      "name": "Managing International Projects",
+      "typ": "mgmt",
+      "doz": "Prof. Dr. Eitel Birgit, Prof. Dr. Wei Naiming",
+      "erst": "Do 08.10.2026, 15:45, BL.315 (Präsenz)",
+      "prf": "–",
+      "kc": "bwmoodle",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=8164",
+      "hint": "Alle Infos im Moodle-Kurs.",
+      "semStart": "2026-10-08",
+      "semEnd": "2027-01-22",
+      "exceptions": [
+        {
+          "type": "cancelled",
+          "date": "2026-12-24",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-25",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2026-12-31",
+          "note": "Weihnachtsferien"
+        },
+        {
+          "type": "cancelled",
+          "date": "2027-01-01",
+          "note": "Weihnachtsferien"
+        }
+      ],
+      "termine": [
+        {
+          "day": 3,
+          "slot": 4,
+          "fmt": "Präsenz",
+          "raum": "BL.315",
+          "lbl": "MAINP:SU",
+          "async": false
+        },
+        {
+          "day": 3,
+          "slot": 5,
+          "fmt": "Präsenz",
+          "raum": "BL.315",
+          "lbl": "MAINP:Ue",
+          "async": false
+        }
+      ]
+    },
+    "STMNG": {
+      "id": "STMNG",
+      "nr": "M3",
+      "name": "Strategic Management in a global Context",
+      "typ": "mgmt",
+      "doz": "Prof. Wellner Kai-Uwe",
+      "erst": "Fr 09.10.2026, 17:30, BL.001 (Präsenz)",
+      "prf": "–",
+      "kc": "bwmoodle",
+      "moodle": "https://elearning.ohmportal.de/course/view.php?id=1976",
+      "hint": "Alle Infos im Moodle-Kurs. Samstagstermine: 24.10., 21.11., 16.01.2027.",
+      "semStart": "2026-10-09",
+      "semEnd": "2027-01-22",
+      "exceptions": [],
+      "termine": [
+        {
+          "day": 4,
+          "slot": 5,
+          "fmt": "Präsenz",
+          "raum": "BL.001",
+          "lbl": "STMNG:SU",
+          "async": false
+        },
+        {
+          "day": 5,
+          "slot": 2,
+          "fmt": "Blocktermine",
+          "raum": "n.V.",
+          "lbl": "STMNG:Block",
+          "async": false
+        }
+      ]
     }
   },
   "customColors": {
