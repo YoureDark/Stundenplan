@@ -928,10 +928,20 @@ button,input,select,textarea{font-family:inherit}
 .term-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:3px 0}
 .copy-btn{flex:none;padding:4px 10px;font-size:12px;border-radius:999px}
 .copy-btn.ok{color:var(--col-sim-t);border-color:var(--col-sim-b)}
-.exam-cd{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:700;background:color-mix(in srgb,var(--now) 14%,transparent);color:var(--now-text)}
-.exam-banner{cursor:pointer}
-.exam-banner .next-banner-dot{background:var(--now)}
 @media(max-width:560px){.view-switch{justify-content:center}.wk-label{min-width:0}}
+
+/* Teams: gut sichtbarer Button, hervorgehoben kurz vor und während des Termins */
+.ag-links,.dm-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.dm-links{margin-top:0}
+.ag-links .ag-moodle{margin-top:0}
+.ag-teams,.tl-teams,.teams-link{display:inline-flex;align-items:center;gap:6px;border-radius:999px;font-weight:700;text-decoration:none;color:#fff;background:#5b5fc7;border:1px solid #4f52b2;transition:filter .15s,transform .15s}
+.ag-teams{padding:5px 12px;font-size:12px}
+.teams-link{padding:9px 16px;font-size:13px}
+.tl-teams{position:relative;z-index:1;margin-top:4px;padding:2px 9px;font-size:11px;align-self:flex-start;width:max-content}
+.ag-teams:hover,.tl-teams:hover,.teams-link:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.ag-teams.soon,.tl-teams.soon,.teams-link.soon{background:#4b4fd8;box-shadow:0 0 0 3px color-mix(in srgb,#7b7ff0 45%,transparent);animation:teamsPulse 1.6s ease-in-out infinite}
+@keyframes teamsPulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,#7b7ff0 15%,transparent)}}
+.tl-ev.fit-2 .tl-teams:not(.soon),.tl-ev.fit-3 .tl-teams:not(.soon),.tl-ev.fit-4 .tl-teams,.tl-ev.fit-5 .tl-teams{display:none}
 </style>
 </head>
 <body>
@@ -1044,9 +1054,10 @@ button,input,select,textarea{font-family:inherit}
       <label class="flbl">1. Veranstaltung</label><input class="fi" id="f-erst" title="Erster Termin des Moduls. Nur zur Information, es werden keine Termine erzeugt. Termine legst du unter „Termine“ an." placeholder="Fr 20.03.2026, Präsenz KA.213">
     </div>
     <div class="fsec"><div class="frow">
-      <div><label class="flbl">Prüfungsleistung</label><input class="fi" id="f-prf" title="Art und Datum der Prüfung. Mit Datum (TT.MM.JJJJ) zeigen Details und Banner einen Countdown." placeholder="Klausur 90 min, 05.02.2027"></div>
+      <div><label class="flbl">Prüfungsleistung</label><input class="fi" id="f-prf" title="Art der Prüfungsleistung, z. B. Klausur 90 min. Wird in der Detailansicht angezeigt." placeholder="Klausur 90 min"></div>
       <div><label class="flbl">Kurscode</label><input class="fi" id="f-kc" title="Kurscode aus Moodle. Nur zur Anzeige und wird im Export ausgegeben." placeholder="z.B. RBSIM2026"></div>
     </div></div>
+    <div class="fsec"><label class="flbl">Teams-Link</label><input class="fi" id="f-teams" title="Optionaler Link zur Teams-Besprechung oder zum Team. Ist er eingetragen, zeigen Karten und Details einen Button „Teams öffnen“." placeholder="https://teams.microsoft.com/..."></div>
     <div class="fsec"><label class="flbl">Moodle-Link</label><input class="fi" id="f-moodle" title="Link zum Moodle-Kurs. Wird in der Detailansicht und im Export verwendet." placeholder="https://elearning.ohmportal.de/..."></div>
     <div class="fsec"><label class="flbl">Hinweise</label><textarea class="fta" id="f-hint" placeholder="Sonstige Hinweise…"></textarea></div>
     <div class="fsec"><div class="fsec-title">Regelmäßige Termine</div>
@@ -1868,6 +1879,18 @@ function weekMonday(){
 function dateOfDay(di){const d=weekMonday();d.setDate(d.getDate()+di);return d;}
 function isoDate(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
 function fmtDM(d){return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+".";}
+function teamsUrl(m){const u=(m&&m.teams||"").trim();return /^https?:\/\//i.test(u)?u:"";}
+/* Teams-Button hervorheben: Termin läuft gerade oder startet in den nächsten 10 Minuten */
+function teamsSoon(t,di){
+  if(di!==viewToday()||t.async)return false;
+  const a=slotMin(SL[t.slot].sh),b=slotMin(SL[t.slot].eh),n=nowMinutes();
+  return n>=a-10&&n<b;
+}
+function teamsBtn(m,t,di,cls){
+  const u=teamsUrl(m);if(!u)return "";
+  const soon=t&&teamsSoon(t,di);
+  return `<a class="${cls}${soon?" soon":""}" href="${u.replace(/"/g,"&quot;")}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Teams-Besprechung von ${m.id} öffnen${soon?" (startet gleich oder läuft)":""}">Teams öffnen</a>`;
+}
 function viewToday(){return weekOffset===0?getTodayDayIndex():-1;}
 /* Status eines Termins an einem Datum: "ok", "cancelled" (Ausfall/Ferien) oder "off" (außerhalb des Semesters) */
 function occStatus(m,ds){
@@ -1997,7 +2020,7 @@ function renderAgenda(){
     return `<article class="ag-item${liveCls} ${t.async?"async":""} typ-${m.typ}" onclick="showDetail('${k}')" tabindex="0" title="${tipOf(m,t)}">${live}
       <div class="ag-time">${time}</div>
       <div class="ag-body"><div class="ag-code">${t.lbl}</div>
-      <div class="ag-name">${m.name}</div><div class="ag-meta">${meta}</div>${m.moodle&&m.moodle!=="–"&&!off?`<a class="ag-moodle" href="${m.moodle}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Moodle-Kurs von ${m.id} öffnen">Moodle öffnen</a>`:""}</div></article>`;
+      <div class="ag-name">${m.name}</div><div class="ag-meta">${meta}</div>${!off&&(teamsUrl(m)||(m.moodle&&m.moodle!=="–"))?`<div class="ag-links">${off?"":teamsBtn(m,t,agendaDay,"ag-teams")}`:""}${m.moodle&&m.moodle!=="–"&&!off?`<a class="ag-moodle" href="${m.moodle}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Moodle-Kurs von ${m.id} öffnen">Moodle öffnen</a>`:""}${!off&&(teamsUrl(m)||(m.moodle&&m.moodle!=="–"))?"</div>":""}</div></article>`;
   };
   const nowRow=`<div class="ag-now"><span>${nowLabel()}</span></div>`;
   const agendaRows=[];let nowPlaced=!isTodayAgenda;
@@ -2061,7 +2084,7 @@ function renderTimeline(){
       const nm=nowMinutes(),live=!off&&di===today&&nm>=e.a&&nm<e.b?" live":"";
       const time=`${SL[e.t.slot].sh}–${SL[e.t.slot].eh}`, detail=[m.name,time,e.t.fmt,room].filter(Boolean).join(" · ");
       return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}${off?" cancelled":""}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${off?"Fällt aus"+(e.st.note?" ("+e.st.note+")":"")+" · ":""}${detail} · Klicken für Details">${off?`<em class="tl-off">fällt aus${e.st.note?" · "+e.st.note:""}</em>`:""}
-        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${live?`<i class="tl-ev-now" style="top:${((nm-e.a)/(e.b-e.a))*100}%" aria-hidden="true"></i>`:""}</div>`;
+        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${off?"":teamsBtn(m,e.t,di,"tl-teams")}${live?`<i class="tl-ev-now" style="top:${((nm-e.a)/(e.b-e.a))*100}%" aria-hidden="true"></i>`:""}</div>`;
     }).join("");
     heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]} <span class="tl-date">${fmtDM(dateOfDay(di))}</span>${di===today?" · heute":""}</div>`;
     cols+=`<div class="tl-col${di===today?" today":""}" style="height:${H}px">${hours}${breaks}${blocks}${nowLineHtml(di,START,END,PX)}</div>`;
@@ -2143,25 +2166,8 @@ function updateNextBanner(){
     const timeStr=next.off===0?(hh>0?`in ${hh}h${mn>0?" "+mn+" min":""}`:`in ${mn} min`):next.off===1?"morgen":`in ${next.off} Tagen`;
     h+=`<div class="next-banner"><div class="next-banner-dot" style="background:${typCol[next.m.typ]||"var(--gray-b)"}"></div><span style="color:var(--text2);font-size:11px;font-weight:600;min-width:40px">${SL[next.t.slot].sh}</span><div style="flex:1"><strong>${next.t.lbl}</strong><span style="color:var(--text3)"> · ${DL[next.t.day]}</span></div><div class="next-time">⏱ ${timeStr}</div></div>`;
   }
-  // Prüfungen, die in den nächsten 14 Tagen anstehen
-  for(const k of keys()){
-    const d=examDate(M[k]);if(!d)continue;
-    const n=daysUntil(d);
-    if(n>=0&&n<=14)h+=`<div class="next-banner exam-banner" onclick="showDetail('${k}')" title="Prüfung ${M[k].id}: ${M[k].prf}"><div class="next-banner-dot"></div><div style="flex:1"><strong>Prüfung ${M[k].id}</strong><span style="color:var(--text3)"> · ${fmtDM(d)}</span></div><div class="next-time">${countdownText(n)}</div></div>`;
-  }
   wrap.innerHTML=h;
 }
-/* Prüfungsdatum aus dem Feld "Prüfung" lesen (TT.MM.JJJJ oder JJJJ-MM-TT) */
-function examDate(m){
-  const v=m&&m.prf;if(!v||v==="–")return null;
-  let r=v.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})/);
-  if(r)return new Date(+r[3],+r[2]-1,+r[1]);
-  r=v.match(/(\d{4})-(\d{2})-(\d{2})/);
-  if(r)return new Date(+r[1],+r[2]-1,+r[3]);
-  return null;
-}
-function daysUntil(d){const t=new Date();t.setHours(0,0,0,0);return Math.round((d-t)/864e5);}
-function countdownText(n){return n<0?"vorbei":n===0?"heute":n===1?"morgen":`in ${n} Tagen`;}
 
 /* ── MODULE SEARCH in settings ── */
 function filterSpMods(q){
@@ -2358,7 +2364,7 @@ function showDetail(k){
   const mh=(!m.moodle||m.moodle==="–")?"–":`<a href="${m.moodle}" target="_blank">${m.moodle}</a>`;
   const kch=(!m.kc||m.kc==="–")?"–":`<code>${m.kc}</code>`;
   const excStr=(m.exceptions||[]).length===0?"–":m.exceptions.map(e=>`${e.type==="cancelled"?"✕":"＋"} ${e.date}${e.note?" ("+e.note+")":""}`).join(", ");
-  const rows=[["Kürzel",m.id],["Dozent",m.doz||"–"],["1. Termin",m.erst||"–"],["Prüfung",m.prf&&m.prf!=="–"?m.prf+(examDate(m)?` <span class="exam-cd">${countdownText(daysUntil(examDate(m)))}</span>`:""):"–"],["Moodle",mh],["Kurscode",kch],["Semester",`${m.semStart||"–"} → ${m.semEnd||"–"}`],["Ausnahmen",excStr],["Hinweise",m.hint||"–"],["Termine",m.termine.map(t=>{const txt=`${t.lbl} · ${DL[t.day]} ${SL[t.slot].l}${t.raum&&t.raum!=="–"?" · "+t.raum:""}`;return `<div class="term-row"><span>${DL[t.day]} ${SL[t.slot].l} (${t.fmt}${t.raum&&t.raum!=="–"?" · "+t.raum:""})</span><button class="btn copy-btn" data-copy="${txt.replace(/"/g,"&quot;")}" onclick="copyText(this)" title="Raum und Uhrzeit als Text kopieren">Kopieren</button></div>`;}).join("")]].filter(([,v])=>v&&v!=="–");
+  const rows=[["Kürzel",m.id],["Dozent",m.doz||"–"],["1. Termin",m.erst||"–"],["Prüfung",m.prf||"–"],["Teams",teamsUrl(m)?`<a href="${teamsUrl(m).replace(/"/g,"&quot;")}" target="_blank" rel="noopener">Besprechung öffnen</a>`:"–"],["Moodle",mh],["Kurscode",kch],["Semester",`${m.semStart||"–"} → ${m.semEnd||"–"}`],["Ausnahmen",excStr],["Hinweise",m.hint||"–"],["Termine",m.termine.map(t=>{const txt=`${t.lbl} · ${DL[t.day]} ${SL[t.slot].l}${t.raum&&t.raum!=="–"?" · "+t.raum:""}`;return `<div class="term-row"><span>${DL[t.day]} ${SL[t.slot].l} (${t.fmt}${t.raum&&t.raum!=="–"?" · "+t.raum:""})</span><button class="btn copy-btn" data-copy="${txt.replace(/"/g,"&quot;")}" onclick="copyText(this)" title="Raum und Uhrzeit als Text kopieren">Kopieren</button></div>`;}).join("")]].filter(([,v])=>v&&v!=="–");
   document.getElementById("dm-rows").innerHTML="<hr class='md'>"+rows.map(([l,v])=>`<div class="mrow"><div class="mlbl">${l}</div><div class="mval">${v}</div></div>`).join("");
   document.getElementById("dm-del").style.display=isAdmin?"inline-flex":"none";
   document.getElementById("dm-edit").style.display=isAdmin?"inline-flex":"none";
@@ -2368,9 +2374,10 @@ function showDetail(k){
   document.getElementById("dm-exc").onclick=()=>{closeOv("ov-detail");openExceptions(k);};
   // Moodle quick-link
   const mrow=document.getElementById("dm-moodle-row");
-  if(m.moodle&&m.moodle!=="–"){
-    mrow.innerHTML=`<a class="moodle-link" href="${m.moodle}" target="_blank" rel="noopener">📚 Moodle öffnen${m.kc&&m.kc!=="–"?" · "+m.kc:""}</a>`;
-  }else{mrow.innerHTML="";}
+  const soonT=m.termine.find(t=>teamsSoon(t,t.day));
+  const tb=teamsUrl(m)?`<a class="teams-link${soonT?" soon":""}" href="${teamsUrl(m).replace(/"/g,"&quot;")}" target="_blank" rel="noopener" title="Öffnet die Teams-Besprechung, am Handy in der Teams-App">Teams öffnen${soonT?" · "+(nowMinutes()<slotMin(SL[soonT.slot].sh)?"startet gleich":"läuft"):""}</a>`:"";
+  const mb=m.moodle&&m.moodle!=="–"?`<a class="moodle-link" href="${m.moodle}" target="_blank" rel="noopener">📚 Moodle öffnen${m.kc&&m.kc!=="–"?" · "+m.kc:""}</a>`:"";
+  mrow.innerHTML=tb||mb?`<div class="dm-links">${tb}${mb}</div>`:"";
   // label color picker (always visible)
   const labelRow=document.getElementById("dm-label-row");
   const swatchWrap=document.getElementById("dm-label-swatches");
@@ -2403,8 +2410,8 @@ function setLabelColor(k,colorId){
 }
 
 /* ══ EDIT/ADD ══ */
-function openAdd(){if(!isAdmin)return;editId=null;document.getElementById("em-title").textContent="Modul hinzufügen";["f-id","f-nr","f-name","f-doz","f-erst","f-prf","f-kc","f-moodle","f-hint"].forEach(id=>document.getElementById(id).value="");document.getElementById("f-typ").value="base";document.getElementById("f-id").disabled=false;document.getElementById("tlist").innerHTML="";openOv("ov-edit");}
-function openEdit(k){if(!isAdmin)return;editId=k;const m=M[k];document.getElementById("em-title").textContent="Bearbeiten – "+m.id;document.getElementById("f-id").value=m.id;document.getElementById("f-id").disabled=true;document.getElementById("f-nr").value=m.nr||"";document.getElementById("f-name").value=m.name||"";document.getElementById("f-typ").value=m.typ||"base";document.getElementById("f-doz").value=m.doz||"";document.getElementById("f-erst").value=m.erst||"";document.getElementById("f-prf").value=m.prf||"";document.getElementById("f-kc").value=m.kc||"";document.getElementById("f-moodle").value=m.moodle||"";document.getElementById("f-hint").value=m.hint||"";const tl=document.getElementById("tlist");tl.innerHTML="";(m.termine||[]).forEach(t=>addTRow(t));openOv("ov-edit");}
+function openAdd(){if(!isAdmin)return;editId=null;document.getElementById("em-title").textContent="Modul hinzufügen";["f-id","f-nr","f-name","f-doz","f-erst","f-prf","f-kc","f-moodle","f-teams","f-hint"].forEach(id=>document.getElementById(id).value="");document.getElementById("f-typ").value="base";document.getElementById("f-id").disabled=false;document.getElementById("tlist").innerHTML="";openOv("ov-edit");}
+function openEdit(k){if(!isAdmin)return;editId=k;const m=M[k];document.getElementById("em-title").textContent="Bearbeiten – "+m.id;document.getElementById("f-id").value=m.id;document.getElementById("f-id").disabled=true;document.getElementById("f-nr").value=m.nr||"";document.getElementById("f-name").value=m.name||"";document.getElementById("f-typ").value=m.typ||"base";document.getElementById("f-doz").value=m.doz||"";document.getElementById("f-erst").value=m.erst||"";document.getElementById("f-prf").value=m.prf||"";document.getElementById("f-kc").value=m.kc||"";document.getElementById("f-moodle").value=m.moodle||"";document.getElementById("f-teams").value=m.teams||"";document.getElementById("f-hint").value=m.hint||"";const tl=document.getElementById("tlist");tl.innerHTML="";(m.termine||[]).forEach(t=>addTRow(t));openOv("ov-edit");}
 function addTRow(t=null){const tl=document.getElementById("tlist");const div=document.createElement("div");div.className="titem";div.innerHTML=`<select class="td">${DL.map((d,i)=>`<option value="${i}"${t&&t.day===i?" selected":""}>${d}</option>`).join("")}</select><select class="ts">${SL.map((s,i)=>`<option value="${i}"${t&&t.slot===i?" selected":""}>${s.l}</option>`).join("")}</select><select class="tf">${FMTS.map(f=>`<option${t&&t.fmt===f?" selected":""}>${f}</option>`).join("")}</select><input class="tr" placeholder="Raum" value="${t?t.raum||"":""}"><input class="tl" placeholder="Label" value="${t?t.lbl||"":""}"><button class="tremove" onclick="this.parentElement.remove()">×</button>`;tl.appendChild(div);}
 function saveModule(){
   if(!isAdmin)return;
@@ -2415,7 +2422,7 @@ function saveModule(){
   if(!name){alert("Modulname ist Pflichtfeld.");return;}
   const termine=[];for(const row of document.getElementById("tlist").children){const fmt=row.querySelector(".tf").value;termine.push({day:parseInt(row.querySelector(".td").value),slot:parseInt(row.querySelector(".ts").value),fmt,raum:row.querySelector(".tr").value.trim()||"–",lbl:row.querySelector(".tl").value.trim()||id,async:fmt==="Asynchron"});}
   const key=editId||id;const prev=editId?M[key]:{};
-  M[key]={id:key,nr:document.getElementById("f-nr").value.trim()||"–",name,typ:document.getElementById("f-typ").value,doz:document.getElementById("f-doz").value.trim()||"–",erst:document.getElementById("f-erst").value.trim()||"–",prf:document.getElementById("f-prf").value.trim()||"–",kc:document.getElementById("f-kc").value.trim()||"–",moodle:document.getElementById("f-moodle").value.trim()||"–",hint:document.getElementById("f-hint").value.trim()||"–",semStart:prev.semStart||"",semEnd:prev.semEnd||"",exceptions:prev.exceptions||[],termine};
+  M[key]={id:key,nr:document.getElementById("f-nr").value.trim()||"–",name,typ:document.getElementById("f-typ").value,doz:document.getElementById("f-doz").value.trim()||"–",erst:document.getElementById("f-erst").value.trim()||"–",prf:document.getElementById("f-prf").value.trim()||"–",kc:document.getElementById("f-kc").value.trim()||"–",moodle:document.getElementById("f-moodle").value.trim()||"–",teams:document.getElementById("f-teams").value.trim(),hint:document.getElementById("f-hint").value.trim()||"–",semStart:prev.semStart||"",semEnd:prev.semEnd||"",exceptions:prev.exceptions||[],termine};
   closeOv("ov-edit");render();autoSave();
 }
 
