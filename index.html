@@ -285,8 +285,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 .cell-base {background:var(--col-base-bg); border-color:var(--col-base-b)}
 .cell-wpf  {background:var(--col-wpf-bg);  border-color:var(--col-wpf-b)}
 .cell-async{background:var(--col-async-bg);border:1px dashed var(--col-async-b)}
-.cell-cf   {background:var(--col-cf-bg);   border:2px solid var(--col-cf-b)}
-.cbadge{position:absolute;top:3px;right:3px;background:var(--col-cf-mid);color:#fff;font-family:'Inter',sans-serif;font-size:7px;font-weight:700;padding:1px 3px;border-radius:2px}
+
+
 /* custom label stripe */
 .cell-label-stripe{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:4px 0 0 4px;}
 /* color picker swatches in detail modal */
@@ -307,7 +307,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text1);font
 .cn-base {color:var(--col-base-t)} .cd-base {color:var(--col-base-mid)}
 .cn-wpf  {color:var(--col-wpf-t)}  .cd-wpf  {color:var(--col-wpf-mid)}
 .cn-async{color:var(--col-async-t)}.cd-async{color:var(--col-async-mid)}
-.cn-cf   {color:var(--col-cf-t)}   .cd-cf   {color:var(--col-cf-mid)}
+   
 .none-msg{padding:3rem;text-align:center;font-family:'Inter',sans-serif;font-size:12px;color:var(--text3);background:var(--bg2);border-radius:8px;margin:12px 0;border:1px dashed var(--border2)}
 
 /* ══ OVERLAY & MODALS ══ */
@@ -614,11 +614,11 @@ body.is-admin .day-sep-empty{cursor:default;}
   transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;
 }
 .cell:hover{transform:translateY(-2px);box-shadow:0 8px 18px var(--shadow2)}
-.cell-cf{border-width:1.5px}
+
 .cn{font-size:13px;font-weight:700;letter-spacing:.01em;line-height:1.25}
 .cd{font-size:11.5px;line-height:1.4;opacity:.85;margin-top:3px}
 .cell-async{border-width:1px}
-.cbadge{border-radius:4px;font-size:8px}
+
 .editable-sem{max-width:260px;overflow:hidden;text-overflow:ellipsis}
 @media (prefers-reduced-motion: reduce){.cell{transition:none}}
 
@@ -783,6 +783,24 @@ body{font-feature-settings:"tnum" 1,"cv11" 1;letter-spacing:-.005em}
 .modal{background:linear-gradient(135deg,rgba(252,251,248,.94),rgba(246,244,240,.9))}
 [data-theme="dark"] .modal{background:linear-gradient(135deg,rgba(24,24,30,.94),rgba(16,16,22,.92))}
 .vs-btn.on,.ag-tab.on{background:linear-gradient(135deg,var(--accent),var(--accent2))}
+
+/* ══ GLASS + NOW-LINE, RASTER AND AGENDA ══ */
+.cell,.gh,.gt,.ag-tab,.none-msg,#next-banner-wrap .nb,.next-banner{
+  background-image:linear-gradient(135deg,rgba(255,255,255,.42),rgba(255,255,255,.04));
+  -webkit-backdrop-filter:blur(16px) saturate(160%);backdrop-filter:blur(16px) saturate(160%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 24px -16px rgba(20,20,40,.35);
+}
+[data-theme="dark"] .cell,[data-theme="dark"] .gh,[data-theme="dark"] .gt,[data-theme="dark"] .ag-tab,[data-theme="dark"] .none-msg,[data-theme="dark"] #next-banner-wrap .nb,[data-theme="dark"] .next-banner{
+  background-image:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.01));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 12px 28px -16px rgba(0,0,0,.7);
+}
+.gn-line{position:absolute;left:-12px;right:0;height:2px;background:var(--now);z-index:0;pointer-events:none;box-shadow:0 0 6px var(--now)}
+.gn-line::before{content:"";position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--now)}
+.cell{position:relative;z-index:1}
+.gt.now{color:var(--now);font-weight:700}
+.ag-now{display:flex;align-items:center;gap:8px;margin:10px 0}
+.ag-now::before,.ag-now::after{content:"";flex:1;height:2px;background:var(--now)}
+.ag-now span{font-size:11px;font-weight:700;color:#fff;background:var(--now);padding:2px 9px;border-radius:999px;font-variant-numeric:tabular-nums}
 </style>
 </head>
 <body>
@@ -1764,14 +1782,9 @@ let activeDaySet=new Set([0,1,2,3,4,5]); // 0=Mo..4=Fr, 5=Block/Sa
 
 /* ══ GRID ══ */
 function keys(){return Object.keys(M);}
-function getAllConflictSlots(){
-  const occ={},cs=new Set();
-  for(const k of keys())for(const t of M[k].termine){if(t.async)continue;const key=t.day+"-"+t.slot;if(occ[key])cs.add(key);else occ[key]=k;}
-  return cs;
-}
-function cellCls(m,t,ic){if(ic)return"cell cell-cf";if(t.async)return"cell cell-async";if(m.typ==="sim")return"cell cell-sim";if(m.typ==="mgmt")return"cell cell-mgmt";if(m.typ==="wpf")return"cell cell-wpf";return"cell cell-base";}
-function nCls(m,t,ic){if(ic)return"cn cn-cf";if(t.async)return"cn cn-async";if(m.typ==="sim")return"cn cn-sim";if(m.typ==="mgmt")return"cn cn-mgmt";if(m.typ==="wpf")return"cn cn-wpf";return"cn cn-base";}
-function dCls(m,t,ic){if(ic)return"cd cd-cf";if(t.async)return"cd cd-async";if(m.typ==="sim")return"cd cd-sim";if(m.typ==="mgmt")return"cd cd-mgmt";if(m.typ==="wpf")return"cd cd-wpf";return"cd cd-base";}
+function cellCls(m,t){if(t.async)return"cell cell-async";if(m.typ==="sim")return"cell cell-sim";if(m.typ==="mgmt")return"cell cell-mgmt";if(m.typ==="wpf")return"cell cell-wpf";return"cell cell-base";}
+function nCls(m,t){if(t.async)return"cn cn-async";if(m.typ==="sim")return"cn cn-sim";if(m.typ==="mgmt")return"cn cn-mgmt";if(m.typ==="wpf")return"cn cn-wpf";return"cn cn-base";}
+function dCls(m,t){if(t.async)return"cd cd-async";if(m.typ==="sim")return"cd cd-sim";if(m.typ==="mgmt")return"cd cd-mgmt";if(m.typ==="wpf")return"cd cd-wpf";return"cd cd-base";}
 
 /* ══ AUTO-SAVE (modules + activeDays) ══
    Saves silently on every change — no admin click needed.
@@ -1825,9 +1838,19 @@ function nowLineHtml(di,START,END,PX){
   const hh=String(d.getHours()).padStart(2,"0"),mm=String(d.getMinutes()).padStart(2,"0");
   return `<div class="tl-now" style="top:${(m-START)*PX}px"><span>${hh}:${mm}</span></div>`;
 }
+/* Current-time helpers for Raster and Agenda */
+function nowMinutes(){const d=new Date();return d.getHours()*60+d.getMinutes();}
+function isNowSlot(di,si){
+  if(di!==getTodayDayIndex())return false;
+  const now=nowMinutes();return now>=slotMin(SL[si].sh)&&now<=slotMin(SL[si].eh);
+}
+function gridNowLine(di,si){
+  if(!isNowSlot(di,si))return "";
+  const a=slotMin(SL[si].sh),b=slotMin(SL[si].eh);
+  return `<div class="gn-line" style="top:${((nowMinutes()-a)/(b-a))*100}%"></div>`;
+}
 function renderGrid(){
   const el=document.getElementById("main");
-  const cs=getAllConflictSlots();
   if(!keys().length){el.innerHTML=`<div class="none-msg">Keine Module vorhanden.</div>`;return;}
   const activeDays=[0,1,2,3,4,5].filter(i=>activeDaySet.has(i));
   const colCount=activeDays.length;
@@ -1839,28 +1862,28 @@ function renderGrid(){
   });
   SL.forEach((slot,si)=>{
     const rowHasTod=activeDays.includes(todayDi);
-    h+=`<div class="gt${rowHasTod?" today-row":""}">${SL[si].sh}<span class="gt-sep">–</span>${SL[si].eh}</div>`;
+    h+=`<div class="gt${rowHasTod?" today-row":""}${isNowSlot(todayDi,si)?" now":""}">${SL[si].sh}<span class="gt-sep">–</span>${SL[si].eh}</div>`;
     activeDays.forEach(di=>{
       const cells=[];for(const k of keys())for(const t of M[k].termine)if(t.day===di&&t.slot===si)cells.push({k,t});
       const isTodayCol=di===todayDi;
       const isFirstDay=di===activeDays[0];
       const sep=isFirstDay?"":" col-sep";
-      if(!cells.length){h+=`<div class="day-sep-empty${sep}${isTodayCol?" today-col-empty":""}"><button class="cell-empty-add" onclick="openAddAtSlot(${di},${si})" title="Modul hinzufügen">＋</button></div>`;return;}
-      h+=`<div class="cell-group${sep}${isTodayCol?" today-col":""}">`;
+      if(!cells.length){h+=`<div class="day-sep-empty${sep}${isTodayCol?" today-col-empty":""}">${gridNowLine(di,si)}<button class="cell-empty-add" onclick="openAddAtSlot(${di},${si})" title="Modul hinzufügen">＋</button></div>`;return;}
+      h+=`<div class="cell-group${sep}${isTodayCol?" today-col":""}">${gridNowLine(di,si)}`;
       for(const{k,t}of cells){
-        const m=M[k],ic=!t.async&&cs.has(t.day+"-"+t.slot);
+        const m=M[k];
         const hasExam=m.prf&&m.prf!=="–";
         const hasMoodle=m.moodle&&m.moodle!=="–";
         const examDot=(cellDisplay.pruefung&&hasExam)?`<div class="cell-exam-dot" title="Prüfung: ${m.prf}"></div>`:"";
         const moodleBtn=(cellDisplay.moodle&&hasMoodle)?`<button class="cell-moodle-btn" onclick="event.stopPropagation();window.open('${m.moodle}','_blank')">📚</button>`:"";
         // build cell content lines
-        const line1=cellDisplay.label?`<div class="${nCls(m,t,ic)}">${t.lbl}</div>`:"";
+        const line1=cellDisplay.label?`<div class="${nCls(m,t)}">${t.lbl}</div>`:"";
         let parts=[];
         if(cellDisplay.nr)parts.push(m.nr);
         if(cellDisplay.format)parts.push(t.fmt);
         if(cellDisplay.raum&&t.raum&&t.raum!=="–")parts.push(t.raum);
         if(cellDisplay.doz&&m.doz&&m.doz!=="–")parts.push(m.doz.replace(/^Prof\. ?/,""));
-        const line2=parts.length?`<div class="${dCls(m,t,ic)}">${parts.join(" · ")}</div>`:"";
+        const line2=parts.length?`<div class="${dCls(m,t)}">${parts.join(" · ")}</div>`:"";
         // custom label color override
         let customStyle=`min-height:${cellHeight}px`;
         let stripeEl="";
@@ -1871,7 +1894,7 @@ function renderGrid(){
             stripeEl=`<div class="cell-label-stripe" style="background:${lc.b}"></div>`;
           }
         }
-        h+=`<div class="${cellCls(m,t,ic)}" style="${customStyle}" onclick="showDetail('${k}')">${ic?'<div class="cbadge">!</div>':""}${stripeEl}${examDot}${line1}${line2}${moodleBtn}</div>`;
+        h+=`<div class="${cellCls(m,t)}" style="${customStyle}" onclick="showDetail('${k}')">${stripeEl}${examDot}${line1}${line2}${moodleBtn}</div>`;
       }
       h+="</div>";
     });
@@ -1937,9 +1960,17 @@ function renderAgenda(){
       <div class="ag-body"><div class="ag-code">${t.lbl}</div>
       <div class="ag-name">${m.name}</div><div class="ag-meta">${meta}</div></div></article>`;
   };
+  const nowRow=`<div class="ag-now"><span>${String(Math.floor(nowMinutes()/60)).padStart(2,"0")}:${String(nowMinutes()%60).padStart(2,"0")}</span></div>`;
+  const isTodayAgenda=agendaDay===getTodayDayIndex();
+  const agendaRows=[];let nowPlaced=!isTodayAgenda;
+  for(const x of timedWithBreaks){
+    if(!nowPlaced&&x.brk===undefined&&slotMin(SL[x.t.slot].eh)>nowMinutes()){agendaRows.push(nowRow);nowPlaced=true;}
+    agendaRows.push(x.brk!==undefined?breakRow(x.brk):item(x));
+  }
+  if(!nowPlaced)agendaRows.push(nowRow);
   el.innerHTML=`<div class="ag-wrap">
     <div class="ag-tabs" role="tablist">${tabs}</div>
-    <div class="ag-list">${timed.length?timedWithBreaks.map(x=>x.brk!==undefined?breakRow(x.brk):item(x)).join(""):`<div class="none-msg">Keine Termine an diesem Tag.</div>`}</div>
+    <div class="ag-list">${timed.length?agendaRows.join(""):`<div class="none-msg">Keine Termine an diesem Tag.</div>`}</div>
     ${asy.length?`<div class="ag-sub">Asynchron, ohne feste Zeit</div><div class="ag-list">${asy.map(item).join("")}</div>`:""}
   </div>`;
 }
