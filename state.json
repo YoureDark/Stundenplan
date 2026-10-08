@@ -272,6 +272,28 @@
         "title": "Vorlesungsfreie Zeit"
       }
     ],
-    "termine": []
+    "termine": [
+      {
+        "from": "2026-10-21",
+        "to": "2026-11-02",
+        "start": "12:00",
+        "end": "23:59",
+        "title": "Prüfungsanmeldung in StudyOhm"
+      },
+      {
+        "from": "2027-01-15",
+        "to": "2027-01-22",
+        "title": "Vorgezogene Prüfungen"
+      },
+      {
+        "from": "2027-01-23",
+        "to": "2027-02-12",
+        "title": "Prüfungszeitraum"
+      },
+      {
+        "from": "2027-03-14",
+        "title": "Semesterende"
+      }
+    ]
   }
 }
