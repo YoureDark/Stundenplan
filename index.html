@@ -908,7 +908,6 @@ button,input,select,textarea{font-family:inherit}
 /* Review 4: Stundenlabel unter dem Chip, Strich in der laufenden Karte */
 .tl-tick.under-chip{visibility:hidden}
 .tl-ev>b,.tl-ev>small{position:relative;z-index:1}
-.tl-ev-now{position:absolute;left:0;right:0;height:2px;margin-top:-1px;background:var(--now);opacity:.25;pointer-events:none;z-index:0}
 
 /* Runde 6: Wochenleiste, Ausfälle, Prüfungen, Kopieren, Moodle auf der Karte */
 .view-switch{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 12px}
@@ -2094,7 +2093,7 @@ function renderTimeline(){
       const nm=nowMinutes(),live=!off&&di===today&&nm>=e.a&&nm<e.b?" live":"";
       const time=`${SL[e.t.slot].sh}–${SL[e.t.slot].eh}`, detail=[m.name,time,e.t.fmt,room].filter(Boolean).join(" · ");
       return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}${off?" cancelled":""}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${off?"Fällt aus"+(e.st.note?" ("+e.st.note+")":"")+" · ":""}${detail} · Klicken für Details">${off?`<em class="tl-off">fällt aus${e.st.note?" · "+e.st.note:""}</em>`:""}
-        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${off?"":teamsBtn(e.t,di,"tl-teams")}${live?`<i class="tl-ev-now" style="top:${((nm-e.a)/(e.b-e.a))*100}%" aria-hidden="true"></i>`:""}</div>`;
+        <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${off?"":teamsBtn(e.t,di,"tl-teams")}${live?`<div class="ag-progress" aria-hidden="true"><i style="width:${((nm-e.a)/(e.b-e.a))*100}%"></i></div>`:""}</div>`;
     }).join("");
     heads+=`<div class="tl-head${di===today?" today":""}">${DL[di]} <span class="tl-date">${fmtDM(dateOfDay(di))}</span>${di===today?" · heute":""}</div>`;
     cols+=`<div class="tl-col${di===today?" today":""}" style="height:${H}px">${hours}${breaks}${blocks}${nowLineHtml(di,START,END,PX)}</div>`;
