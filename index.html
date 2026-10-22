@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Stundenplan">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%234a6fd0'/%3E%3Crect x='7' y='9' width='18' height='16' rx='3' fill='none' stroke='white' stroke-width='2'/%3E%3Cpath d='M7 14h18M12 6v5M20 6v5' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -252,6 +252,7 @@ hr.md{border:none;border-top:1px solid var(--border);margin:12px 0}
 .tlist{display:flex;flex-direction:column;gap:5px;margin-bottom:7px}
 .titem{display:grid;grid-template-columns:86px 120px 112px 64px 1fr 28px;gap:4px;align-items:center;padding:7px 10px;background:var(--bg2);border-radius:7px;border:1px solid var(--border)}
 @media(max-width:500px){.titem{grid-template-columns:1fr 1fr;row-gap:4px}}
+.titem .tlink{grid-column:1/-1}
 .titem select,.titem input{font-family:'Inter',sans-serif;font-size:12px;padding:5px 6px;border:1px solid var(--border2);border-radius:5px;background:var(--surface);color:var(--text1);width:100%;outline:none}
 .titem select:focus,.titem input:focus{border-color:var(--accent)}
 .tremove{font-size:16px;cursor:pointer;color:var(--text3);background:none;border:none;display:flex;align-items:center;justify-content:center;border-radius:4px;width:24px;height:24px;transition:all .12s}
@@ -1166,6 +1167,27 @@ button,input,select,textarea{font-family:inherit}
       <button class="sp-close" onclick="closeSettings()">×</button>
     </div>
     <div class="sp-body">
+      <div class="sp-acc open" id="acc-reminders">
+        <button class="sp-acc-header" onclick="toggleAcc('acc-reminders')">
+          <span class="sp-acc-icon">🔔</span>
+          <span class="sp-acc-text"><span class="sp-acc-label">Vorlesungs-Erinnerungen</span><span class="sp-acc-sub">Deine Einstellungen auf diesem Gerät</span></span>
+          <span class="sp-acc-chev">›</span>
+        </button>
+        <div class="sp-acc-body">
+          <div class="fsec"><label class="flbl" for="reminder-minutes">Minuten vor Vorlesungsbeginn</label>
+            <input class="fi" id="reminder-minutes" type="number" min="1" max="120" step="1" value="5" required onchange="saveReminderSettings()">
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+            <button class="bh" id="reminder-enable" onclick="toggleReminders()">Erinnerungen aktivieren</button>
+            <button class="bh" id="reminder-test" onclick="testReminder()">Test senden</button>
+          </div>
+          <p class="fhint" id="reminder-status" role="status" aria-live="polite"></p>
+          <p class="fhint" style="margin:10px 0;line-height:1.6">Mit Kürzel, Modulname, Prof, Uhrzeit, Raum, Format und konfiguriertem Vorlesungslink. Ausfälle, Ferien und asynchrone Termine werden übersprungen.<br>Die Web-App muss geöffnet bleiben. Bei pausierten Hintergrund-Tabs oder gesperrtem Gerät können Browser-Erinnerungen verspätet eintreffen oder ausbleiben.</p>
+          <label style="display:flex;gap:8px;align-items:flex-start;margin:12px 0;line-height:1.5"><input type="checkbox" id="reminder-calendar" checked onchange="saveReminderSettings()">Erinnerungen auch in Kalenderexport aufnehmen</label>
+          <button class="bh" onclick="closeSettings();openOv('ov-export')">Kalender mit Erinnerungen exportieren</button>
+          <p class="fhint" style="margin-top:10px;line-height:1.6">Für Erinnerungen bei geschlossener App: .ics in Outlook, Apple Kalender oder einen anderen Kalender importieren und dort Benachrichtigungen erlauben. Unterstützung hängt von der Kalender-App ab. Nach Stundenplan-Änderungen erneut exportieren und alte Termine ersetzen.</p>
+        </div>
+      </div>
 
       <!-- ACC: Export -->
       <div class="sp-acc" id="acc-export">
@@ -1311,6 +1333,8 @@ button,input,select,textarea{font-family:inherit}
 
 <input type="file" id="json-file" accept=".json" style="display:none" onchange="handleImport(event)">
 
+<script src="reminder-core.js"></script>
+<script src="reminders.js"></script>
 <script>
 /* ══ ICONS (eine Strichstärke, keine Emojis in der Kopfzeile) ══ */
 const IC_ATTR='class="ic" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"';
@@ -1980,6 +2004,8 @@ function openTeams(ev){
   setTimeout(()=>{document.removeEventListener("visibilitychange",onHide);if(!left&&!document.hidden)window.open("https://teams.microsoft.com","_blank","noopener");},1200);
 }
 function teamsBtn(t,di,cls){
+  const link=ReminderCore.safeLink(t.link);
+  if(link)return `<a class="${cls}" href="${link.replace(/&/g,"&amp;").replace(/"/g,"&quot;")}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Vorlesung öffnen</a>`;
   if(!isOnline(t))return "";
   const soon=teamsSoon(t,di);
   return `<a class="${cls}${soon?" soon":""}" href="https://teams.microsoft.com" onclick="openTeams(event)" title="Öffnet die Teams-App, ohne App Teams im Browser${soon?" (Termin startet gleich oder läuft)":""}">Teams öffnen</a>`;
@@ -2422,6 +2448,7 @@ function toggleAcc(id){
   el.classList.toggle("open");
 }
 function openSettings(){
+  renderReminderSettings();
   updateDayPills();
   const isAdminBlock=document.getElementById("sp-admin-block");
   if(isAdminBlock)isAdminBlock.style.display=isAdmin?"block":"none";
@@ -2478,6 +2505,12 @@ function showDetail(k){
   const tb=m.termine.some(isOnline)?`<a class="teams-link${soonT?" soon":""}" href="https://teams.microsoft.com" onclick="openTeams(event)" title="Öffnet die Teams-App, ohne App Teams im Browser">Teams öffnen${soonT?" · "+(nowMinutes()<slotMin(SL[soonT.slot].sh)?"startet gleich":"läuft"):""}</a>`:"";
   const mb=m.moodle&&m.moodle!=="–"?`<a class="moodle-link" href="${m.moodle}" target="_blank" rel="noopener">📚 Moodle öffnen${m.kc&&m.kc!=="–"?" · "+m.kc:""}</a>`:"";
   mrow.innerHTML=tb||mb?`<div class="dm-links">${tb}${mb}</div>`:"";
+  for(const t of m.termine){
+    const link=ReminderCore.safeLink(t.link);if(!link)continue;
+    const a=document.createElement("a");a.className="teams-link";a.href=link;a.target="_blank";a.rel="noopener";
+    a.textContent=`${t.lbl||m.id} · ${DL[t.day]} ${SL[t.slot].sh} · Vorlesung öffnen`;
+    mrow.appendChild(a);
+  }
   // label color picker (always visible)
   const labelRow=document.getElementById("dm-label-row");
   const swatchWrap=document.getElementById("dm-label-swatches");
@@ -2512,7 +2545,7 @@ function setLabelColor(k,colorId){
 /* ══ EDIT/ADD ══ */
 function openAdd(){if(!isAdmin)return;editId=null;document.getElementById("em-title").textContent="Modul hinzufügen";["f-id","f-nr","f-name","f-doz","f-erst","f-prf","f-kc","f-moodle","f-hint"].forEach(id=>document.getElementById(id).value="");document.getElementById("f-typ").value="base";document.getElementById("f-id").disabled=false;document.getElementById("tlist").innerHTML="";openOv("ov-edit");}
 function openEdit(k){if(!isAdmin)return;editId=k;const m=M[k];document.getElementById("em-title").textContent="Bearbeiten – "+m.id;document.getElementById("f-id").value=m.id;document.getElementById("f-id").disabled=true;document.getElementById("f-nr").value=m.nr||"";document.getElementById("f-name").value=m.name||"";document.getElementById("f-typ").value=m.typ||"base";document.getElementById("f-doz").value=m.doz||"";document.getElementById("f-erst").value=m.erst||"";document.getElementById("f-prf").value=m.prf||"";document.getElementById("f-kc").value=m.kc||"";document.getElementById("f-moodle").value=m.moodle||"";document.getElementById("f-hint").value=m.hint||"";const tl=document.getElementById("tlist");tl.innerHTML="";(m.termine||[]).forEach(t=>addTRow(t));openOv("ov-edit");}
-function addTRow(t=null){const tl=document.getElementById("tlist");const div=document.createElement("div");div.className="titem";div.innerHTML=`<select class="td">${DL.map((d,i)=>`<option value="${i}"${t&&t.day===i?" selected":""}>${d}</option>`).join("")}</select><select class="ts">${SL.map((s,i)=>`<option value="${i}"${t&&t.slot===i?" selected":""}>${s.l}</option>`).join("")}</select><select class="tf">${FMTS.map(f=>`<option${t&&t.fmt===f?" selected":""}>${f}</option>`).join("")}</select><input class="tr" placeholder="Raum" value="${t?t.raum||"":""}"><input class="tl" placeholder="Label" value="${t?t.lbl||"":""}"><button class="tremove" onclick="this.parentElement.remove()">×</button>`;tl.appendChild(div);}
+function addTRow(t=null){const tl=document.getElementById("tlist");const div=document.createElement("div");div.className="titem";div.innerHTML=`<select class="td">${DL.map((d,i)=>`<option value="${i}"${t&&t.day===i?" selected":""}>${d}</option>`).join("")}</select><select class="ts">${SL.map((s,i)=>`<option value="${i}"${t&&t.slot===i?" selected":""}>${s.l}</option>`).join("")}</select><select class="tf">${FMTS.map(f=>`<option${t&&t.fmt===f?" selected":""}>${f}</option>`).join("")}</select><input class="tr" placeholder="Raum" value="${t?t.raum||"":""}"><input class="tl" placeholder="Label" value="${t?t.lbl||"":""}"><button class="tremove" onclick="this.parentElement.remove()">×</button>`;const linkInput=document.createElement("input");linkInput.className="tlink";linkInput.type="url";linkInput.placeholder="Vorlesungslink (https://…, optional)";linkInput.setAttribute("aria-label","Vorlesungslink");linkInput.value=t?.link||"";div.appendChild(linkInput);tl.appendChild(div);}
 function saveModule(){
   if(!isAdmin)return;
   const id=(document.getElementById("f-id").value||"").trim().toUpperCase();
@@ -2520,7 +2553,7 @@ function saveModule(){
   if(!editId&&M[id]){alert(`Kürzel "${id}" existiert bereits.`);return;}
   const name=(document.getElementById("f-name").value||"").trim();
   if(!name){alert("Modulname ist Pflichtfeld.");return;}
-  const termine=[];for(const row of document.getElementById("tlist").children){const fmt=row.querySelector(".tf").value;termine.push({day:parseInt(row.querySelector(".td").value),slot:parseInt(row.querySelector(".ts").value),fmt,raum:row.querySelector(".tr").value.trim()||"–",lbl:row.querySelector(".tl").value.trim()||id,async:fmt==="Asynchron"});}
+  const termine=[];for(const row of document.getElementById("tlist").children){const fmt=row.querySelector(".tf").value;const rawLink=row.querySelector(".tlink").value.trim();const link=ReminderCore.safeLink(rawLink);if(rawLink&&!link){alert("Bitte einen gültigen Vorlesungslink mit https:// angeben.");return;}termine.push({day:parseInt(row.querySelector(".td").value),slot:parseInt(row.querySelector(".ts").value),fmt,raum:row.querySelector(".tr").value.trim()||"–",lbl:row.querySelector(".tl").value.trim()||id,async:fmt==="Asynchron",link});}
   const key=editId||id;const prev=editId?M[key]:{};
   M[key]={id:key,nr:document.getElementById("f-nr").value.trim()||"–",name,typ:document.getElementById("f-typ").value,doz:document.getElementById("f-doz").value.trim()||"–",erst:document.getElementById("f-erst").value.trim()||"–",prf:document.getElementById("f-prf").value.trim()||"–",kc:document.getElementById("f-kc").value.trim()||"–",moodle:document.getElementById("f-moodle").value.trim()||"–",hint:document.getElementById("f-hint").value.trim()||"–",semStart:prev.semStart||"",semEnd:prev.semEnd||"",exceptions:prev.exceptions||[],termine};
   closeOv("ov-edit");render();autoSave();
@@ -2535,7 +2568,7 @@ function saveExceptions(){if(!isAdmin||!excModId)return;const exceptions=[];for(
 function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("cf-title").textContent=`"${m.id}" löschen?`;document.getElementById("cf-msg").textContent=`Das Modul "${m.name}" wird dauerhaft entfernt.`;document.getElementById("cf-ok").onclick=()=>{delete M[k];closeOv("ov-confirm");render();autoSave();};openOv("ov-confirm");}
 
 /* ══ CALENDAR EXPORT ══ */
-function getOccurrences(modId,s,e){const m=M[modId];const sD=new Date(s||m.semStart||"2026-03-17"),eD=new Date(e||m.semEnd||"2026-07-19");const evs=[];const cancelled=new Set((m.exceptions||[]).filter(x=>x.type==="cancelled").map(x=>x.date));const extras=(m.exceptions||[]).filter(x=>x.type==="extra");for(const t of m.termine){if(t.async||t.day>=5)continue;const jd=t.day+1;const sl=SL[t.slot];let d=new Date(sD);while(d.getDay()!==jd)d.setDate(d.getDate()+1);while(d<=eD){const ds=d.toISOString().slice(0,10);if(!cancelled.has(ds)&&!holidayOn(ds))evs.push({modId,date:ds,startTime:sl.sh,endTime:sl.eh,label:t.lbl,fmt:t.fmt,raum:t.raum,name:m.name,doz:m.doz});d.setDate(d.getDate()+7);}}for(const ex of extras)evs.push({modId,date:ex.date,startTime:"08:00",endTime:"18:00",label:m.id+" Extra",fmt:"Präsenz",raum:"–",name:m.name+(ex.note?" ("+ex.note+")":""),doz:m.doz});return evs;}
+function getOccurrences(modId,s,e){const m=M[modId];const sD=new Date((s||m.semStart||"2026-03-17")+"T12:00:00"),eD=new Date((e||m.semEnd||"2026-07-19")+"T12:00:00");const evs=[];const cancelled=new Set((m.exceptions||[]).filter(x=>x.type==="cancelled").map(x=>x.date));const extras=(m.exceptions||[]).filter(x=>x.type==="extra");for(const t of m.termine){if(t.async||t.day>=5)continue;const jd=t.day+1;const sl=SL[t.slot];let d=new Date(sD);while(d.getDay()!==jd)d.setDate(d.getDate()+1);while(d<=eD){const ds=isoDate(d);if((!m.semStart||ds>=m.semStart)&&(!m.semEnd||ds<=m.semEnd)&&!cancelled.has(ds)&&!holidayOn(ds))evs.push({modId,date:ds,startTime:sl.sh,endTime:sl.eh,label:t.lbl,fmt:t.fmt,raum:t.raum,name:m.name,doz:m.doz,link:t.link});d.setDate(d.getDate()+7);}}for(const ex of extras)evs.push({modId,date:ex.date,startTime:"08:00",endTime:"18:00",label:m.id+" Extra",fmt:"Präsenz",raum:"–",name:m.name+(ex.note?" ("+ex.note+")":""),doz:m.doz});return evs;}
 function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("")+`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)" title="Semestertermine und vorlesungsfreie Zeiten mit exportieren"><input type="checkbox" class="ex-cb" value="__SEM__" checked> Semestertermine & vorlesungsfrei</label>`;}
 function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const all=[];for(const k of sel){if(k==="__SEM__")all.push(...semOccurrences(s,e));else all.push(...getOccurrences(k,s,e));}all.sort((a,b)=>a.date.localeCompare(b.date));return all;}
 /* Semestertermine und vorlesungsfreie Zeiten für den Export (ganztägig, wenn keine Uhrzeit angegeben ist) */
@@ -2572,12 +2605,13 @@ function exportICS(){
     }
     const m=M[ev.modId];
     const desc=["Dozent: "+esc(ev.doz),"Format: "+esc(ev.fmt)];
+    if(ev.link)desc.push("Vorlesungslink: "+esc(ev.link));
     if(m.kc&&m.kc!=="–")desc.push("Kurscode: "+esc(m.kc));
     if(m.moodle&&m.moodle!=="–")desc.push("Moodle: "+esc(m.moodle));
-    ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\nDTSTART;TZID=${TZ}:${icsDate(ev.date,ev.startTime)}\r\nDTEND;TZID=${TZ}:${icsDate(ev.date,ev.endTime)}\r\nSUMMARY:${esc(ev.name+" ("+ev.modId+")")}\r\nDESCRIPTION:${desc.join("\\n")}\r\nLOCATION:${esc(ev.raum!=="–"?ev.raum:"Online")}\r\nEND:VEVENT\r\n`;
+    ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\nDTSTART;TZID=${TZ}:${icsDate(ev.date,ev.startTime)}\r\nDTEND;TZID=${TZ}:${icsDate(ev.date,ev.endTime)}\r\nSUMMARY:${esc(ev.name+" ("+ev.modId+")")}\r\nDESCRIPTION:${desc.join("\\n")}\r\nLOCATION:${esc(ev.raum!=="–"?ev.raum:"Online")}\r\n${ReminderCore.safeLink(ev.link)?"URL:"+ReminderCore.safeLink(ev.link)+"\r\n":""}${reminderPrefs().calendar?ReminderCore.alarm(reminderPrefs().minutes,ev.modId+" · "+ev.startTime+"–"+ev.endTime+" · "+ev.doz+" · "+ev.raum+" · "+ev.fmt):""}END:VEVENT\r\n`;
   }
   ics+="END:VCALENDAR";
-  download("miem_stundenplan.ics",ics,"text/calendar");
+  download("miem_stundenplan.ics",ReminderCore.foldICS(ics),"text/calendar");
 }
 function exportCSV(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const wd=["So","Mo","Di","Mi","Do","Fr","Sa"];const rows=[["Datum","Wochentag","Start","Ende","Modul","Kürzel","Label","Format","Raum","Dozent","Moodle"]];for(const ev of evs){if(ev.sem){const d=new Date(ev.date+"T12:00:00");rows.push([ev.date+(ev.to!==ev.date?" bis "+ev.to:""),wd[d.getDay()],ev.startTime,ev.endTime,ev.name,"",ev.label,"","","",""]);continue;}const m=M[ev.modId];const d=new Date(ev.date);rows.push([ev.date,wd[d.getDay()],ev.startTime,ev.endTime,ev.name,ev.modId,ev.label,ev.fmt,ev.raum!=="–"?ev.raum:"Online",ev.doz,m.moodle]);}const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");download("miem_stundenplan.csv",csv,"text/csv;charset=utf-8");}
 function download(name,content,type){const blob=new Blob([content],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();}
@@ -2629,6 +2663,7 @@ function syncMobileTitle(){
   updateKW();
   render();
   focusToday();
+  initReminders();
   applyZoom();
   syncMobileTitle();
   document.getElementById("site-title").addEventListener("input",syncMobileTitle);
@@ -2642,7 +2677,7 @@ setInterval(()=>{
 },60000);
 
 /* Als App nutzbar: Service Worker hält den letzten Stand für offline bereit */
-if("serviceWorker" in navigator&&location.protocol==="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+if("serviceWorker" in navigator&&isSecureContext)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
 </html>
