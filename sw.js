@@ -1,7 +1,7 @@
 /* Service Worker: holt immer zuerst den aktuellen Stand aus dem Netz und
    legt ihn ab; ohne Netz öffnet sich die Seite mit dem zuletzt geladenen Stand. */
-const CACHE = "stundenplan-v3";
-const CORE = ["./", "./index.html", "./state.json", "./manifest.webmanifest", "./reminder-core.js", "./reminders.js", "./icons/v2/icon.svg", "./icons/v2/icon-180.png", "./icons/v2/icon-192.png", "./icons/v2/icon-512.png", "./icons/v2/icon-maskable-512.png"];
+const CACHE = "stundenplan-v4";
+const CORE = ["./", "./index.html", "./state.json", "./manifest.webmanifest", "./reminder-core.js", "./reminders.js", "./icons/v2/icon.svg", "./icons/v2/icon-180.png", "./icons/v2/apple-touch-icon-180.png", "./icons/v2/icon-192.png", "./icons/v2/icon-512.png", "./icons/v2/icon-maskable-512.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
