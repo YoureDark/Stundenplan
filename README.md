@@ -31,3 +31,7 @@ Zum erneuten Rendern mit Node.js und `sharp`: `node scripts/build-icons.cjs`. Di
 `node --test tests/reminder-core.test.cjs` prüft Vorlauf, verpasste Zeitfenster, Ferien, Ausfälle, Semestergrenzen, asynchrone Termine, sichere Links, Kalenderalarme, UTF-8-Zeilenfaltung und Sommer-/Winterzeit.
 
 `node tests/browser-smoke.cjs` startet einen lokalen Testserver und prüft die Integration mit Playwright und Microsoft Edge (alternativ `BROWSER_CHANNEL=chrome`). Benötigt das Node-Paket `playwright`. Benachrichtigungsausgabe wird abgefangen, damit der Test keine Systemmeldungen auslöst. Geprüft werden Nutzdaten, Mehrfachaufrufe/mehrere Tabs, Einstellungsvalidierung, Testmeldung, Kalenderexport mit/ohne Alarm, Bearbeiten von Links, mobile Breite und Offline-Neuladen. Screenshots landen unter `output/`.
+
+## iPhone-Installationsdialog zeigt nur einen Buchstaben
+
+Für iPhones, deren Hinzufügen-Dialog das über HTTPS abrufbare Icon nicht übernimmt, wird das 180×180-Apple-Touch-Icon direkt als PNG-Daten-URI im HTML eingebettet. Es wird ohne Transparenz aus derselben SVG-Quelle erzeugt; `node scripts/build-icons.cjs` aktualisiert sowohl `icons/v2/apple-touch-icon-180.png` als auch den HTML-Eintrag. Die Manifest-Icons bleiben normale PNG-Dateien. Das vermeidet einen zusätzlichen Icon-Netzwerkabruf im iOS-Installationsdialog. Die tatsächliche Anzeige dort muss auf dem betroffenen iPhone geprüft werden; Desktop-Browsertests bestätigen nur die eingebettete Bilddatei und die App-Funktion.
