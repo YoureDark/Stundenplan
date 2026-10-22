@@ -22,7 +22,7 @@ Als Admin unter **Modul bearbeiten → Termine** pro Termin einen optionalen HTT
 
 ## App-Icon
 
-Editierbare Quelle: `icons/icon.svg`. Dunkler Kalender mit den blauen, grünen und goldenen Vorlesungsblöcken sowie roter Jetzt-Linie. PNGs in 180, 192 und 512 Pixeln plus eine deckende maskierbare Version sind eingecheckt. Browser-Favicon, Apple-Touch-Icon und PWA-Manifest nutzen diese Assets. Betriebssysteme können bereits installierte Icons zwischenspeichern; gegebenenfalls die App neu installieren.
+Editierbare Quelle: `icons/icon.svg`. Dunkler Kalender mit den blauen, grünen und goldenen Vorlesungsblöcken sowie roter Jetzt-Linie. PNGs in 180, 192 und 512 Pixeln plus eine deckende maskierbare Version sind eingecheckt. Browser-Favicon, Apple-Touch-Icon, Benachrichtigungen und PWA-Manifest nutzen die Dateien unter `icons/v2/`. Die versionierten Adressen verhindern, dass beim Hinzufügen weiterhin die alten Icon-Dateien aus einem Browser- oder Betriebssystem-Cache verwendet werden. Das Render-Skript aktualisiert diese Dateien aus der SVG-Quelle; ältere Dateien bleiben für bereits geladene App-Versionen erhalten. Betriebssysteme können bereits installierte Icons zwischenspeichern; gegebenenfalls die App neu installieren.
 
 Zum erneuten Rendern mit Node.js und `sharp`: `node scripts/build-icons.cjs`. Die App selbst hat keine Laufzeit-Abhängigkeiten.
 

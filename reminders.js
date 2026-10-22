@@ -45,7 +45,7 @@ async function showLectureNotification(event,test=false){
   if(!registration?.active)throw new Error('Die App wird vorbereitet. Bitte in wenigen Sekunden erneut versuchen.');
   const appUrl=new URL('./',location.href);appUrl.searchParams.set('lecture',event.key);
   await registration.showNotification((test?'Test · ':'')+event.title,{
-    body:event.body,tag:test?'miem-reminder-test':event.tag,icon:new URL('icons/icon-192.png',location.href).href,
+    body:event.body,tag:test?'miem-reminder-test':event.tag,icon:new URL('icons/v2/icon-192.png',location.href).href,
     data:{url:appUrl.href,link:event.link},
     actions:event.link?[{action:'join',title:'Vorlesung öffnen'},{action:'schedule',title:'Stundenplan'}]:[],
   });
