@@ -491,6 +491,28 @@ DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:20261028-abgabe-ineng-teilaufgabe-1@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261028T200000
+DTEND;TZID=Europe/Berlin:20261028T200000
+SUMMARY:Abgabe INENG · Teilaufgabe 1
+DESCRIPTION:Industrial Engineering\nStudienarbeit\nMoodle: https://elearnin
+ g.ohmportal.de/course/view.php?id=7969
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=7969
+BEGIN:VALARM
+TRIGGER:-P1DT2H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 28.10. um 20:00: INENG · Teilaufgabe 1
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 28.10. um 20:00: INENG · Teilaufgabe 1
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:20261029-3-mlip-mlip-ue@miem-stundenplan
 DTSTAMP:20260101T000000Z
 DTSTART;TZID=Europe/Berlin:20261029T140000
@@ -616,6 +638,31 @@ TRIGGER:-PT15M
 ACTION:DISPLAY
 DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
  · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261104-abgabe-ineng-gegenseitige-bewertung-teilaufgabe-1@miem-stunden
+ plan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261104T200000
+DTEND;TZID=Europe/Berlin:20261104T200000
+SUMMARY:Abgabe INENG · Gegenseitige Bewertung Teilaufgabe 1
+DESCRIPTION:Industrial Engineering\nStudienarbeit\nMoodle: https://elearnin
+ g.ohmportal.de/course/view.php?id=7969
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=7969
+BEGIN:VALARM
+TRIGGER:-P1DT2H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 04.11. um 20:00: INENG · Gegenseitige Bewertung Teil
+ aufgabe 1
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 04.11. um 20:00: INENG · Gegenseitige Bewertung Teil
+ aufgabe 1
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -811,6 +858,28 @@ DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:20261112-abgabe-mlip-projekt-m1@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261112T235900
+DTEND;TZID=Europe/Berlin:20261112T235900
+SUMMARY:Abgabe MLIP · Projekt M1
+DESCRIPTION:Machine Learning in der industriellen Produktion\nYour rule\nMo
+ odle: https://elearning.ohmportal.de/course/view.php?id=8066
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=8066
+BEGIN:VALARM
+TRIGGER:-P1DT5H59M
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 12.11. um 23:59: MLIP · Projekt M1
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 12.11. um 23:59: MLIP · Projekt M1
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:20261113-0-desim-desim-su@miem-stundenplan
 DTSTAMP:20260101T000000Z
 DTSTART;TZID=Europe/Berlin:20261113T080000
@@ -939,6 +1008,29 @@ DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:20261119-abgabe-mlip-projekt-m2@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261119T235900
+DTEND;TZID=Europe/Berlin:20261119T235900
+SUMMARY:Abgabe MLIP · Projekt M2
+DESCRIPTION:Machine Learning in der industriellen Produktion\nYour rule and
+  your logistic regression\nMoodle: https://elearning.ohmportal.de/course/v
+ iew.php?id=8066
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=8066
+BEGIN:VALARM
+TRIGGER:-P1DT5H59M
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 19.11. um 23:59: MLIP · Projekt M2
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 19.11. um 23:59: MLIP · Projekt M2
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:20261120-0-desim-desim-su@miem-stundenplan
 DTSTAMP:20260101T000000Z
 DTSTART;TZID=Europe/Berlin:20261120T080000
@@ -1000,6 +1092,30 @@ TRIGGER:-PT15M
 ACTION:DISPLAY
 DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
  · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261120-abgabe-desim-1-optimization-baseline-model@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261120T235900
+DTEND;TZID=Europe/Berlin:20261120T235900
+SUMMARY:Abgabe DESIM · 1. Optimization Baseline Model
+DESCRIPTION:Discrete Event Simulation / Digital Factory\nMoodle: https://el
+ earning.ohmportal.de/course/view.php?id=1916
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=1916
+BEGIN:VALARM
+TRIGGER:-P1DT5H59M
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Fr 20.11. um 23:59: DESIM · 1. Optimization Baseline Mo
+ del
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Fr 20.11. um 23:59: DESIM · 1. Optimization Baseline Mo
+ del
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -1131,6 +1247,28 @@ DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:20261202-abgabe-ineng-teilaufgabe-2@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261202T200000
+DTEND;TZID=Europe/Berlin:20261202T200000
+SUMMARY:Abgabe INENG · Teilaufgabe 2
+DESCRIPTION:Industrial Engineering\nStudienarbeit\nMoodle: https://elearnin
+ g.ohmportal.de/course/view.php?id=7969
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=7969
+BEGIN:VALARM
+TRIGGER:-P1DT2H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 02.12. um 20:00: INENG · Teilaufgabe 2
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 02.12. um 20:00: INENG · Teilaufgabe 2
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:20261203-3-mlip-mlip-ue@miem-stundenplan
 DTSTAMP:20260101T000000Z
 DTSTART;TZID=Europe/Berlin:20261203T140000
@@ -1256,6 +1394,30 @@ TRIGGER:-PT15M
 ACTION:DISPLAY
 DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
  · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261204-abgabe-desim-2-energy-behaviour-and-analysis@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261204T235900
+DTEND;TZID=Europe/Berlin:20261204T235900
+SUMMARY:Abgabe DESIM · 2. Energy Behaviour and Analysis
+DESCRIPTION:Discrete Event Simulation / Digital Factory\nöffnet Fr 20.11. 
+ um 07:00\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=1916
+BEGIN:VALARM
+TRIGGER:-P1DT5H59M
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Fr 04.12. um 23:59: DESIM · 2. Energy Behaviour and Ana
+ lysis
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Fr 04.12. um 23:59: DESIM · 2. Energy Behaviour and Ana
+ lysis
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -1387,6 +1549,31 @@ DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:20261216-abgabe-ineng-gegenseitige-bewertung-teilaufgabe-2@miem-stunden
+ plan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261216T200000
+DTEND;TZID=Europe/Berlin:20261216T200000
+SUMMARY:Abgabe INENG · Gegenseitige Bewertung Teilaufgabe 2
+DESCRIPTION:Industrial Engineering\nStudienarbeit\nMoodle: https://elearnin
+ g.ohmportal.de/course/view.php?id=7969
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=7969
+BEGIN:VALARM
+TRIGGER:-P1DT2H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 16.12. um 20:00: INENG · Gegenseitige Bewertung Teil
+ aufgabe 2
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Mi 16.12. um 20:00: INENG · Gegenseitige Bewertung Teil
+ aufgabe 2
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:20261217-3-mlip-mlip-ue@miem-stundenplan
 DTSTAMP:20260101T000000Z
 DTSTART;TZID=Europe/Berlin:20261217T140000
@@ -1512,6 +1699,31 @@ TRIGGER:-PT15M
 ACTION:DISPLAY
 DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
  · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261218-abgabe-desim-3-measures-to-improve-energy-consumption@miem-stu
+ ndenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261218T235900
+DTEND;TZID=Europe/Berlin:20261218T235900
+SUMMARY:Abgabe DESIM · 3. Measures to improve Energy Consumption
+DESCRIPTION:Discrete Event Simulation / Digital Factory\nöffnet Fr 04.12. 
+ um 07:00\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=1916
+BEGIN:VALARM
+TRIGGER:-P1DT5H59M
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Fr 18.12. um 23:59: DESIM · 3. Measures to improve Ener
+ gy Consumption
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Fr 18.12. um 23:59: DESIM · 3. Measures to improve Ener
+ gy Consumption
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
@@ -1649,6 +1861,29 @@ TRIGGER:-PT15M
 ACTION:DISPLAY
 DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
  · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270114-abgabe-mlip-projekt-m3@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270114T120000
+DTEND;TZID=Europe/Berlin:20270114T120000
+SUMMARY:Abgabe MLIP · Projekt M3
+DESCRIPTION:Machine Learning in der industriellen Produktion\nYour own meth
+ od · öffnet Do 19.11.\nMoodle: https://elearning.ohmportal.de/course/vie
+ w.php?id=8066
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=8066
+BEGIN:VALARM
+TRIGGER:-PT18H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 14.01. um 12:00: MLIP · Projekt M3
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 14.01. um 12:00: MLIP · Projekt M3
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT

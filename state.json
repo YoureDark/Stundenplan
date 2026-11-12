@@ -54,6 +54,32 @@
           "lbl": "INENG:Ue",
           "async": false
         }
+      ],
+      "abgaben": [
+        {
+          "date": "2026-10-28",
+          "time": "20:00",
+          "title": "Teilaufgabe 1",
+          "note": "Studienarbeit"
+        },
+        {
+          "date": "2026-11-04",
+          "time": "20:00",
+          "title": "Gegenseitige Bewertung Teilaufgabe 1",
+          "note": "Studienarbeit"
+        },
+        {
+          "date": "2026-12-02",
+          "time": "20:00",
+          "title": "Teilaufgabe 2",
+          "note": "Studienarbeit"
+        },
+        {
+          "date": "2026-12-16",
+          "time": "20:00",
+          "title": "Gegenseitige Bewertung Teilaufgabe 2",
+          "note": "Studienarbeit"
+        }
       ]
     },
     "MLIP": {
@@ -107,6 +133,26 @@
           "raum": "–",
           "lbl": "MLIP:Ue",
           "async": false
+        }
+      ],
+      "abgaben": [
+        {
+          "date": "2026-11-12",
+          "time": "23:59",
+          "title": "Projekt M1",
+          "note": "Your rule"
+        },
+        {
+          "date": "2026-11-19",
+          "time": "23:59",
+          "title": "Projekt M2",
+          "note": "Your rule and your logistic regression"
+        },
+        {
+          "date": "2027-01-14",
+          "time": "12:00",
+          "title": "Projekt M3",
+          "note": "Your own method · öffnet Do 19.11."
         }
       ]
     },
@@ -231,6 +277,25 @@
           "raum": "–",
           "lbl": "DESIM:Ue",
           "async": false
+        }
+      ],
+      "abgaben": [
+        {
+          "date": "2026-11-20",
+          "time": "23:59",
+          "title": "1. Optimization Baseline Model"
+        },
+        {
+          "date": "2026-12-04",
+          "time": "23:59",
+          "title": "2. Energy Behaviour and Analysis",
+          "note": "öffnet Fr 20.11. um 07:00"
+        },
+        {
+          "date": "2026-12-18",
+          "time": "23:59",
+          "title": "3. Measures to improve Energy Consumption",
+          "note": "öffnet Fr 04.12. um 07:00"
         }
       ]
     }

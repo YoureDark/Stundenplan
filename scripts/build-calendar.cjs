@@ -16,6 +16,9 @@ if(process.argv.includes('--check')){
   else{console.error(`${cal.FEED_FILE} passt nicht zu state.json. Neu erzeugen mit: node scripts/build-calendar.cjs`);process.exitCode=1;}
 }else{
   fs.writeFileSync(file,next);
-  const events=(next.match(/BEGIN:VEVENT/g)||[]).length,alarms=(next.match(/BEGIN:VALARM/g)||[]).length;
-  console.log(`${cal.FEED_FILE}: ${events} Termine, davon ${alarms} mit Erinnerung ${cal.feedAlarmMinutes(state)} Minuten vorher.`);
+  const events=(next.match(/BEGIN:VEVENT/g)||[]).length;
+  const alarms=(next.match(new RegExp('TRIGGER:-PT'+cal.feedAlarmMinutes(state)+'M\\r\\n','g'))||[]).length;
+  const deadlines=(next.match(/CATEGORIES:Abgabe\r\n/g)||[]).length;
+  console.log(`${cal.FEED_FILE}: ${events} Termine, davon ${alarms} Vorlesungen mit Erinnerung ${cal.feedAlarmMinutes(state)} Minuten vorher`
+    +` und ${deadlines} Abgaben mit Erinnerung am Vortag um 18 Uhr und 3 Stunden vorher.`);
 }

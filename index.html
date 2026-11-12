@@ -973,6 +973,40 @@ button,input,select,textarea{font-family:inherit}
 .feed-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--text1);margin:0 0 6px}
 .feed-text{line-height:1.6;margin:6px 0}
 .feed-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+/* Abgaben: Wochenleiste, Zeitachsen-Kopf, nächste Abgabe und Moduldetails; Farbe der Modulart (--c) */
+.sem-chip.due{
+  display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:0 6px;
+  font:inherit;font-size:12px;line-height:1.35;text-align:left;cursor:pointer;color:var(--text1);
+  border:1px solid color-mix(in srgb,var(--c) 70%,transparent);
+  background:color-mix(in srgb,var(--c) 15%,transparent);box-shadow:inset 3px 0 0 var(--c);
+  transition:background .15s,transform .15s;
+}
+.sem-chip.due b{margin-right:0}
+.sem-chip.due:hover{background:color-mix(in srgb,var(--c) 25%,transparent)}
+.sem-chip.due:active{transform:scale(.99)}
+.due-tag{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--c-t)}
+.due-note{color:var(--text2);font-size:12px}
+.tl-due{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--c) 32%,transparent);color:var(--text1);white-space:nowrap}
+.sem-chip.due.past,.tl-due.past,.due-row.past{opacity:.6}
+.sem-chip.due.past b,.due-row.past b{text-decoration:line-through}
+.next-banner.due{cursor:pointer;box-shadow:var(--g-hi),var(--g-sh-s),inset 3px 0 0 var(--c)}
+.next-banner.due .nb-main{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.next-banner.due .nb-when{color:var(--text3);font-variant-numeric:tabular-nums}
+@media(max-width:600px){
+  .next-banner.due .nb-main{white-space:normal}
+  .next-banner.due .nb-main strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .next-banner.due .nb-when{display:block;font-size:11px}
+  .next-banner.due .nb-sep{display:none}
+}
+/* Handys: "Abgabe" wandert in die Zeitzeile, damit der Titel Platz hat */
+.nb-when-tag{display:none}
+@media(max-width:480px){
+  .next-banner.due .nb-tag,.next-banner.due .nb-noch{display:none}
+  .next-banner.due .nb-when-tag{display:inline;font-weight:700;color:var(--c-t)}
+}
+.next-banner.due.urgent .next-time{color:var(--now-text)}
+.due-row{padding:2px 0}
+.due-row b{font-variant-numeric:tabular-nums;margin-right:4px}
 a.bh{text-decoration:none}
 .feed-url{display:block;font-size:11px;color:var(--text2);overflow-wrap:anywhere;user-select:all;margin:4px 0}
 .feed-admin{margin:12px 0 0}
@@ -1026,7 +1060,7 @@ a.bh{text-decoration:none}
     <button class="btn wk-today" id="wk-today" onclick="shiftWeek(0)" title="Zurück zur aktuellen Woche" hidden>Heute</button>
   </div>
 </div>
-<div id="wk-strip" class="wk-strip" aria-label="Semestertermine dieser Woche"></div>
+<div id="wk-strip" class="wk-strip" aria-label="Semestertermine und Abgaben dieser Woche"></div>
 <div class="grid-wrap"><div id="main"></div></div>
 
 <!-- ══ LOGIN ══ -->
@@ -2008,15 +2042,37 @@ function semWhen(e){
   if(range)return `${dmOf(e.from)}${e.start?" "+e.start:""} – ${dmOf(e.to)}${e.end?" "+e.end:""}`;
   return `${dmOf(e.from)}${e.start?" "+e.start:""}${e.end?(e.start?"–":" bis ")+e.end:""}`;
 }
-/* Leiste unter der Wochenauswahl: vorlesungsfreie Tage und Semestertermine dieser Woche */
+/* ══ ABGABEN ══
+   Fristen der Module aus state.json (modules[].abgaben: date, time, title, note), Regeln in calendar-core.js.
+   Ob eine Frist vorbei ist, zählt nach deutscher Ortszeit, auch auf anders eingestellten Geräten. */
+const WD7=["Mo","Di","Mi","Do","Fr","Sa","So"];
+const escH=v=>String(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+function dueBetween(a,b){return CalendarCore.deadlineEvents(M,a,b);}
+function dueTs(e){return ReminderCore.timestamp(e.date,e.startTime);}
+function duePast(e){return dueTs(e)<=Date.now();}
+function dueWhen(e){return `${WD7[(new Date(e.date+"T12:00:00Z").getUTCDay()+6)%7]} ${dmOf(e.date)} ${e.startTime}`;}
+function dueTitle(e){return `Abgabe ${e.modId}: ${e.title}${e.note?" ("+e.note+")":""} · ${dueWhen(e)}${duePast(e)?" · vorbei":""} · Klicken für Details`;}
+function dueCls(e,base){return `${base} typ-${e.typ==="sim"?"sim":"base"}${duePast(e)?" past":""}`;}
+/* Restzeit: unter 24 Stunden genau, sonst nach Kalendertagen */
+function dueCountdown(e){
+  const min=Math.max(0,Math.round((dueTs(e)-Date.now())/60000));
+  const noch=`<span class="nb-noch">noch </span>`;
+  if(min<24*60)return noch+(min<60?`${min} min`:`${Math.floor(min/60)} h${min%60?" "+min%60+" min":""}`);
+  const days=Math.round((Date.parse(e.date)-Date.parse(ReminderCore.dateInBerlin(new Date(Date.now()))))/864e5);
+  return days===1?"morgen":`in ${days} Tagen`;
+}
+function nextDeadline(){const now=Date.now();return CalendarCore.deadlineEvents(M).find(e=>dueTs(e)>now)||null;}
+/* Leiste unter der Wochenauswahl: vorlesungsfreie Tage, Semestertermine und Abgaben dieser Woche */
 function renderWeekStrip(){
   const el=document.getElementById("wk-strip");if(!el)return;
   const a=isoDate(weekMonday()),b=isoDate(dateOfDay(6));
   const frei=(semInfo.frei||[]).filter(h=>h.from<=b&&(h.to||h.from)>=a);
   const evs=semEventsBetween(a,b);
-  if(!frei.length&&!evs.length){el.innerHTML="";return;}
+  const dues=dueBetween(a,b);
+  if(!frei.length&&!evs.length&&!dues.length){el.innerHTML="";return;}
   el.innerHTML=frei.map(h=>`<div class="sem-chip frei" title="Keine Lehrveranstaltungen"><b>Vorlesungsfrei</b> ${h.title} · ${h.to&&h.to!==h.from?dmOf(h.from)+" – "+dmOf(h.to):dmOf(h.from)}</div>`).join("")
-    +evs.map(e=>`<div class="sem-chip" title="Semestertermin"><b>${semWhen(e)}</b> ${e.title}</div>`).join("");
+    +evs.map(e=>`<div class="sem-chip" title="Semestertermin"><b>${semWhen(e)}</b> ${e.title}</div>`).join("")
+    +dues.map(e=>`<button type="button" class="${dueCls(e,"sem-chip due")}" onclick="showDetail('${e.key}')" title="${escH(dueTitle(e))}"><b>${dueWhen(e)}</b> <span class="due-tag">Abgabe</span> <span>${escH(e.modId)} · ${escH(e.title)}</span></button>`).join("");
 }
 /* ══ WOCHE: blättern, Datum je Spalte, Ausfälle ══ */
 let weekOffset=0;
@@ -2254,8 +2310,8 @@ function renderTimeline(){
       return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}${off?" cancelled":""}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${off?"Fällt aus"+((e.st.detail||e.st.note)?" ("+(e.st.detail||e.st.note)+")":"")+" · ":""}${detail} · Klicken für Details">${off?`<em class="tl-off">fällt aus${e.st.note?" · "+e.st.note:""}</em>`:""}
         <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${off?"":teamsBtn(e.t,di,"tl-teams")}${live?`<div class="ag-progress" aria-hidden="true"><i style="width:${((nm-e.a)/(e.b-e.a))*100}%"></i></div>`:""}</div>`;
     }).join("");
-    const hol=holidayOn(ds);const sem=semOn(ds);
-    heads+=`<div class="tl-head${di===today?" today":""}${hol?" holiday":""}"${hol?` title="Vorlesungsfrei: ${hol.title}"`:""}>${DL[di]} <span class="tl-date">${fmtDM(dateOfDay(di))}</span>${di===today?" · heute":""}${hol?' <span class="tl-free">frei</span>':""}${sem.map(e=>` <span class="tl-sem" title="Semestertermin: ${e.title} · ${semWhen(e)}">${e.title}</span>`).join("")}</div>`;
+    const hol=holidayOn(ds);const sem=semOn(ds);const dues=dueBetween(ds,ds);
+    heads+=`<div class="tl-head${di===today?" today":""}${hol?" holiday":""}"${hol?` title="Vorlesungsfrei: ${hol.title}"`:""}>${DL[di]} <span class="tl-date">${fmtDM(dateOfDay(di))}</span>${di===today?" · heute":""}${hol?' <span class="tl-free">frei</span>':""}${sem.map(e=>` <span class="tl-sem" title="Semestertermin: ${e.title} · ${semWhen(e)}">${e.title}</span>`).join("")}${dues.map(e=>` <span class="${dueCls(e,"tl-due")}" title="${escH(dueTitle(e))}">Abgabe ${e.startTime}</span>`).join("")}</div>`;
     cols+=`<div class="tl-col${di===today?" today":""}${hol?" holiday":""}" style="height:${H}px">${hours}${breaks}${blocks}${nowLineHtml(di,START,END,PX)}</div>`;
   }
   let axis="";
@@ -2335,6 +2391,12 @@ function updateNextBanner(){
     const diff=next.off*24*60+next.sm-nowMins,hh=Math.floor(diff/60),mn=diff%60;
     const timeStr=next.off===0?(hh>0?`in ${hh}h${mn>0?" "+mn+" min":""}`:`in ${mn} min`):next.off===1?"morgen":`in ${next.off} Tagen`;
     h+=`<div class="next-banner"><div class="next-banner-dot" style="background:${typCol[next.m.typ]||"var(--gray-b)"}"></div><span style="color:var(--text2);font-size:11px;font-weight:600;min-width:40px">${SL[next.t.slot].sh}</span><div style="flex:1"><strong>${next.t.lbl}</strong><span style="color:var(--text3)"> · ${DL[next.t.day]}</span></div><div class="next-time">⏱ ${timeStr}</div></div>`;
+  }
+  // Nächste Abgabe, egal wie weit weg; unter 24 Stunden in der Farbe der Jetzt-Linie
+  const due=nextDeadline();
+  if(due){
+    const urgent=dueTs(due)-Date.now()<864e5;
+    h+=`<div class="next-banner due typ-${due.typ==="sim"?"sim":"base"}${urgent?" urgent":""}" role="button" tabindex="0" onclick="showDetail('${due.key}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showDetail('${due.key}')}" title="${escH("Nächste "+dueTitle(due))}"><span class="due-tag nb-tag">Abgabe</span> <div class="nb-main"><strong>${escH(due.modId)} · ${escH(due.title)}</strong><span class="nb-sep" style="color:var(--text3)"> · </span><span class="nb-when"><span class="nb-when-tag">Abgabe </span>${dueWhen(due)}</span></div> <div class="next-time">⏳ ${dueCountdown(due)}</div></div>`;
   }
   wrap.innerHTML=h;
 }
@@ -2556,7 +2618,9 @@ function showDetail(k){
   const mh=(!m.moodle||m.moodle==="–")?"–":`<a href="${m.moodle}" target="_blank">${m.moodle}</a>`;
   const kch=(!m.kc||m.kc==="–")?"–":`<code>${m.kc}</code>`;
   const excStr=(m.exceptions||[]).length===0?"–":m.exceptions.map(e=>`${e.type==="cancelled"?"✕":"＋"} ${e.date}${e.note?" ("+e.note+")":""}`).join(", ");
-  const rows=[["Kürzel",m.id],["Dozent",m.doz||"–"],["1. Termin",m.erst||"–"],["Prüfung",m.prf||"–"],["Moodle",mh],["Kurscode",kch],["Semester",`${m.semStart||"–"} → ${m.semEnd||"–"}`],["Ausnahmen",excStr],["Hinweise",m.hint||"–"],["Termine",m.termine.map(t=>{const txt=`${t.lbl} · ${DL[t.day]} ${SL[t.slot].l}${t.raum&&t.raum!=="–"?" · "+t.raum:""}`;return `<div class="term-row"><span>${DL[t.day]} ${SL[t.slot].l} (${t.fmt}${t.raum&&t.raum!=="–"?" · "+t.raum:""})</span><button class="btn copy-btn" data-copy="${txt.replace(/"/g,"&quot;")}" onclick="copyText(this)" title="Raum und Uhrzeit als Text kopieren">Kopieren</button></div>`;}).join("")]].filter(([,v])=>v&&v!=="–");
+  const dues=CalendarCore.deadlineEvents({[k]:m});
+  const dueStr=dues.length?dues.map(e=>`<div class="due-row${duePast(e)?" past":""}" title="${duePast(e)?"Frist vorbei":"Frist"}"><b>${dueWhen(e)}</b> ${escH(e.title)}${e.note?` <span class="due-note">· ${escH(e.note)}</span>`:""}</div>`).join(""):"–";
+  const rows=[["Kürzel",m.id],["Dozent",m.doz||"–"],["1. Termin",m.erst||"–"],["Prüfung",m.prf||"–"],["Moodle",mh],["Kurscode",kch],["Semester",`${m.semStart||"–"} → ${m.semEnd||"–"}`],["Ausnahmen",excStr],["Abgaben",dueStr],["Hinweise",m.hint||"–"],["Termine",m.termine.map(t=>{const txt=`${t.lbl} · ${DL[t.day]} ${SL[t.slot].l}${t.raum&&t.raum!=="–"?" · "+t.raum:""}`;return `<div class="term-row"><span>${DL[t.day]} ${SL[t.slot].l} (${t.fmt}${t.raum&&t.raum!=="–"?" · "+t.raum:""})</span><button class="btn copy-btn" data-copy="${txt.replace(/"/g,"&quot;")}" onclick="copyText(this)" title="Raum und Uhrzeit als Text kopieren">Kopieren</button></div>`;}).join("")]].filter(([,v])=>v&&v!=="–");
   document.getElementById("dm-rows").innerHTML="<hr class='md'>"+rows.map(([l,v])=>`<div class="mrow"><div class="mlbl">${l}</div><div class="mval">${v}</div></div>`).join("");
   document.getElementById("dm-del").style.display=isAdmin?"inline-flex":"none";
   document.getElementById("dm-edit").style.display=isAdmin?"inline-flex":"none";
@@ -2620,7 +2684,7 @@ function saveModule(){
   if(!name){alert("Modulname ist Pflichtfeld.");return;}
   const termine=[];for(const row of document.getElementById("tlist").children){const fmt=row.querySelector(".tf").value;const rawLink=row.querySelector(".tlink").value.trim();const link=ReminderCore.safeLink(rawLink);if(rawLink&&!link){alert("Bitte einen gültigen Vorlesungslink mit https:// angeben.");return;}termine.push({day:parseInt(row.querySelector(".td").value),slot:parseInt(row.querySelector(".ts").value),fmt,raum:row.querySelector(".tr").value.trim()||"–",lbl:row.querySelector(".tl").value.trim()||id,async:fmt==="Asynchron",link});}
   const key=editId||id;const prev=editId?M[key]:{};
-  M[key]={id:key,nr:document.getElementById("f-nr").value.trim()||"–",name,typ:document.getElementById("f-typ").value,doz:document.getElementById("f-doz").value.trim()||"–",erst:document.getElementById("f-erst").value.trim()||"–",prf:document.getElementById("f-prf").value.trim()||"–",kc:document.getElementById("f-kc").value.trim()||"–",moodle:document.getElementById("f-moodle").value.trim()||"–",hint:document.getElementById("f-hint").value.trim()||"–",semStart:prev.semStart||"",semEnd:prev.semEnd||"",exceptions:prev.exceptions||[],termine};
+  M[key]={id:key,nr:document.getElementById("f-nr").value.trim()||"–",name,typ:document.getElementById("f-typ").value,doz:document.getElementById("f-doz").value.trim()||"–",erst:document.getElementById("f-erst").value.trim()||"–",prf:document.getElementById("f-prf").value.trim()||"–",kc:document.getElementById("f-kc").value.trim()||"–",moodle:document.getElementById("f-moodle").value.trim()||"–",hint:document.getElementById("f-hint").value.trim()||"–",semStart:prev.semStart||"",semEnd:prev.semEnd||"",exceptions:prev.exceptions||[],termine,...(prev.abgaben?{abgaben:prev.abgaben}:{})};
   closeOv("ov-edit");render();autoSave();
 }
 
@@ -2634,8 +2698,8 @@ function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("
 
 /* ══ CALENDAR EXPORT ══ */
 /* Termine für Export (.ics/.csv): dieselben Regeln wie das Kalender-Abo, siehe calendar-core.js */
-function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("")+`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)" title="Semestertermine und vorlesungsfreie Zeiten mit exportieren"><input type="checkbox" class="ex-cb" value="__SEM__" checked> Semestertermine & vorlesungsfrei</label>`;}
-function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const mods=Object.fromEntries(sel.filter(k=>M[k]).map(k=>[k,M[k]]));const all=CalendarCore.lectureEvents(mods,SL,semInfo,s,e);if(sel.includes("__SEM__"))all.push(...semOccurrences(s,e));return all.sort(CalendarCore.byStart);}
+function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("")+`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)" title="Semestertermine und vorlesungsfreie Zeiten mit exportieren"><input type="checkbox" class="ex-cb" value="__SEM__" checked> Semestertermine & vorlesungsfrei</label><label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)" title="Abgaben der gewählten Module mit exportieren"><input type="checkbox" class="ex-cb" value="__DUE__" checked> Abgaben</label>`;}
+function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const mods=Object.fromEntries(sel.filter(k=>M[k]).map(k=>[k,M[k]]));const all=CalendarCore.lectureEvents(mods,SL,semInfo,s,e);if(sel.includes("__SEM__"))all.push(...semOccurrences(s,e));if(sel.includes("__DUE__"))all.push(...CalendarCore.deadlineEvents(mods,s,e));return all.sort(CalendarCore.byStart);}
 /* Semestertermine und vorlesungsfreie Zeiten für den Export (ganztägig, wenn keine Uhrzeit angegeben ist) */
 function semOccurrences(s,e){return CalendarCore.semesterEvents(semInfo,s,e);}
 function exportICS(){
@@ -2645,7 +2709,7 @@ function exportICS(){
   const now=new Date().toISOString().replace(/[-:]/g,"").replace(/\..+/,"")+"Z";
   download("miem_stundenplan.ics",CalendarCore.buildICS(evs,{calName:CalendarCore.calendarName(document.getElementById("site-sem").value),alarmMinutes:p.calendar?p.minutes:0,dtstamp:now}),"text/calendar");
 }
-function exportCSV(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const wd=["So","Mo","Di","Mi","Do","Fr","Sa"];const rows=[["Datum","Wochentag","Start","Ende","Modul","Kürzel","Label","Format","Raum","Dozent","Moodle"]];for(const ev of evs){if(ev.sem){const d=new Date(ev.date+"T12:00:00");rows.push([ev.date+(ev.to!==ev.date?" bis "+ev.to:""),wd[d.getDay()],ev.startTime,ev.endTime,ev.name,"",ev.label,"","","",""]);continue;}const m=M[ev.key]||{};const d=new Date(ev.date+"T12:00:00");rows.push([ev.date,wd[d.getDay()],ev.startTime,ev.endTime,ev.name,ev.modId,ev.label,ev.fmt,ev.kind==="extra"?"":ev.raum!=="–"?ev.raum:"Online",ev.doz,m.moodle&&m.moodle!=="–"?m.moodle:""]);}const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");download("miem_stundenplan.csv",csv,"text/csv;charset=utf-8");}
+function exportCSV(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const wd=["So","Mo","Di","Mi","Do","Fr","Sa"];const rows=[["Datum","Wochentag","Start","Ende","Modul","Kürzel","Label","Format","Raum","Dozent","Moodle"]];for(const ev of evs){if(ev.sem){const d=new Date(ev.date+"T12:00:00");rows.push([ev.date+(ev.to!==ev.date?" bis "+ev.to:""),wd[d.getDay()],ev.startTime,ev.endTime,ev.name,"",ev.label,"","","",""]);continue;}const m=M[ev.key]||{};if(ev.kind==="deadline"){const d=new Date(ev.date+"T12:00:00");rows.push([ev.date,wd[d.getDay()],ev.startTime,"",ev.title+(ev.note?" ("+ev.note+")":""),ev.modId,ev.label,"","","",m.moodle&&m.moodle!=="–"?m.moodle:""]);continue;}const d=new Date(ev.date+"T12:00:00");rows.push([ev.date,wd[d.getDay()],ev.startTime,ev.endTime,ev.name,ev.modId,ev.label,ev.fmt,ev.kind==="extra"?"":ev.raum!=="–"?ev.raum:"Online",ev.doz,m.moodle&&m.moodle!=="–"?m.moodle:""]);}const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");download("miem_stundenplan.csv",csv,"text/csv;charset=utf-8");}
 function download(name,content,type){const blob=new Blob([content],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();}
 
 /* ══ JSON ══ */

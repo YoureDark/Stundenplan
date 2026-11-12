@@ -4,7 +4,7 @@ Statische Stundenplan-PWA ohne Build-Schritt. Läuft auf jedem Webserver, der di
 
 ## Kalender-Abo (Erinnerungen bei geschlossener App)
 
-`kalender.ics` liegt neben `index.html` und enthält alle Vorlesungen des Semesters, jeweils mit einer Erinnerung vor Beginn, dazu die Semestertermine und vorlesungsfreien Zeiten (ohne Erinnerung). Ausfälle, vorlesungsfreie Tage, asynchrone Termine und Block/Sa-Termine nach Vereinbarung sind nicht enthalten. Jeder Termin hat eine feste ID, damit Kalender-Apps ihn beim nächsten Abgleich wiedererkennen statt ihn doppelt anzulegen.
+`kalender.ics` liegt neben `index.html` und enthält alle Vorlesungen des Semesters, jeweils mit einer Erinnerung vor Beginn, die Abgaben (siehe unten) mit zwei Erinnerungen, dazu die Semestertermine und vorlesungsfreien Zeiten (ohne Erinnerung). Ausfälle, vorlesungsfreie Tage, asynchrone Termine und Block/Sa-Termine nach Vereinbarung sind nicht enthalten. Jeder Termin hat eine feste ID, damit Kalender-Apps ihn beim nächsten Abgleich wiedererkennen statt ihn doppelt anzulegen.
 
 - **Abonnieren:** Einstellungen → Vorlesungs-Erinnerungen → **Kalender abonnieren** (öffnet per `webcal://` den Abo-Dialog der Kalender-App) oder **Adresse kopieren** und in der Kalender-App als Abo hinzufügen. Die Adresse ergibt sich aus der Adresse, unter der die Seite geöffnet ist, also den Stundenplan auf dem Handy über die Server-Adresse öffnen, nicht über `localhost`.
 - **iPhone:** In den Abo-Einstellungen „Alarme entfernen“ (je nach iOS „Hinweise entfernen“) ausschalten, sonst übernimmt das iPhone die Erinnerungen nicht. Die Erinnerungen liegen danach auf dem Handy und kommen auch, wenn der Server gerade nicht erreichbar ist. Der Server wird nur gebraucht, damit Änderungen ankommen; das iPhone gleicht Abos von selbst in Abständen ab, nicht sofort.
@@ -13,6 +13,22 @@ Statische Stundenplan-PWA ohne Build-Schritt. Läuft auf jedem Webserver, der di
 - **Aktualisieren:** „Speichern & ins Repo pushen“ schreibt `state.json` und `kalender.ics`. Unveränderte Dateien erzeugen keinen Commit. Wird `state.json` von Hand geändert, `node scripts/build-calendar.cjs` ausführen (`--check` prüft nur, ob `kalender.ics` noch passt).
 - **Eigener Server:** `kalender.ics` wird wie jede andere Datei ausgeliefert, am besten als `text/calendar`. Holt sich der Server den Stand per `git pull` aus dem Repo, kommt die Datei automatisch mit. Damit Änderungen auch unterwegs ankommen, muss das Handy den Server erreichen (z. B. per Domain mit HTTPS oder VPN wie Tailscale). Ist der Server nur im Heimnetz erreichbar (die Domain zeigt z. B. auf eine 192.168.x.x-Adresse), das Abo direkt auf dem iPhone anlegen; am Mac als Ort „Auf meinem Mac“ statt iCloud wählen, weil Apples Server eine Heimnetz-Adresse nicht erreichen. Geht der Knopf nicht, die kopierte `https://`-Adresse von Hand als Kalenderabo hinzufügen. Für das Abo selbst reicht notfalls HTTP; die Benachrichtigungen der App brauchen dagegen HTTPS oder `localhost`.
 
+
+## Abgaben
+
+Abgabefristen stehen pro Modul in `state.json` unter `modules.<Kürzel>.abgaben`:
+
+```json
+"abgaben": [
+  {"date": "2026-12-02", "time": "20:00", "title": "Teilaufgabe 2", "note": "Studienarbeit"}
+]
+```
+
+`date` und `title` sind Pflicht, `time` ist deutsche Ortszeit (ohne Angabe 23:59), `note` ist ein optionaler Zusatz wie „öffnet Fr 20.11. um 07:00“. Abgaben hängen nicht an Semestergrenzen oder vorlesungsfreien Tagen.
+
+- **In der App:** Die Leiste unter der Wochenauswahl zeigt die Abgaben der angezeigten Woche, auch an Tagen ohne eigene Spalte (z. B. Mittwoch); vorbei ist durchgestrichen. Darüber steht die nächste Abgabe mit Restzeit, unter 24 Stunden rot. In der Zeitachse trägt der Tageskopf „Abgabe 23:59“, die Moduldetails listen alle Abgaben des Moduls. Ein Klick auf eine Abgabe öffnet das Modul.
+- **Im Kalender-Abo:** Jede Abgabe ist ein Termin ohne Dauer zur Fristzeit („Abgabe DESIM · 1. Optimization Baseline Model“), als frei markiert, mit Erinnerung am Vortag um 18 Uhr und drei Stunden vor der Frist. Auch der einmalige Export nimmt sie mit (Häkchen „Abgaben“).
+- **Ändern:** `state.json` bearbeiten und `node scripts/build-calendar.cjs` ausführen. Ein Editor in der App fehlt noch; „Modul bearbeiten“ und „Speichern & ins Repo pushen“ behalten vorhandene Abgaben bei.
 
 ## Vorlesungs-Erinnerungen
 
@@ -40,11 +56,13 @@ Zum erneuten Rendern mit Node.js und `sharp`: `node scripts/build-icons.cjs`. Di
 
 ## Tests
 
-`node --test tests/*.test.cjs` führt alle Unit-Tests aus. `tests/calendar-core.test.cjs` prüft das Kalender-Abo: alle 116 Vorlesungen mit Erinnerung, freie Tage, Semestergrenzen, feste IDs, gleiche Datei unabhängig von der Zeitzone des Servers und dass `kalender.ics` zu `state.json` passt. `tests/reminder-core.test.cjs` prüft Vorlauf, verpasste Zeitfenster, Ferien, Ausfälle, Semestergrenzen, asynchrone Termine, sichere Links, Kalenderalarme, UTF-8-Zeilenfaltung und Sommer-/Winterzeit.
+`node --test tests/*.test.cjs` führt alle Unit-Tests aus. `tests/calendar-core.test.cjs` prüft das Kalender-Abo: alle 116 Vorlesungen mit Erinnerung, alle Abgaben mit ihren zwei Erinnerungen, freie Tage, Semestergrenzen, feste IDs, gleiche Datei unabhängig von der Zeitzone des Servers und dass `kalender.ics` zu `state.json` passt. `tests/reminder-core.test.cjs` prüft Vorlauf, verpasste Zeitfenster, Ferien, Ausfälle, Semestergrenzen, asynchrone Termine, sichere Links, Kalenderalarme, UTF-8-Zeilenfaltung und Sommer-/Winterzeit.
 
 `node tests/browser-smoke.cjs` startet einen lokalen Testserver und prüft die Integration mit Playwright und Microsoft Edge (alternativ `BROWSER_CHANNEL=chrome`). Benötigt das Node-Paket `playwright`. Benachrichtigungsausgabe wird abgefangen, damit der Test keine Systemmeldungen auslöst. Geprüft werden Nutzdaten, Mehrfachaufrufe/mehrere Tabs, Einstellungsvalidierung, Testmeldung, Kalenderexport mit/ohne Alarm, Bearbeiten von Links, Kalender-Abo (Knopf, Adresse, Mitpushen beim Admin-Speichern), mobile Breite und Offline-Neuladen. Screenshots landen unter `output/`.
 
 `node tests/mobile-layout.cjs` prüft mit gestellter Uhr die Handy-Ansicht von 320 bis 412 px: Tag-Reiter ohne seitliches Wischen, Ausfall-Schild innerhalb der Karte. Ohne Edge z. B. `BROWSER_CHANNEL=chromium` setzen.
+
+`node tests/abgaben.cjs` prüft mit gestellter Uhr die Abgaben in der App: Wochenleiste, Banner mit Restzeit, Zeitachsen-Kopf, Moduldetails, Export und dass Bearbeiten eines Moduls die Abgaben behält, von 320 bis 1400 px.
 
 ## iPhone-Installationsdialog zeigt nur einen Buchstaben
 
