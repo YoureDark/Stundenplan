@@ -9,14 +9,18 @@ const state=JSON.parse(fs.readFileSync(path.join(root,'state.json'),'utf8'));
 const feed=cal.feedCalendar(state);
 const vevents=text=>text.split('BEGIN:VEVENT\r\n').slice(1).map(v=>v.slice(0,v.indexOf('END:VEVENT')).replace(/\r\n /g,''));
 const field=(v,name)=>(v.match(new RegExp('^'+name+'[;:]([^\\r\\n]*)','m'))||[])[1]||'';
-// Semestertermine sind als frei markiert (TRANSP:TRANSPARENT), Vorlesungen nicht
+// Semestertermine und Abgaben sind als frei markiert (TRANSP:TRANSPARENT), Vorlesungen nicht
 const lectures=vevents(feed).filter(v=>!v.includes('TRANSP:TRANSPARENT'));
+const deadlines=vevents(feed).filter(v=>v.includes('CATEGORIES:Abgabe'));
+const deadlineCount=Object.values(state.modules).reduce((n,m)=>n+(m.abgaben||[]).length,0);
+const byUid=uid=>vevents(feed).find(v=>field(v,'UID')===uid);
 
 test('feed holds every lecture of the semester with a 15 minute alarm',()=>{
   // 14 Thursdays and 15 Fridays with 4 lectures each, without 24./25./31.12. and 01.01.
   assert.equal(lectures.length,116);
-  assert.equal((feed.match(/BEGIN:VALARM/g)||[]).length,116);
-  for(const v of lectures)assert.match(v,/BEGIN:VALARM\r\nTRIGGER:-PT15M\r\nACTION:DISPLAY\r\n/);
+  // eine Erinnerung je Vorlesung, zwei je Abgabe
+  assert.equal((feed.match(/BEGIN:VALARM/g)||[]).length,116+2*deadlineCount);
+  for(const v of lectures){assert.match(v,/BEGIN:VALARM\r\nTRIGGER:-PT15M\r\nACTION:DISPLAY\r\n/);assert.equal((v.match(/BEGIN:VALARM/g)||[]).length,1);}
   const last=lectures.filter(v=>field(v,'DTSTART').endsWith('20270122T'+field(v,'DTSTART').slice(-6)));
   assert.equal(last.length,4,'last teaching day 22.01.2027');
 });
@@ -41,7 +45,7 @@ test('feed is a valid, publishable calendar with folded CRLF lines and unique st
   const uids=vevents(feed).map(v=>field(v,'UID'));
   assert.equal(new Set(uids).size,uids.length);
   assert.ok(uids.includes('20261002-2-ineng-ineng-su@miem-stundenplan'));
-  assert.equal(vevents(feed).filter(v=>v.includes('TRANSP:TRANSPARENT')).length,7,'4 Semestertermine + 3 freie Zeiten');
+  assert.equal(vevents(feed).filter(v=>v.includes('TRANSP:TRANSPARENT')&&!v.includes('CATEGORIES:Abgabe')).length,7,'4 Semestertermine + 3 freie Zeiten');
 });
 test('lecture entries carry time zone, room, label first and the alarm text',()=>{
   const v=lectures.find(x=>field(x,'UID')==='20261002-2-ineng-ineng-su@miem-stundenplan');
@@ -94,4 +98,54 @@ test('ids of existing lectures stay the same when another module is added',()=>{
   const more={...state,modules:{NEU:{id:'NEU',name:'Neu',semStart:'2026-10-02',semEnd:'2027-01-22',termine:[{day:3,slot:0,fmt:'Präsenz',raum:'A1',lbl:'NEU:SU'}]},...state.modules}};
   const ids=new Set(vevents(cal.feedCalendar(more)).map(v=>field(v,'UID')));
   for(const v of vevents(feed))assert.ok(ids.has(field(v,'UID')));
+});
+
+test('every deadline from state.json is in the feed once, as a point in time that blocks nothing',()=>{
+  assert.equal(deadlineCount,10);
+  assert.equal(deadlines.length,deadlineCount);
+  for(const v of deadlines){
+    assert.match(field(v,'DTSTART'),/^TZID=Europe\/Berlin:\d{8}T\d{6}$/);
+    assert.equal(field(v,'DTEND'),field(v,'DTSTART'),'no duration');
+    assert.match(v,/\r\nTRANSP:TRANSPARENT\r\n/);
+    assert.match(field(v,'SUMMARY'),/^Abgabe (INENG|MLIP|DESIM) · /);
+    assert.equal((v.match(/BEGIN:VALARM/g)||[]).length,2);
+  }
+  // Stichproben gegen die Vorlagen: IE-Studienarbeit, ML-Projekt, DES-Moodle
+  const ie=byUid('20261202-abgabe-ineng-teilaufgabe-2@miem-stundenplan');
+  assert.equal(field(ie,'DTSTART'),'TZID=Europe/Berlin:20261202T200000');
+  assert.equal(field(ie,'SUMMARY'),'Abgabe INENG · Teilaufgabe 2');
+  assert.match(ie,/DESCRIPTION:Industrial Engineering\\nStudienarbeit\\nMoodle: /);
+  const ml=byUid('20270114-abgabe-mlip-projekt-m3@miem-stundenplan');
+  assert.equal(field(ml,'DTSTART'),'TZID=Europe/Berlin:20270114T120000');
+  const des=byUid('20261218-abgabe-desim-3-measures-to-improve-energy-consumption@miem-stundenplan');
+  assert.equal(field(des,'DTSTART'),'TZID=Europe/Berlin:20261218T235900');
+  assert.equal(field(des,'SUMMARY'),'Abgabe DESIM · 3. Measures to improve Energy Consumption');
+  assert.equal(field(des,'URL'),'https://elearning.ohmportal.de/course/view.php?id=1916');
+});
+test('deadline reminders come the evening before at 18:00 and three hours before',()=>{
+  const triggers=v=>[...v.matchAll(/TRIGGER:([^\r]+)/g)].map(m=>m[1]);
+  assert.deepEqual(triggers(byUid('20261120-abgabe-desim-1-optimization-baseline-model@miem-stundenplan')),['-P1DT5H59M','-PT3H']);
+  assert.deepEqual(triggers(byUid('20261202-abgabe-ineng-teilaufgabe-2@miem-stundenplan')),['-P1DT2H','-PT3H']);
+  assert.deepEqual(triggers(byUid('20270114-abgabe-mlip-projekt-m3@miem-stundenplan')),['-PT18H','-PT3H']);
+  const at=time=>triggers(cal.buildICS(cal.deadlineEvents({T:{id:'T',name:'Test',abgaben:[{date:'2026-11-23',time,title:'X'}]}}),{alarmMinutes:15}))[0];
+  assert.equal(at('18:00'),'-P1D');assert.equal(at('00:30'),'-PT6H30M');assert.equal(at('07:15'),'-PT13H15M');
+  assert.match(byUid('20261120-abgabe-desim-1-optimization-baseline-model@miem-stundenplan'),/DESCRIPTION:Abgabe Fr 20\.11\. um 23:59: DESIM · 1\. Optimization Baseline Model/);
+  // Export ohne Erinnerungen: auch keine an Abgaben
+  assert.ok(!cal.buildICS(cal.deadlineEvents(state.modules),{alarmMinutes:0}).includes('VALARM'));
+});
+test('deadlines: range filter, default time, invalid entries, no semester or holiday limits',()=>{
+  const m={id:'T',name:'Test',semStart:'2026-10-01',semEnd:'2026-10-31',abgaben:[
+    {date:'2026-12-28',time:'10:00',title:'In den Ferien'},{date:'2027-02-01',title:'Ohne Uhrzeit'},
+    {date:'2026-11-05',time:'25:00',title:'Falsche Uhrzeit'},{date:'05.11.2026',title:'Falsches Datum'},{date:'2026-11-06',time:'12:00'},null]};
+  const all=cal.deadlineEvents({T:m});
+  assert.deepEqual(all.map(e=>e.date+' '+e.startTime+' '+e.title),['2026-11-05 23:59 Falsche Uhrzeit','2026-12-28 10:00 In den Ferien','2027-02-01 23:59 Ohne Uhrzeit']);
+  assert.deepEqual(cal.deadlineEvents({T:m},'2026-12-01','2026-12-31').map(e=>e.title),['In den Ferien']);
+  assert.deepEqual(cal.deadlineEvents(state.modules,'2026-11-16','2026-11-22').map(e=>e.modId+' '+e.title),['MLIP Projekt M2','DESIM 1. Optimization Baseline Model']);
+  assert.deepEqual(cal.deadlineEvents({}),[]);assert.deepEqual(cal.deadlineEvents({T:{id:'T'}}),[]);
+});
+test('deadlines leave the lecture entries untouched',()=>{
+  const without=JSON.parse(JSON.stringify(state));for(const m of Object.values(without.modules))delete m.abgaben;
+  const plain=vevents(cal.feedCalendar(without));
+  assert.equal(plain.filter(v=>v.includes('CATEGORIES:Abgabe')).length,0);
+  assert.deepEqual(plain.filter(v=>!v.includes('TRANSP:TRANSPARENT')),lectures);
 });

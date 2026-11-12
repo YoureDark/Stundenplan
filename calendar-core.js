@@ -51,6 +51,22 @@
     return out.sort(byStart);
   }
 
+  /* Abgaben eines Moduls (modules[].abgaben): {date:'2026-12-02', time:'20:00', title:'Teilaufgabe 2', note:'…'}.
+     Ohne gültige Uhrzeit gilt 23:59. Anders als Vorlesungen hängen Abgaben nicht an Semestergrenzen oder freien Tagen. */
+  const isTime=s=>typeof s==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(s);
+  function deadlineEvents(modules,from,to){
+    const out=[];
+    for(const [key,m] of Object.entries(modules||{})){
+      const modId=m.id||key;
+      for(const x of m.abgaben||[]){
+        if(!x||!isDate(x.date)||!x.title||(isDate(from)&&x.date<from)||(isDate(to)&&x.date>to))continue;
+        const time=isTime(x.time)?x.time:'23:59';
+        out.push({kind:'deadline',key,modId,date:x.date,startTime:time,endTime:time,label:'Abgabe',title:String(x.title),note:x.note?String(x.note):'',name:m.name||modId,typ:m.typ,moodle:m.moodle});
+      }
+    }
+    return out.sort(byStart);
+  }
+
   /* Semestertermine und vorlesungsfreie Zeiten, die den Zeitraum berühren */
   function semesterEvents(semester,from,to){
     const a=isDate(from)?from:'0000-01-01',b=isDate(to)?to:'9999-12-31',out=[];
@@ -68,14 +84,29 @@
     const day=ev.date.replace(/-/g,'');
     if(ev.kind==='lecture')return `${day}-${ev.slot}-${slug(ev.modId)}-${slug(ev.label)}@${UID_HOST}`;
     if(ev.kind==='extra')return `${day}-zusatz-${slug(ev.modId)}@${UID_HOST}`;
+    if(ev.kind==='deadline')return `${day}-abgabe-${slug(ev.modId)}-${slug(ev.title)}@${UID_HOST}`;
     return `${day}-sem-${slug(ev.name)}@${UID_HOST}`;
+  }
+  /* Erinnerungen an eine Abgabe: am Vortag um 18 Uhr und drei Stunden vor der Frist.
+     Der Vortag zählt als Kalendertag (P1D), so bleibt es auch bei einer Zeitumstellung dazwischen bei 18 Uhr. */
+  const WD=['Mo','Di','Mi','Do','Fr','Sa','So'];
+  const dm=s=>s.slice(8,10)+'.'+s.slice(5,7)+'.';
+  const hm=n=>(n>=60?Math.floor(n/60)+'H':'')+(n%60?n%60+'M':'');
+  function valarm(trigger,text){return 'BEGIN:VALARM\r\nTRIGGER:'+trigger+'\r\nACTION:DISPLAY\r\nDESCRIPTION:'+esc(text)+'\r\nEND:VALARM\r\n';}
+  function deadlineAlarms(ev){
+    const [h,mi]=ev.startTime.split(':').map(Number);
+    const toEve=h*60+mi+6*60;   // Minuten von Vortag 18:00 bis zur Frist
+    const eve=toEve>=1440?'-P1D'+(toEve>1440?'T'+hm(toEve-1440):''):'-PT'+hm(toEve);
+    const text=`Abgabe ${WD[weekday(ev.date)]} ${dm(ev.date)} um ${ev.startTime}: ${ev.modId} · ${ev.title}`;
+    return valarm(eve,text)+valarm('-PT3H',text);
   }
   const VTIMEZONE='BEGIN:VTIMEZONE\r\nTZID:'+TZ+'\r\n'
     +'BEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\n'
     +'BEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\n'
     +'END:VTIMEZONE\r\n';
 
-  /* iCalendar-Text aus Terminen. alarmMinutes 1 bis 120 setzt eine Erinnerung vor jeder Vorlesung, sonst keine. */
+  /* iCalendar-Text aus Terminen. alarmMinutes 1 bis 120 setzt eine Erinnerung vor jeder Vorlesung
+     und die beiden Erinnerungen an jede Abgabe, sonst gibt es keine. */
   function buildICS(events,opts){
     const o=opts||{};
     const dtstamp=o.dtstamp||FEED_STAMP;
@@ -92,6 +123,20 @@
           ?`DTSTART;TZID=${TZ}:${local(ev.date,ev.startTime)}\r\nDTEND;TZID=${TZ}:${local(ev.to,ev.endTime||ev.startTime)}\r\n`
           :`DTSTART;VALUE=DATE:${ev.date.replace(/-/g,'')}\r\nDTEND;VALUE=DATE:${addDays(ev.to,1).replace(/-/g,'')}\r\n`;
         ics+='SUMMARY:'+esc(ev.name+(!ev.startTime&&ev.endTime?' (bis '+ev.endTime+')':''))+'\r\nCATEGORIES:'+esc(ev.label)+'\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\n';
+        continue;
+      }
+      if(ev.kind==='deadline'){
+        // Abgaben sind ein Zeitpunkt ohne Dauer (wie in Moodle) und blockieren keine Zeit
+        const at=`${TZ}:${local(ev.date,ev.startTime)}`;
+        const desc=[ev.name];
+        if(ev.note)desc.push(ev.note);
+        if(has(ev.moodle))desc.push('Moodle: '+ev.moodle);
+        ics+=`DTSTART;TZID=${at}\r\nDTEND;TZID=${at}\r\n`;
+        ics+='SUMMARY:'+esc('Abgabe '+ev.modId+' · '+ev.title)+'\r\nDESCRIPTION:'+desc.map(esc).join('\\n')+'\r\nCATEGORIES:Abgabe\r\nTRANSP:TRANSPARENT\r\n';
+        const url=RC.safeLink(ev.moodle);
+        if(url)ics+='URL:'+url+'\r\n';
+        if(o.alarmMinutes)ics+=deadlineAlarms(ev);
+        ics+='END:VEVENT\r\n';
         continue;
       }
       if(ev.kind==='extra'){
@@ -125,13 +170,13 @@
     const term=String(semester||'').split('·')[0].trim();
     return 'MIEM Stundenplan'+(term?' · '+term:'');
   }
-  /* Inhalt von kalender.ics: das ganze Semester aller Module plus Semestertermine */
+  /* Inhalt von kalender.ics: das ganze Semester aller Module plus Semestertermine und Abgaben */
   function feedCalendar(state){
     const s=state||{},sem=s.semesterTermine||{};
-    const events=lectureEvents(s.modules,SLOTS,sem).concat(semesterEvents(sem)).sort(byStart);
+    const events=lectureEvents(s.modules,SLOTS,sem).concat(semesterEvents(sem),deadlineEvents(s.modules)).sort(byStart);
     return buildICS(events,{calName:calendarName(s.semester),alarmMinutes:feedAlarmMinutes(s),publish:true,refresh:'PT1H',dtstamp:FEED_STAMP});
   }
 
-  const api={TZ,SLOTS,FEED_FILE,DEFAULT_ALARM,FEED_STAMP,lectureEvents,semesterEvents,buildICS,calendarName,feedAlarmMinutes,feedCalendar,uidOf,holidayOn,byStart};
+  const api={TZ,SLOTS,FEED_FILE,DEFAULT_ALARM,FEED_STAMP,lectureEvents,semesterEvents,deadlineEvents,buildICS,calendarName,feedAlarmMinutes,feedCalendar,uidOf,holidayOn,byStart};
   if(typeof module!=='undefined')module.exports=api;else root.CalendarCore=api;
 })(globalThis);
