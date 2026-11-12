@@ -1,0 +1,1946 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//MIEM Stundenplan//DE
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:MIEM Stundenplan · WiSe 2026/27
+X-WR-TIMEZONE:Europe/Berlin
+REFRESH-INTERVAL;VALUE=DURATION:PT1H
+X-PUBLISHED-TTL:PT1H
+BEGIN:VTIMEZONE
+TZID:Europe/Berlin
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:20261002-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261002T080000
+DTEND;TZID=Europe/Berlin:20261002T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261002-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261002T094500
+DTEND;TZID=Europe/Berlin:20261002T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261002-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261002T113000
+DTEND;TZID=Europe/Berlin:20261002T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261002-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261002T140000
+DTEND;TZID=Europe/Berlin:20261002T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261003-sem-vorlesungsfrei-tag-der-deutschen-einheit@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Vorlesungsfrei: Tag der Deutschen Einheit
+CATEGORIES:Vorlesungsfrei
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20261008-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261008T140000
+DTEND;TZID=Europe/Berlin:20261008T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261008-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261008T154500
+DTEND;TZID=Europe/Berlin:20261008T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261008-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261008T173000
+DTEND;TZID=Europe/Berlin:20261008T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261008-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261008T191500
+DTEND;TZID=Europe/Berlin:20261008T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261009-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261009T080000
+DTEND;TZID=Europe/Berlin:20261009T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261009-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261009T094500
+DTEND;TZID=Europe/Berlin:20261009T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261009-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261009T113000
+DTEND;TZID=Europe/Berlin:20261009T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261009-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261009T140000
+DTEND;TZID=Europe/Berlin:20261009T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261015-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261015T140000
+DTEND;TZID=Europe/Berlin:20261015T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261015-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261015T154500
+DTEND;TZID=Europe/Berlin:20261015T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261015-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261015T173000
+DTEND;TZID=Europe/Berlin:20261015T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261015-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261015T191500
+DTEND;TZID=Europe/Berlin:20261015T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261016-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261016T080000
+DTEND;TZID=Europe/Berlin:20261016T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261016-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261016T094500
+DTEND;TZID=Europe/Berlin:20261016T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261016-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261016T113000
+DTEND;TZID=Europe/Berlin:20261016T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261016-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261016T140000
+DTEND;TZID=Europe/Berlin:20261016T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261021-sem-pru-fungsanmeldung-in-studyohm@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261021T120000
+DTEND;TZID=Europe/Berlin:20261102T235900
+SUMMARY:Prüfungsanmeldung in StudyOhm
+CATEGORIES:Semestertermin
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20261022-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261022T140000
+DTEND;TZID=Europe/Berlin:20261022T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261022-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261022T154500
+DTEND;TZID=Europe/Berlin:20261022T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261022-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261022T173000
+DTEND;TZID=Europe/Berlin:20261022T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261022-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261022T191500
+DTEND;TZID=Europe/Berlin:20261022T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261023-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261023T080000
+DTEND;TZID=Europe/Berlin:20261023T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261023-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261023T094500
+DTEND;TZID=Europe/Berlin:20261023T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261023-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261023T113000
+DTEND;TZID=Europe/Berlin:20261023T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261023-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261023T140000
+DTEND;TZID=Europe/Berlin:20261023T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261029-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261029T140000
+DTEND;TZID=Europe/Berlin:20261029T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261029-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261029T154500
+DTEND;TZID=Europe/Berlin:20261029T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261029-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261029T173000
+DTEND;TZID=Europe/Berlin:20261029T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261029-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261029T191500
+DTEND;TZID=Europe/Berlin:20261029T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261030-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261030T080000
+DTEND;TZID=Europe/Berlin:20261030T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261030-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261030T094500
+DTEND;TZID=Europe/Berlin:20261030T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261030-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261030T113000
+DTEND;TZID=Europe/Berlin:20261030T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261030-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261030T140000
+DTEND;TZID=Europe/Berlin:20261030T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261105-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261105T140000
+DTEND;TZID=Europe/Berlin:20261105T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261105-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261105T154500
+DTEND;TZID=Europe/Berlin:20261105T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261105-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261105T173000
+DTEND;TZID=Europe/Berlin:20261105T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261105-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261105T191500
+DTEND;TZID=Europe/Berlin:20261105T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261106-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261106T080000
+DTEND;TZID=Europe/Berlin:20261106T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261106-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261106T094500
+DTEND;TZID=Europe/Berlin:20261106T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261106-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261106T113000
+DTEND;TZID=Europe/Berlin:20261106T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261106-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261106T140000
+DTEND;TZID=Europe/Berlin:20261106T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261112-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261112T140000
+DTEND;TZID=Europe/Berlin:20261112T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261112-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261112T154500
+DTEND;TZID=Europe/Berlin:20261112T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261112-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261112T173000
+DTEND;TZID=Europe/Berlin:20261112T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261112-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261112T191500
+DTEND;TZID=Europe/Berlin:20261112T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261113-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261113T080000
+DTEND;TZID=Europe/Berlin:20261113T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261113-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261113T094500
+DTEND;TZID=Europe/Berlin:20261113T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261113-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261113T113000
+DTEND;TZID=Europe/Berlin:20261113T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261113-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261113T140000
+DTEND;TZID=Europe/Berlin:20261113T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261119-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261119T140000
+DTEND;TZID=Europe/Berlin:20261119T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261119-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261119T154500
+DTEND;TZID=Europe/Berlin:20261119T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261119-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261119T173000
+DTEND;TZID=Europe/Berlin:20261119T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261119-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261119T191500
+DTEND;TZID=Europe/Berlin:20261119T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261120-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261120T080000
+DTEND;TZID=Europe/Berlin:20261120T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261120-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261120T094500
+DTEND;TZID=Europe/Berlin:20261120T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261120-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261120T113000
+DTEND;TZID=Europe/Berlin:20261120T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261120-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261120T140000
+DTEND;TZID=Europe/Berlin:20261120T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261126-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261126T140000
+DTEND;TZID=Europe/Berlin:20261126T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261126-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261126T154500
+DTEND;TZID=Europe/Berlin:20261126T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261126-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261126T173000
+DTEND;TZID=Europe/Berlin:20261126T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261126-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261126T191500
+DTEND;TZID=Europe/Berlin:20261126T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261127-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261127T080000
+DTEND;TZID=Europe/Berlin:20261127T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261127-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261127T094500
+DTEND;TZID=Europe/Berlin:20261127T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261127-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261127T113000
+DTEND;TZID=Europe/Berlin:20261127T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261127-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261127T140000
+DTEND;TZID=Europe/Berlin:20261127T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261203-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261203T140000
+DTEND;TZID=Europe/Berlin:20261203T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261203-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261203T154500
+DTEND;TZID=Europe/Berlin:20261203T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261203-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261203T173000
+DTEND;TZID=Europe/Berlin:20261203T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261203-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261203T191500
+DTEND;TZID=Europe/Berlin:20261203T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261204-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261204T080000
+DTEND;TZID=Europe/Berlin:20261204T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261204-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261204T094500
+DTEND;TZID=Europe/Berlin:20261204T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261204-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261204T113000
+DTEND;TZID=Europe/Berlin:20261204T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261204-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261204T140000
+DTEND;TZID=Europe/Berlin:20261204T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261210-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261210T140000
+DTEND;TZID=Europe/Berlin:20261210T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261210-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261210T154500
+DTEND;TZID=Europe/Berlin:20261210T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261210-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261210T173000
+DTEND;TZID=Europe/Berlin:20261210T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261210-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261210T191500
+DTEND;TZID=Europe/Berlin:20261210T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261211-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261211T080000
+DTEND;TZID=Europe/Berlin:20261211T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261211-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261211T094500
+DTEND;TZID=Europe/Berlin:20261211T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261211-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261211T113000
+DTEND;TZID=Europe/Berlin:20261211T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261211-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261211T140000
+DTEND;TZID=Europe/Berlin:20261211T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261217-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261217T140000
+DTEND;TZID=Europe/Berlin:20261217T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261217-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261217T154500
+DTEND;TZID=Europe/Berlin:20261217T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261217-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261217T173000
+DTEND;TZID=Europe/Berlin:20261217T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261217-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261217T191500
+DTEND;TZID=Europe/Berlin:20261217T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261218-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261218T080000
+DTEND;TZID=Europe/Berlin:20261218T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261218-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261218T094500
+DTEND;TZID=Europe/Berlin:20261218T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261218-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261218T113000
+DTEND;TZID=Europe/Berlin:20261218T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261218-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261218T140000
+DTEND;TZID=Europe/Berlin:20261218T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20261224-sem-vorlesungsfrei-weihnachten-silvester@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20261224
+DTEND;VALUE=DATE:20270107
+SUMMARY:Vorlesungsfrei: Weihnachten & Silvester
+CATEGORIES:Vorlesungsfrei
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20270107-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270107T140000
+DTEND;TZID=Europe/Berlin:20270107T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270107-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270107T154500
+DTEND;TZID=Europe/Berlin:20270107T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270107-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270107T173000
+DTEND;TZID=Europe/Berlin:20270107T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270107-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270107T191500
+DTEND;TZID=Europe/Berlin:20270107T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270108-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270108T080000
+DTEND;TZID=Europe/Berlin:20270108T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270108-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270108T094500
+DTEND;TZID=Europe/Berlin:20270108T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270108-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270108T113000
+DTEND;TZID=Europe/Berlin:20270108T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270108-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270108T140000
+DTEND;TZID=Europe/Berlin:20270108T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270114-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270114T140000
+DTEND;TZID=Europe/Berlin:20270114T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270114-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270114T154500
+DTEND;TZID=Europe/Berlin:20270114T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270114-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270114T173000
+DTEND;TZID=Europe/Berlin:20270114T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270114-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270114T191500
+DTEND;TZID=Europe/Berlin:20270114T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270115-sem-vorgezogene-pru-fungen@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270115
+DTEND;VALUE=DATE:20270123
+SUMMARY:Vorgezogene Prüfungen
+CATEGORIES:Semestertermin
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20270115-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270115T080000
+DTEND;TZID=Europe/Berlin:20270115T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270115-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270115T094500
+DTEND;TZID=Europe/Berlin:20270115T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270115-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270115T113000
+DTEND;TZID=Europe/Berlin:20270115T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270115-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270115T140000
+DTEND;TZID=Europe/Berlin:20270115T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270121-3-mlip-mlip-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270121T140000
+DTEND;TZID=Europe/Berlin:20270121T153000
+SUMMARY:MLIP:Ue · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Synchron\nKurscode: t
+ hnMBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:Ue · 14:00–15:30 · Prof. Dr. Rosales Rafael · Online 
+ · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270121-4-desim-desim-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270121T154500
+DTEND;TZID=Europe/Berlin:20270121T171500
+SUMMARY:DESIM:Ue · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Synchron\nKurscode: 
+ DESIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:Ue · 15:45–17:15 · Prof. Dr. Gölzer Philipp · Onlin
+ e · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270121-5-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270121T173000
+DTEND;TZID=Europe/Berlin:20270121T190000
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 17:30–19:00 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270121-6-ineng-ineng-ue@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270121T191500
+DTEND;TZID=Europe/Berlin:20270121T204500
+SUMMARY:INENG:Ue · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Synchron\nKurs
+ code: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php
+ ?id=7969
+LOCATION:Online
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
+  Online · Synchron
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270122-0-desim-desim-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270122T080000
+DTEND;TZID=Europe/Berlin:20270122T093000
+SUMMARY:DESIM:SU · Discrete Event Simulation / Digital Factory
+DESCRIPTION:Dozent: Prof. Dr. Gölzer Philipp\nFormat: Hybrid\nKurscode: DE
+ SIM\nMoodle: https://elearning.ohmportal.de/course/view.php?id=1916
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:DESIM:SU · 08:00–09:30 · Prof. Dr. Gölzer Philipp · KA.60
+ 4 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270122-1-asp-asp-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270122T094500
+DTEND;TZID=Europe/Berlin:20270122T111500
+SUMMARY:ASP:SU · Automatisierung und Simulation von Produktionsanlagen
+DESCRIPTION:Dozent: Prof. Dr. Schmidt-Vollus Ronald\nFormat: Hybrid
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:ASP:SU · 09:45–11:15 · Prof. Dr. Schmidt-Vollus Ronald · K
+ A.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270122-2-ineng-ineng-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270122T113000
+DTEND;TZID=Europe/Berlin:20270122T130000
+SUMMARY:INENG:SU · Industrial Engineering
+DESCRIPTION:Dozent: Prof. Dr. Felderhoff Jan Fabian\nFormat: Hybrid\nKursco
+ de: INENG_WiSe26\nMoodle: https://elearning.ohmportal.de/course/view.php?i
+ d=7969
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:INENG:SU · 11:30–13:00 · Prof. Dr. Felderhoff Jan Fabian ·
+  KA.604 · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270122-3-mlip-mlip-su@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20270122T140000
+DTEND;TZID=Europe/Berlin:20270122T153000
+SUMMARY:MLIP:SU · Machine Learning in der industriellen Produktion
+DESCRIPTION:Dozent: Prof. Dr. Rosales Rafael\nFormat: Hybrid\nKurscode: thn
+ MBmilp26\nMoodle: https://elearning.ohmportal.de/course/view.php?id=8066
+LOCATION:KA.604
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:MLIP:SU · 14:00–15:30 · Prof. Dr. Rosales Rafael · KA.604 
+ · Hybrid
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:20270123-sem-pru-fungszeitraum@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270123
+DTEND;VALUE=DATE:20270213
+SUMMARY:Prüfungszeitraum
+CATEGORIES:Semestertermin
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20270123-sem-vorlesungsfrei-vorlesungsfreie-zeit@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270123
+DTEND;VALUE=DATE:20270315
+SUMMARY:Vorlesungsfrei: Vorlesungsfreie Zeit
+CATEGORIES:Vorlesungsfrei
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+UID:20270314-sem-semesterende@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;VALUE=DATE:20270314
+DTEND;VALUE=DATE:20270315
+SUMMARY:Semesterende
+CATEGORIES:Semestertermin
+TRANSP:TRANSPARENT
+END:VEVENT
+END:VCALENDAR
