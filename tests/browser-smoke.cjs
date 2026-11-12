@@ -78,10 +78,37 @@ const http=require('node:http');
     await page.setViewportSize({width:390,height:844});
     await page.screenshot({path:'output/settings-mobile.png'});
     assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+    // Kalender-Abo: Knopf und Adresse in den Einstellungen, kalender.ics liegt neben der Seite
+    const feedInfo=await page.evaluate(()=>{openSettings();return {href:document.getElementById('feed-subscribe').href,url:document.getElementById('feed-url').textContent,local:!document.getElementById('feed-local').hidden};});
+    assert.equal(feedInfo.href,origin.replace(/^http:/,'webcal:')+'/kalender.ics');
+    assert.equal(feedInfo.url,origin+'/kalender.ics');assert.equal(feedInfo.local,true);
+    const served=await page.evaluate(async()=>(await fetch('kalender.ics')).text());
+    assert.match(served,/BEGIN:VCALENDAR/);assert.match(served,/TRIGGER:-PT15M/);
+    // Admin-Speichern schreibt state.json und kalender.ics ins Repo; unveränderte Dateien erzeugen keinen Commit
+    const pushes=await page.evaluate(async()=>{
+      isAdmin=true;localStorage.setItem(GH_KEY,JSON.stringify({token:'test',owner:'o',repo:'r',branch:'main'}));
+      const repo={},calls=[],realFetch=window.fetch;
+      window.fetch=async(url,opt={})=>{
+        const u=new URL(url,location.href);if(u.hostname!=='api.github.com')return realFetch(url,opt);
+        const file=u.pathname.split('/contents/')[1];
+        if((opt.method||'GET')==='GET')return repo[file]?new Response(JSON.stringify({sha:'sha-'+file,content:repo[file]}),{status:200}):new Response('{}',{status:404});
+        const body=JSON.parse(opt.body);calls.push({file,sha:body.sha||null});repo[file]=body.content;return new Response('{}',{status:201});
+      };
+      try{
+        await saveAdminState();const first=calls.splice(0);
+        await saveAdminState();const second=calls.splice(0);
+        const feed=decodeURIComponent(escape(atob(repo['kalender.ics'])));
+        return {first,second,feed};
+      }finally{window.fetch=realFetch;isAdmin=false;localStorage.removeItem(GH_KEY);}
+    });
+    assert.deepEqual(pushes.first.map(c=>c.file),['state.json','kalender.ics']);
+    assert.deepEqual(pushes.second,[]);
+    assert.match(pushes.feed,/SUMMARY:TEST:SU · Testvorlesung/);assert.match(pushes.feed,/TRIGGER:-PT15M/);
+    assert.match(pushes.feed,/URL:https:\/\/example.org\/new-meeting/);
     await context.setOffline(true);await page.reload();
     await page.waitForFunction(()=>typeof ReminderCore==='object'&&typeof M==='object');
     assert.equal(await page.locator('#reminder-minutes').inputValue(),'15');
     assert.deepEqual(errors,[]);
-    console.log('PASS: notification payload, due time, repeat/tab deduplication, preferences, validation, test notification, ICS alarms/opt-out, meeting links, mobile overflow, offline reload, no JS errors');
+    console.log('PASS: notification payload, due time, repeat/tab deduplication, preferences, validation, test notification, ICS alarms/opt-out, meeting links, calendar subscription link and admin push, mobile overflow, offline reload, no JS errors');
   }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

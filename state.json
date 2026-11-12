@@ -295,5 +295,8 @@
         "title": "Semesterende"
       }
     ]
+  },
+  "kalenderAbo": {
+    "erinnerungMin": 15
   }
 }

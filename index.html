@@ -958,6 +958,24 @@ button,input,select,textarea{font-family:inherit}
 .ag-sem b{margin-right:6px}
 .tl-sem{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--accent) 22%,transparent);color:var(--text1);white-space:nowrap}
 .tl-free{display:inline-block;margin-left:4px;padding:0 7px;border-radius:999px;font-size:11px;font-weight:700;background:color-mix(in srgb,var(--text3) 22%,transparent);color:var(--text1)}
+/* Runde 7: Tag-Reiter passen auf Handys ab 320 px Breite; "heute" dort als Punkt statt Text */
+@media(max-width:480px){
+  .ag-tab{font-size:12px;padding:8px 10px}
+  .ag-today{display:none}
+  .ag-tab.today::after{content:"";display:inline-block;width:5px;height:5px;margin-left:5px;border-radius:50%;background:var(--accent);vertical-align:middle}
+  .ag-tab.today.on::after{background:currentColor}
+}
+@media(max-width:374px){.ag-tab{padding:8px 8px}}
+/* Runde 7: Ausfall-Schild bricht um statt über die Karte hinauszuragen */
+.ag-badge{white-space:normal;max-width:100%;overflow-wrap:anywhere}
+/* Kalender-Abo in den Einstellungen */
+.feed-box{margin-bottom:16px;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg2)}
+.feed-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--text1);margin:0 0 6px}
+.feed-text{line-height:1.6;margin:6px 0}
+.feed-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 6px}
+a.bh{text-decoration:none}
+.feed-url{display:block;font-size:11px;color:var(--text2);overflow-wrap:anywhere;user-select:all;margin:4px 0}
+.feed-admin{margin:12px 0 0}
 </style>
 </head>
 <body>
@@ -1170,10 +1188,27 @@ button,input,select,textarea{font-family:inherit}
       <div class="sp-acc open" id="acc-reminders">
         <button class="sp-acc-header" onclick="toggleAcc('acc-reminders')">
           <span class="sp-acc-icon">🔔</span>
-          <span class="sp-acc-text"><span class="sp-acc-label">Vorlesungs-Erinnerungen</span><span class="sp-acc-sub">Deine Einstellungen auf diesem Gerät</span></span>
+          <span class="sp-acc-text"><span class="sp-acc-label">Vorlesungs-Erinnerungen</span><span class="sp-acc-sub">Kalender-Abo oder Benachrichtigungen</span></span>
           <span class="sp-acc-chev">›</span>
         </button>
         <div class="sp-acc-body">
+          <div class="feed-box" id="feed-box">
+            <div class="feed-title">Kalender-Abo · erinnert auch bei geschlossener App</div>
+            <p class="fhint feed-text">Abonniere den Stundenplan einmal in der Kalender-App deines Handys. Vor jeder Vorlesung kommt dann eine Erinnerung <b id="feed-min-label">15</b> Minuten vorher, ohne dass diese Seite offen sein muss. Änderungen am Plan holt sich die Kalender-App beim nächsten Abgleich selbst.</p>
+            <div class="feed-actions">
+              <a class="bh p" id="feed-subscribe" href="kalender.ics">Kalender abonnieren</a>
+              <button class="bh" id="feed-copy" type="button" data-copy="" onclick="copyText(this)">Adresse kopieren</button>
+            </div>
+            <code class="feed-url" id="feed-url"></code>
+            <p class="fhint feed-text" id="feed-local" hidden>Diese Adresse funktioniert nur auf diesem Gerät. Öffne den Stundenplan auf dem Handy über die Adresse deines Servers und abonniere ihn dort.</p>
+            <p class="fhint feed-text"><b>iPhone:</b> In den Abo-Einstellungen „Alarme entfernen“ (je nach iOS „Hinweise entfernen“) ausschalten, beim Abonnieren oder später in den Kalender-Einstellungen unter Accounts. Sonst kommen keine Erinnerungen. <b>Android:</b> mit einer Abo-App wie ICSx⁵.</p>
+            <div class="fsec feed-admin" id="feed-admin" hidden>
+              <label class="flbl" for="feed-minutes">Erinnerung im Abo, Minuten vorher</label>
+              <input class="fi" id="feed-minutes" type="number" min="1" max="120" step="1" value="15" required onchange="saveFeedMinutes()">
+              <p class="fhint">Gilt für alle, die abonnieren. Wird mit „Speichern &amp; ins Repo pushen“ zusammen mit kalender.ics veröffentlicht.</p>
+            </div>
+          </div>
+          <div class="feed-title">Benachrichtigungen dieser App · nur solange sie geöffnet ist</div>
           <div class="fsec"><label class="flbl" for="reminder-minutes">Minuten vor Vorlesungsbeginn</label>
             <input class="fi" id="reminder-minutes" type="number" min="1" max="120" step="1" value="5" required onchange="saveReminderSettings()">
           </div>
@@ -1182,10 +1217,10 @@ button,input,select,textarea{font-family:inherit}
             <button class="bh" id="reminder-test" onclick="testReminder()">Test senden</button>
           </div>
           <p class="fhint" id="reminder-status" role="status" aria-live="polite"></p>
-          <p class="fhint" style="margin:10px 0;line-height:1.6">Mit Kürzel, Modulname, Prof, Uhrzeit, Raum, Format und konfiguriertem Vorlesungslink. Ausfälle, Ferien und asynchrone Termine werden übersprungen.<br>Die Web-App muss geöffnet bleiben. Bei pausierten Hintergrund-Tabs oder gesperrtem Gerät können Browser-Erinnerungen verspätet eintreffen oder ausbleiben.</p>
+          <p class="fhint" style="margin:10px 0;line-height:1.6">Mit Kürzel, Modulname, Prof, Uhrzeit, Raum, Format und konfiguriertem Vorlesungslink. Ausfälle, Ferien und asynchrone Termine werden übersprungen.<br>Die Web-App muss geöffnet bleiben. Bei pausierten Hintergrund-Tabs oder gesperrtem Gerät können Browser-Erinnerungen verspätet eintreffen oder ausbleiben. Für Erinnerungen bei geschlossener App das Kalender-Abo oben nutzen.</p>
           <label style="display:flex;gap:8px;align-items:flex-start;margin:12px 0;line-height:1.5"><input type="checkbox" id="reminder-calendar" checked onchange="saveReminderSettings()">Erinnerungen auch in Kalenderexport aufnehmen</label>
           <button class="bh" onclick="closeSettings();openOv('ov-export')">Kalender mit Erinnerungen exportieren</button>
-          <p class="fhint" style="margin-top:10px;line-height:1.6">Für Erinnerungen bei geschlossener App: .ics in Outlook, Apple Kalender oder einen anderen Kalender importieren und dort Benachrichtigungen erlauben. Unterstützung hängt von der Kalender-App ab. Nach Stundenplan-Änderungen erneut exportieren und alte Termine ersetzen.</p>
+          <p class="fhint" style="margin-top:10px;line-height:1.6">Einmaliger Export statt Abo: .ics in Outlook, Apple Kalender oder einen anderen Kalender importieren und dort Benachrichtigungen erlauben. Unterstützung hängt von der Kalender-App ab. Nach Stundenplan-Änderungen erneut exportieren und alte Termine ersetzen.</p>
         </div>
       </div>
 
@@ -1334,6 +1369,7 @@ button,input,select,textarea{font-family:inherit}
 <input type="file" id="json-file" accept=".json" style="display:none" onchange="handleImport(event)">
 
 <script src="reminder-core.js"></script>
+<script src="calendar-core.js"></script>
 <script src="reminders.js"></script>
 <script>
 /* ══ ICONS (eine Strichstärke, keine Emojis in der Kopfzeile) ══ */
@@ -1404,6 +1440,7 @@ function applyState(s){
   }
   if(s.activeDays){activeDaySet=new Set(s.activeDays);updateDayPills();}
   if(s.semesterTermine&&typeof s.semesterTermine==="object")semInfo=s.semesterTermine;
+  if(s.kalenderAbo&&typeof s.kalenderAbo==="object")feedCfg={...feedCfg,...s.kalenderAbo};
 }
 
 /* Build current state object */
@@ -1414,7 +1451,8 @@ function buildState(){
     modules:M,customColors,
     theme:document.documentElement.getAttribute("data-theme"),
     activeDays:[...activeDaySet],
-    semesterTermine:semInfo
+    semesterTermine:semInfo,
+    kalenderAbo:feedCfg
   };
 }
 
@@ -1470,36 +1508,37 @@ async function testGithubConfig(){
   }catch(e){showGhFeedback("✗ Netzwerkfehler: "+e.message,"error");}
 }
 
-/* Push state.json to GitHub via API.
-   Creates the file if it doesn't exist, updates it if it does. */
-async function pushStateToGithub(json){
+/* Datei per GitHub-API ins Repo schreiben (anlegen oder aktualisieren).
+   Ist der Inhalt schon genau so im Repo, entsteht kein neuer Commit. */
+async function pushFileToGithub(path,text,message){
   const cfg=loadGithubConfig();
   if(!cfg.token||!cfg.owner||!cfg.repo)return false;
-  const path="state.json";
+  const branch=cfg.branch||"main";
   const apiBase=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}`;
   const headers={"Authorization":"Bearer "+cfg.token,"Accept":"application/vnd.github+json","Content-Type":"application/json"};
-  // Get current SHA (needed for update; undefined for create)
+  // Aktuellen Stand holen: SHA zum Aktualisieren (fehlt beim Anlegen), Inhalt zum Vergleichen
   let sha;
   try{
-    const get=await fetch(`${apiBase}?ref=${cfg.branch||"main"}`,{headers});
-    if(get.ok){const d=await get.json();sha=d.sha;}
+    const get=await fetch(`${apiBase}?ref=${encodeURIComponent(branch)}`,{headers,cache:"no-store"});
+    if(get.ok){
+      const d=await get.json();sha=d.sha;
+      try{if(d.content&&decodeURIComponent(escape(atob(d.content.replace(/\s/g,""))))===text)return true;}catch{}
+    }
   }catch{}
-  // Push
-  const body={
-    message:"Update state.json via MIEM Stundenplan",
-    content:btoa(unescape(encodeURIComponent(json))),
-    branch:cfg.branch||"main",
-    ...(sha?{sha}:{})
-  };
+  const body={message,content:btoa(unescape(encodeURIComponent(text))),branch,...(sha?{sha}:{})};
   const put=await fetch(apiBase,{method:"PUT",headers,body:JSON.stringify(body)});
   return put.ok;
 }
+function pushStateToGithub(json){return pushFileToGithub("state.json",json,"Update state.json via MIEM Stundenplan");}
+/* kalender.ics für das Kalender-Abo aus dem gespeicherten Stand */
+function pushFeedToGithub(state){return pushFileToGithub(CalendarCore.FEED_FILE,CalendarCore.feedCalendar(state),"Update kalender.ics via MIEM Stundenplan").catch(()=>false);}
 
 /* ══ SAVE ADMIN STATE ══ */
 async function saveAdminState(){
   if(!isAdmin)return;
   autoSave();
-  const json=JSON.stringify(buildState(),null,2);
+  const state=buildState();
+  const json=JSON.stringify(state,null,2);
   const btn=document.getElementById("btn-save");
   const sp=document.getElementById("sp-save-btn");
   const cfg=loadGithubConfig();
@@ -1511,8 +1550,10 @@ async function saveAdminState(){
     try{
       const ok=await pushStateToGithub(json);
       if(ok){
-        if(btn){btn.innerHTML='✓ <span class="btn-label">Gepusht!</span>';btn.classList.add("save-pulse");}
-        if(sp){sp.textContent="✓ state.json gepusht!";}
+        // Kalender-Abo mit aktualisieren, damit abonnierte Kalender die Änderung beim nächsten Abgleich bekommen
+        const feedOk=await pushFeedToGithub(state);
+        if(btn){btn.innerHTML=feedOk?'✓ <span class="btn-label">Gepusht!</span>':'⚠ <span class="btn-label">Kalender fehlt</span>';btn.classList.add("save-pulse");}
+        if(sp){sp.textContent=feedOk?"✓ state.json und Kalender gepusht!":"✓ state.json gepusht · ⚠ kalender.ics nicht aktualisiert";}
       }else{
         // Fallback: download
         downloadStateJson(json);
@@ -1590,7 +1631,7 @@ function toggleTheme(){
 
 /* ══ DATA ══ */
 const DL=["Mo","Di","Mi","Do","Fr","Block/Sa"];
-const SL=[{l:"08:00–09:30",sh:"08:00",eh:"09:30"},{l:"09:45–11:15",sh:"09:45",eh:"11:15"},{l:"11:30–13:00",sh:"11:30",eh:"13:00"},{l:"14:00–15:30",sh:"14:00",eh:"15:30"},{l:"15:45–17:15",sh:"15:45",eh:"17:15"},{l:"17:30–19:00",sh:"17:30",eh:"19:00"},{l:"19:15–20:45",sh:"19:15",eh:"20:45"}];
+const SL=CalendarCore.SLOTS;   /* Zeitraster steht in calendar-core.js */
 const FMTS=["Synchron","Hybrid","Präsenz","Präsenz/Synchron","Präsenz/Block"];
 
 let M={
@@ -1885,7 +1926,8 @@ function autoSave(){
     customColors,
     theme:document.documentElement.getAttribute("data-theme"),
     activeDays:[...activeDaySet],
-    semesterTermine:semInfo
+    semesterTermine:semInfo,
+    kalenderAbo:feedCfg
   };
   localStorage.setItem(STORE_KEY,JSON.stringify(state));
 }
@@ -1955,6 +1997,8 @@ const DEFAULT_SEM={
  ]
 };
 let semInfo=DEFAULT_SEM;
+/* Kalender-Abo: Vorlauf der Erinnerung, gilt für alle Abonnenten (state.json → kalenderAbo) */
+let feedCfg={erinnerungMin:CalendarCore.DEFAULT_ALARM};
 function holidayOn(ds){return (semInfo.frei||[]).find(h=>ds>=h.from&&ds<=(h.to||h.from))||null;}
 function semEventsBetween(a,b){return (semInfo.termine||[]).filter(e=>e.from<=b&&(e.to||e.from)>=a);}
 function semOn(ds){return semEventsBetween(ds,ds);}
@@ -2015,7 +2059,7 @@ function viewToday(){return weekOffset===0?getTodayDayIndex():-1;}
 function occStatus(m,ds){
   if((m.semStart&&ds<m.semStart)||(m.semEnd&&ds>m.semEnd))return {state:"off"};
   const h=holidayOn(ds);
-  if(h)return {state:"cancelled",note:"vorlesungsfrei · "+h.title};
+  if(h)return {state:"cancelled",note:"vorlesungsfrei",detail:"vorlesungsfrei · "+h.title};
   const ex=(m.exceptions||[]).find(x=>x.type==="cancelled"&&x.date===ds);
   if(ex)return {state:"cancelled",note:ex.note||""};
   return {state:"ok"};
@@ -2103,7 +2147,7 @@ function renderAgenda(){
   if(!days.length){el.innerHTML=`<div class="none-msg">Keine Tage ausgewählt.</div>`;return;}
   const today=viewToday();
   if(!days.includes(agendaDay))agendaDay=days.includes(today)?today:days[0];
-  const tabs=days.map(di=>`<button class="ag-tab${di===agendaDay?" on":""}" onclick="setAgendaDay(${di})" title="Termine für ${DL[di]}, ${fmtDM(dateOfDay(di))} anzeigen">${DL[di]} <span class="ag-date">${fmtDM(dateOfDay(di))}</span>${di===today?" · heute":""}</button>`).join("");
+  const tabs=days.map(di=>`<button class="ag-tab${di===agendaDay?" on":""}${di===today?" today":""}" onclick="setAgendaDay(${di})"${di===today?' aria-current="date"':""} title="Termine für ${DL[di]}, ${fmtDM(dateOfDay(di))}${di===today?" (heute)":""} anzeigen">${DL[di]} <span class="ag-date">${fmtDM(dateOfDay(di))}</span>${di===today?'<span class="ag-today"> · heute</span>':""}</button>`).join("");
   const ds=isoDate(dateOfDay(agendaDay));
   const timed=[],asy=[];
   for(const k of keys())for(const t of M[k].termine){
@@ -2131,7 +2175,7 @@ function renderAgenda(){
     const meta=[t.fmt,room,m.doz&&m.doz!=="–"?m.doz:""].filter(Boolean).join(" · ");
     // Läuft der Termin gerade: Badge mit Uhrzeit und Restzeit, Fortschrittsbalken am unteren Kartenrand (keine Linie durch den Text)
     let live="",liveCls="";
-    if(off){liveCls=" cancelled";live=`<span class="ag-badge off" title="Dieser Termin findet in dieser Woche nicht statt">fällt aus${st.note?" · "+st.note:""}</span>`;}
+    if(off){liveCls=" cancelled";live=`<span class="ag-badge off" title="Dieser Termin findet in dieser Woche nicht statt${st.detail?" ("+st.detail+")":""}">fällt aus${st.note?" · "+st.note:""}</span>`;}
     else if(isTodayAgenda&&!t.async){
       const a=slotMin(SL[t.slot].sh),b=slotMin(SL[t.slot].eh),n=nowMinutes();
       if(n>=a&&n<b){
@@ -2207,7 +2251,7 @@ function renderTimeline(){
       const off=e.st.state==="cancelled";
       const nm=nowMinutes(),live=!off&&di===today&&nm>=e.a&&nm<e.b?" live":"";
       const time=`${SL[e.t.slot].sh}–${SL[e.t.slot].eh}`, detail=[m.name,time,e.t.fmt,room].filter(Boolean).join(" · ");
-      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}${off?" cancelled":""}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${off?"Fällt aus"+(e.st.note?" ("+e.st.note+")":"")+" · ":""}${detail} · Klicken für Details">${off?`<em class="tl-off">fällt aus${e.st.note?" · "+e.st.note:""}</em>`:""}
+      return `<div class="tl-ev typ-${m.typ}${compact}${narrow}${live}${off?" cancelled":""}" style="top:${(e.a-START)*PX+2}px;height:${(e.b-e.a)*PX-4}px;left:calc(${e.lane*100/n}% + 3px);width:calc(${100/n}% - 6px)" onclick="showDetail('${e.k}')" tabindex="0" title="${off?"Fällt aus"+((e.st.detail||e.st.note)?" ("+(e.st.detail||e.st.note)+")":"")+" · ":""}${detail} · Klicken für Details">${off?`<em class="tl-off">fällt aus${e.st.note?" · "+e.st.note:""}</em>`:""}
         <b>${e.t.lbl}</b><small class="nm">${m.name}</small><small class="mt">${time}<span class="fx"> · ${e.t.fmt}${room?" · "+room:""}</span></small>${m.doz&&m.doz!=="–"?`<small class="dz">${m.doz}</small>`:""}${off?"":teamsBtn(e.t,di,"tl-teams")}${live?`<div class="ag-progress" aria-hidden="true"><i style="width:${((nm-e.a)/(e.b-e.a))*100}%"></i></div>`:""}</div>`;
     }).join("");
     const hol=holidayOn(ds);const sem=semOn(ds);
@@ -2449,6 +2493,7 @@ function toggleAcc(id){
 }
 function openSettings(){
   renderReminderSettings();
+  renderFeedSettings();
   updateDayPills();
   const isAdminBlock=document.getElementById("sp-admin-block");
   if(isAdminBlock)isAdminBlock.style.display=isAdmin?"block":"none";
@@ -2468,6 +2513,26 @@ function openSettings(){
 }
 function closeSettings(){document.getElementById("sp-overlay").classList.remove("open");}
 function spOverlayClose(e){if(e.target===document.getElementById("sp-overlay"))closeSettings();}
+/* ══ KALENDER-ABO ══
+   kalender.ics liegt neben index.html; die Adresse ergibt sich aus der Adresse dieser Seite. */
+function feedUrl(){return new URL(CalendarCore.FEED_FILE,location.href).href;}
+function renderFeedSettings(){
+  const a=document.getElementById("feed-subscribe");if(!a)return;
+  const url=feedUrl(),min=CalendarCore.feedAlarmMinutes({kalenderAbo:feedCfg});
+  a.href=/^https?:/.test(url)?url.replace(/^https?:/,"webcal:"):url;   // webcal: öffnet direkt den Abo-Dialog der Kalender-App
+  document.getElementById("feed-url").textContent=url;
+  document.getElementById("feed-copy").dataset.copy=url;
+  document.getElementById("feed-min-label").textContent=min;
+  document.getElementById("feed-local").hidden=!/^(localhost|127\.|\[::1\]$)/.test(location.hostname);
+  document.getElementById("feed-admin").hidden=!isAdmin;
+  document.getElementById("feed-minutes").value=min;
+}
+function saveFeedMinutes(){
+  const input=document.getElementById("feed-minutes");
+  if(!isAdmin||!input.reportValidity())return;
+  feedCfg={...feedCfg,erinnerungMin:Number(input.value)};
+  autoSave();renderFeedSettings();
+}
 /* Text in die Zwischenablage, mit Rückmeldung am Button */
 function copyText(btn){
   const txt=btn.dataset.copy||"";
@@ -2568,52 +2633,19 @@ function saveExceptions(){if(!isAdmin||!excModId)return;const exceptions=[];for(
 function confirmDel(k){if(!isAdmin)return;const m=M[k];document.getElementById("cf-title").textContent=`"${m.id}" löschen?`;document.getElementById("cf-msg").textContent=`Das Modul "${m.name}" wird dauerhaft entfernt.`;document.getElementById("cf-ok").onclick=()=>{delete M[k];closeOv("ov-confirm");render();autoSave();};openOv("ov-confirm");}
 
 /* ══ CALENDAR EXPORT ══ */
-function getOccurrences(modId,s,e){const m=M[modId];const sD=new Date((s||m.semStart||"2026-03-17")+"T12:00:00"),eD=new Date((e||m.semEnd||"2026-07-19")+"T12:00:00");const evs=[];const cancelled=new Set((m.exceptions||[]).filter(x=>x.type==="cancelled").map(x=>x.date));const extras=(m.exceptions||[]).filter(x=>x.type==="extra");for(const t of m.termine){if(t.async||t.day>=5)continue;const jd=t.day+1;const sl=SL[t.slot];let d=new Date(sD);while(d.getDay()!==jd)d.setDate(d.getDate()+1);while(d<=eD){const ds=isoDate(d);if((!m.semStart||ds>=m.semStart)&&(!m.semEnd||ds<=m.semEnd)&&!cancelled.has(ds)&&!holidayOn(ds))evs.push({modId,date:ds,startTime:sl.sh,endTime:sl.eh,label:t.lbl,fmt:t.fmt,raum:t.raum,name:m.name,doz:m.doz,link:t.link});d.setDate(d.getDate()+7);}}for(const ex of extras)evs.push({modId,date:ex.date,startTime:"08:00",endTime:"18:00",label:m.id+" Extra",fmt:"Präsenz",raum:"–",name:m.name+(ex.note?" ("+ex.note+")":""),doz:m.doz});return evs;}
+/* Termine für Export (.ics/.csv): dieselben Regeln wie das Kalender-Abo, siehe calendar-core.js */
 function openExport(){const f=Object.values(M)[0];document.getElementById("ex-start").value=f?.semStart||"2026-03-17";document.getElementById("ex-end").value=f?.semEnd||"2026-07-19";document.getElementById("ex-mod-list").innerHTML=keys().map(k=>`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)"><input type="checkbox" class="ex-cb" value="${k}" checked> ${M[k].nr} ${k}</label>`).join("")+`<label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:var(--surface)" title="Semestertermine und vorlesungsfreie Zeiten mit exportieren"><input type="checkbox" class="ex-cb" value="__SEM__" checked> Semestertermine & vorlesungsfrei</label>`;}
-function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const all=[];for(const k of sel){if(k==="__SEM__")all.push(...semOccurrences(s,e));else all.push(...getOccurrences(k,s,e));}all.sort((a,b)=>a.date.localeCompare(b.date));return all;}
+function getExportData(){const s=document.getElementById("ex-start").value,e=document.getElementById("ex-end").value;const sel=[...document.querySelectorAll(".ex-cb:checked")].map(c=>c.value);const mods=Object.fromEntries(sel.filter(k=>M[k]).map(k=>[k,M[k]]));const all=CalendarCore.lectureEvents(mods,SL,semInfo,s,e);if(sel.includes("__SEM__"))all.push(...semOccurrences(s,e));return all.sort(CalendarCore.byStart);}
 /* Semestertermine und vorlesungsfreie Zeiten für den Export (ganztägig, wenn keine Uhrzeit angegeben ist) */
-function semOccurrences(s,e){
-  const a=s||"0000-01-01",b=e||"9999-12-31",out=[];
-  for(const x of (semInfo.termine||[]))if(x.from<=b&&(x.to||x.from)>=a)out.push({sem:true,date:x.from,to:x.to||x.from,startTime:x.start||"",endTime:x.end||"",name:x.title,label:"Semestertermin"});
-  for(const h of (semInfo.frei||[]))if(h.from<=b&&(h.to||h.from)>=a)out.push({sem:true,date:h.from,to:h.to||h.from,startTime:"",endTime:"",name:"Vorlesungsfrei: "+h.title,label:"Vorlesungsfrei"});
-  return out;
-}
+function semOccurrences(s,e){return CalendarCore.semesterEvents(semInfo,s,e);}
 function exportICS(){
   const evs=getExportData();
   if(!evs.length){alert("Keine Termine.");return;}
-  const TZ="Europe/Berlin";
-  const uid=()=>Math.random().toString(36).substr(2,9).toUpperCase();
-  const icsDate=(d,t)=>d.replace(/-/g,"")+"T"+t.replace(/:/g,"")+"00";
-  const esc=v=>String(v).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n");
+  const p=reminderPrefs();
   const now=new Date().toISOString().replace(/[-:]/g,"").replace(/\..+/,"")+"Z";
-  let ics="BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//MIEM Stundenplan//DE\r\nCALSCALE:GREGORIAN\r\nX-WR-CALNAME:MIEM Stundenplan WiSe 2026/27\r\nX-WR-TIMEZONE:"+TZ+"\r\n";
-  // Zeitzone mitliefern, damit Kalender-Apps die Uhrzeiten sicher als deutsche Ortszeit lesen
-  ics+="BEGIN:VTIMEZONE\r\nTZID:"+TZ+"\r\n"
-    +"BEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\n"
-    +"BEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\n"
-    +"END:VTIMEZONE\r\n";
-  const nextDay=ds=>{const d=new Date(ds+"T12:00:00");d.setDate(d.getDate()+1);return isoDate(d).replace(/-/g,"");};
-  for(const ev of evs){
-    if(ev.sem){
-      // Mit Startzeit als Zeitraum, sonst ganztägig (Endzeit steht dann im Titel)
-      const when=ev.startTime
-        ?`DTSTART;TZID=${TZ}:${icsDate(ev.date,ev.startTime)}\r\nDTEND;TZID=${TZ}:${icsDate(ev.to,ev.endTime||ev.startTime)}`
-        :`DTSTART;VALUE=DATE:${ev.date.replace(/-/g,"")}\r\nDTEND;VALUE=DATE:${nextDay(ev.to)}`;
-      const title=ev.name+(!ev.startTime&&ev.endTime?" (bis "+ev.endTime+")":"");
-      ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\n${when}\r\nSUMMARY:${esc(title)}\r\nCATEGORIES:${esc(ev.label)}\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\n`;
-      continue;
-    }
-    const m=M[ev.modId];
-    const desc=["Dozent: "+esc(ev.doz),"Format: "+esc(ev.fmt)];
-    if(ev.link)desc.push("Vorlesungslink: "+esc(ev.link));
-    if(m.kc&&m.kc!=="–")desc.push("Kurscode: "+esc(m.kc));
-    if(m.moodle&&m.moodle!=="–")desc.push("Moodle: "+esc(m.moodle));
-    ics+=`BEGIN:VEVENT\r\nUID:${uid()}@miem-sp\r\nDTSTAMP:${now}\r\nDTSTART;TZID=${TZ}:${icsDate(ev.date,ev.startTime)}\r\nDTEND;TZID=${TZ}:${icsDate(ev.date,ev.endTime)}\r\nSUMMARY:${esc(ev.name+" ("+ev.modId+")")}\r\nDESCRIPTION:${desc.join("\\n")}\r\nLOCATION:${esc(ev.raum!=="–"?ev.raum:"Online")}\r\n${ReminderCore.safeLink(ev.link)?"URL:"+ReminderCore.safeLink(ev.link)+"\r\n":""}${reminderPrefs().calendar?ReminderCore.alarm(reminderPrefs().minutes,ev.modId+" · "+ev.startTime+"–"+ev.endTime+" · "+ev.doz+" · "+ev.raum+" · "+ev.fmt):""}END:VEVENT\r\n`;
-  }
-  ics+="END:VCALENDAR";
-  download("miem_stundenplan.ics",ReminderCore.foldICS(ics),"text/calendar");
+  download("miem_stundenplan.ics",CalendarCore.buildICS(evs,{calName:CalendarCore.calendarName(document.getElementById("site-sem").value),alarmMinutes:p.calendar?p.minutes:0,dtstamp:now}),"text/calendar");
 }
-function exportCSV(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const wd=["So","Mo","Di","Mi","Do","Fr","Sa"];const rows=[["Datum","Wochentag","Start","Ende","Modul","Kürzel","Label","Format","Raum","Dozent","Moodle"]];for(const ev of evs){if(ev.sem){const d=new Date(ev.date+"T12:00:00");rows.push([ev.date+(ev.to!==ev.date?" bis "+ev.to:""),wd[d.getDay()],ev.startTime,ev.endTime,ev.name,"",ev.label,"","","",""]);continue;}const m=M[ev.modId];const d=new Date(ev.date);rows.push([ev.date,wd[d.getDay()],ev.startTime,ev.endTime,ev.name,ev.modId,ev.label,ev.fmt,ev.raum!=="–"?ev.raum:"Online",ev.doz,m.moodle]);}const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");download("miem_stundenplan.csv",csv,"text/csv;charset=utf-8");}
+function exportCSV(){const evs=getExportData();if(!evs.length){alert("Keine Termine.");return;}const wd=["So","Mo","Di","Mi","Do","Fr","Sa"];const rows=[["Datum","Wochentag","Start","Ende","Modul","Kürzel","Label","Format","Raum","Dozent","Moodle"]];for(const ev of evs){if(ev.sem){const d=new Date(ev.date+"T12:00:00");rows.push([ev.date+(ev.to!==ev.date?" bis "+ev.to:""),wd[d.getDay()],ev.startTime,ev.endTime,ev.name,"",ev.label,"","","",""]);continue;}const m=M[ev.key]||{};const d=new Date(ev.date+"T12:00:00");rows.push([ev.date,wd[d.getDay()],ev.startTime,ev.endTime,ev.name,ev.modId,ev.label,ev.fmt,ev.kind==="extra"?"":ev.raum!=="–"?ev.raum:"Online",ev.doz,m.moodle&&m.moodle!=="–"?m.moodle:""]);}const csv=rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(";")).join("\n");download("miem_stundenplan.csv",csv,"text/csv;charset=utf-8");}
 function download(name,content,type){const blob=new Blob([content],{type});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();}
 
 /* ══ JSON ══ */
