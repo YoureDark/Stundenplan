@@ -30,18 +30,18 @@ const http=require('node:http');
   const chips=page=>page.evaluate(()=>[...document.querySelectorAll('#wk-strip .sem-chip.due')].map(c=>({text:c.textContent.replace(/\s+/g,' ').trim(),past:c.classList.contains('past')})));
   const banner=page=>page.evaluate(()=>{const b=document.querySelector('.next-banner.due');if(!b)return null;const r=b.getBoundingClientRect();return {text:b.textContent.replace(/\s+/g,' ').trim(),urgent:b.classList.contains('urgent'),inside:r.left>=0&&r.right<=innerWidth};});
   try{
-    // Do 12.11.2026, 15:30: M1 ist heute um 23:59 fällig
+    // Do 12.11.2026, 15:30: diese Woche ist nichts fällig, die nächste Abgabe ist M2 in einer Woche
     for(const width of [320,390,1400]){
       const {context,page,errors}=await open(width,'2026-11-12T15:30:00+01:00');
       const b=await banner(page);
       assert.ok(b,`Banner fehlt bei ${width} px`);
-      assert.match(b.text,/MLIP · Projekt M1/);assert.match(b.text,/Do 12\.11\. 23:59/);assert.match(b.text,/8 h 29 min/);
-      assert.ok(b.urgent,'unter 24 Stunden hervorgehoben');assert.ok(b.inside,`Banner ragt bei ${width} px heraus`);
-      assert.deepEqual(await chips(page),[{text:'Do 12.11. 23:59 Abgabe MLIP · Projekt M1',past:false}]);
+      assert.match(b.text,/MLIP · Projekt M2/);assert.match(b.text,/Do 19\.11\. 23:59/);assert.match(b.text,/in 7 Tagen/);
+      assert.equal(b.urgent,false);assert.ok(b.inside,`Banner ragt bei ${width} px heraus`);
+      assert.deepEqual(await chips(page),[]);
       await page.evaluate(()=>shiftWeek(1));
       assert.deepEqual((await chips(page)).map(c=>c.text),['Do 19.11. 23:59 Abgabe MLIP · Projekt M2','Fr 20.11. 23:59 Abgabe DESIM · 1. Optimization Baseline Model']);
       await page.evaluate(()=>shiftWeek(-3));   // KW 44: Abgabe IE am Mi 28.10., also auch an einem Tag ohne eigene Spalte
-      assert.deepEqual(await chips(page),[{text:'Mi 28.10. 20:00 Abgabe INENG · Teilaufgabe 1',past:true}]);
+      assert.deepEqual(await chips(page),[{text:'Mi 28.10. 20:00 Abgabe INENG · Teilaufgabe 1',past:true},{text:'Do 29.10. 23:59 Abgabe MLIP · Projekt M1',past:true}]);
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`seitliches Wischen bei ${width} px`);
       assert.deepEqual(errors,[]);
       await context.close();
@@ -62,12 +62,13 @@ const http=require('node:http');
       assert.deepEqual(errors,[]);
       await context.close();
     }
-    // Nach Mitternacht ist M1 vorbei, das Banner zeigt M2
+    // Nach Mitternacht ist M2 vorbei, das Banner zeigt DESIM 1 mit weniger als 24 Stunden Restzeit
     {
-      const {context,page,errors}=await open(390,'2026-11-13T00:05:00+01:00');
+      const {context,page,errors}=await open(390,'2026-11-20T00:05:00+01:00');
       const b=await banner(page);
-      assert.match(b.text,/MLIP · Projekt M2/);assert.match(b.text,/in 6 Tagen/);assert.equal(b.urgent,false);
-      assert.deepEqual(await chips(page),[{text:'Do 12.11. 23:59 Abgabe MLIP · Projekt M1',past:true}]);
+      assert.match(b.text,/DESIM · 1\. Optimization Baseline Model/);assert.match(b.text,/23 h 54 min/);
+      assert.ok(b.urgent,'unter 24 Stunden hervorgehoben');assert.ok(b.inside,'Banner ragt heraus');
+      assert.deepEqual(await chips(page),[{text:'Do 19.11. 23:59 Abgabe MLIP · Projekt M2',past:true},{text:'Fr 20.11. 23:59 Abgabe DESIM · 1. Optimization Baseline Model',past:false}]);
       // Nach der letzten Abgabe gibt es kein Banner mehr
       await page.clock.setSystemTime(new Date('2027-01-14T12:01:00+01:00'));await page.evaluate(()=>render());
       assert.equal(await banner(page),null);

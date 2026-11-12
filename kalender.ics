@@ -577,6 +577,28 @@ DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
+UID:20261029-abgabe-mlip-projekt-m1@miem-stundenplan
+DTSTAMP:20260101T000000Z
+DTSTART;TZID=Europe/Berlin:20261029T235900
+DTEND;TZID=Europe/Berlin:20261029T235900
+SUMMARY:Abgabe MLIP · Projekt M1
+DESCRIPTION:Machine Learning in der industriellen Produktion\nYour rule\nMo
+ odle: https://elearning.ohmportal.de/course/view.php?id=8066
+CATEGORIES:Abgabe
+TRANSP:TRANSPARENT
+URL:https://elearning.ohmportal.de/course/view.php?id=8066
+BEGIN:VALARM
+TRIGGER:-P1DT5H59M
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 29.10. um 23:59: MLIP · Projekt M1
+END:VALARM
+BEGIN:VALARM
+TRIGGER:-PT3H
+ACTION:DISPLAY
+DESCRIPTION:Abgabe Do 29.10. um 23:59: MLIP · Projekt M1
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
 UID:20261030-0-desim-desim-su@miem-stundenplan
 DTSTAMP:20260101T000000Z
 DTSTART;TZID=Europe/Berlin:20261030T080000
@@ -855,28 +877,6 @@ TRIGGER:-PT15M
 ACTION:DISPLAY
 DESCRIPTION:INENG:Ue · 19:15–20:45 · Prof. Dr. Felderhoff Jan Fabian ·
   Online · Synchron
-END:VALARM
-END:VEVENT
-BEGIN:VEVENT
-UID:20261112-abgabe-mlip-projekt-m1@miem-stundenplan
-DTSTAMP:20260101T000000Z
-DTSTART;TZID=Europe/Berlin:20261112T235900
-DTEND;TZID=Europe/Berlin:20261112T235900
-SUMMARY:Abgabe MLIP · Projekt M1
-DESCRIPTION:Machine Learning in der industriellen Produktion\nYour rule\nMo
- odle: https://elearning.ohmportal.de/course/view.php?id=8066
-CATEGORIES:Abgabe
-TRANSP:TRANSPARENT
-URL:https://elearning.ohmportal.de/course/view.php?id=8066
-BEGIN:VALARM
-TRIGGER:-P1DT5H59M
-ACTION:DISPLAY
-DESCRIPTION:Abgabe Do 12.11. um 23:59: MLIP · Projekt M1
-END:VALARM
-BEGIN:VALARM
-TRIGGER:-PT3H
-ACTION:DISPLAY
-DESCRIPTION:Abgabe Do 12.11. um 23:59: MLIP · Projekt M1
 END:VALARM
 END:VEVENT
 BEGIN:VEVENT
